@@ -65,10 +65,10 @@ export class HomePage extends Component {
 
 </header>
 <section id="recent-works">
-        <div class="container">
-            <div class="center wow fadeInDown">
+        <div className="container">
+            <div className="center wow fadeInDown">
                 <h2>Eventy</h2>
-                <p class="lead">Tady je prostor pro Eventy. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <p className="lead">Tady je prostor pro Eventy. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam</p>
             </div>
             </div>
 </section>
