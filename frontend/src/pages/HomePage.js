@@ -2,9 +2,40 @@
  * Created by Honza on 22.10.2016.
  */
 import React, {Component} from 'react';
+import api from '../api.js';
+import { EventList } from '../components/EventList/EventList.js';
+import { connect } from 'react-redux';
+import { addEvent } from '../actions/eventActions.js';
 
-export class HomePage extends Component {
+export class HomePageRaw extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            events: null
+        };
+    }
+
+    fetchEvents() {
+        api('events')
+            .then((response) => {
+                this.setState({ events: response.data });
+            });
+    }
+
+    componentDidMount() {
+        this.fetchEvents();
+    }
+
+    onEventAdd() {
+        const { addEvent } = this.props;
+        //demo data for event adding
+        addEvent({"tags":"tenis", "date":"2016-10-29T00:00:00.000Z"});
+        //slowing down script because it is faster than db
+        setTimeout(() => {this.fetchEvents()}, 250);
+    }
+
   render() {
+    const { events } = this.state;
     return (
 <div className="homepage">
 <header id="header">
@@ -67,8 +98,23 @@ export class HomePage extends Component {
 <section id="recent-works">
         <div className="container">
             <div className="center wow fadeInDown">
+                <button
+                    onClick={() => this.onEventAdd()}
+                    type="button"
+                    className="btn btn-success"
+                    >
+                    <span
+                        className="glyphicon glyphicon-plus"
+                        aria-hidden="true">
+                    </span> Add Event
+                </button>
                 <h2>Eventy</h2>
-                <p className="lead">Tady je prostor pro Eventy. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut et dolore magna aliqua. Ut enim ad minim veniam</p>
+                <p className="lead">
+                    {events === null ?
+                    <div>Loading...</div> :
+                    <EventList events={events}/>
+                    }
+                </p>
             </div>
             </div>
 </section>
@@ -85,3 +131,8 @@ export class HomePage extends Component {
     );
   }
 }
+
+export const HomePage = connect(
+    () => ({}),
+    { addEvent }
+)(HomePageRaw);

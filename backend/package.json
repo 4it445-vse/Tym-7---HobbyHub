@@ -1,7 +1,6 @@
 {
-  "name": "hobby-hub-server",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "server/server.js",
   "scripts": {
     "lint": "eslint .",
@@ -30,6 +29,10 @@
     "nodemon": "^1.10.2",
     "nsp": "^2.1.0"
   },
-  "author": "Tym 7",
-  "license": "ISC"
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "license": "UNLICENSED",
+  "description": "backend"
 }
