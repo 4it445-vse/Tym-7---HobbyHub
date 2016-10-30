@@ -1,9 +1,5 @@
 import api from '../api.js';
 
-import {
-  ADD_LOADING,
-  REMOVE_LOADING
-} from '../components/Loading/actions';
 import {EVENT_ADD} from '../components/EventList/actions'
 
 export const eventReducer = (state = {}, action = {}) => {

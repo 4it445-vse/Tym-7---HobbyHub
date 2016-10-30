@@ -17,7 +17,6 @@ export class LoadingRaw extends Component {
 
   render() {
     const { isLoading } = this.props;
-    console.log("isLoading",isLoading)
     return (
       <div>
         {isLoading>0?
