@@ -4,14 +4,15 @@
 import React, {Component} from 'react';
 import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
-import {connect} from 'react-redux';
-import {addEvent} from '../actions/eventActions.js';
+import {connect} from 'react-redux'
+import {addEvent} from '../components/EventList/actions.js';
 
 export class HomePageRaw extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: null
+      events: null,
+      isLoading: 0
     };
   }
 
