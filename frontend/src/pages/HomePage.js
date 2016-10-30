@@ -66,12 +66,12 @@ export class HomePageRaw extends Component {
                     </span> Add Event
               </button>
               <h2>Eventy</h2>
-              <p className="lead">
+              <div className="lead">
                 {events === null ?
                   <div>Loading...</div> :
                   <EventList events={events}/>
                 }
-              </p>
+              </div>
             </div>
           </div>
         </section>
