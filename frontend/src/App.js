@@ -4,13 +4,12 @@ import {Router, applyRouterMiddleware, browserHistory} from 'react-router';
 import {useScroll} from 'react-router-scroll';
 
 
-import './css/bootstrap.min.css';
-import './css/font-awesome.min.css';
-import './css/animate.min.css';
-import './css/prettyPhoto.css';
-import './css/main.css';
-import './css/responsive.css';
-import './App.css';
+import '../public/css/bootstrap.min.css';
+import '../public/css/font-awesome.min.css';
+import '../public/css/animate.min.css';
+import '../public/css/prettyPhoto.css';
+import '../public/css/main.css';
+import '../public/css/responsive.css';
 
 import {createRoutes} from './createRoutes.js';
 

@@ -45,11 +45,11 @@ export class TopNavigation extends Component {
                 <span className="icon-bar"/>
               </button>
               <a className="navbar-brand" href="index.html"><img
-                src={process.env.PUBLIC_URL + 'logo.png'} alt="logo"/></a>
+                src={process.env.PUBLIC_URL + 'images/logo.png'} alt="logo"/></a>
             </div>
 
             <div className="collapse navbar-collapse navbar-right">
-              <a className="navbar-brand" href="index.html"><img src={process.env.PUBLIC_URL + 'logo.png'}
+              <a className="navbar-brand" href="index.html"><img src={process.env.PUBLIC_URL + 'images/logo.png'}
                                                                  alt="avatar"/></a>
               <ul className="nav navbar-nav">
                 <li><a href="index.html">Home</a></li>
