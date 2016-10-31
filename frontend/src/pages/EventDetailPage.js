@@ -2,12 +2,15 @@
  * Created by Honza on 22.10.2016.
  */
 import React, {Component} from 'react';
+import {ImageNotFound} from '../components/NotFound/ImageNotFound'
 import api from '../api.js';
+import moment from 'moment';
 
 export class EventDetailPage extends Component {
 
   constructor(props) {
     super(props)
+    moment.locale('cs');
     this.state = {
       event: null
     }
@@ -29,11 +32,27 @@ export class EventDetailPage extends Component {
 
   render() {
     const {event} = this.state
+    var tempStyle={
+      background:'black'
+    }
     return (
-      <div>
+      <div style={tempStyle}>
         {event == null ?
           <h1>Načítám...</h1> :
-          <h1>Detail of given event: {event.name} </h1>
+          <div>
+            <h1>{event.name}</h1>
+            {event.picture !==null?
+              <img src={event.picture}/>:
+              <ImageNotFound width="100" height="100" />
+            }
+            <div>{event.description}</div>
+            <div>{moment(event.date).format("DD MMMM YYYY")}</div>
+            <div>
+              {event.tags.split(",").map((tag)=>
+                tag
+              )}
+            </div>
+          </div>
         }
       </div>
     );
