@@ -10,6 +10,7 @@ import '../public/css/animate.min.css';
 import '../public/css/prettyPhoto.css';
 import '../public/css/main.css';
 import '../public/css/responsive.css';
+import '../public/css/custom-main.css';
 
 import {createRoutes} from './createRoutes.js';
 

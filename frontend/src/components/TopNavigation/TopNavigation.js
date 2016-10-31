@@ -7,33 +7,6 @@ export class TopNavigation extends Component {
   render() {
     return (
       <header id="header">
-        <div className="top-bar">
-          <div className="container">
-            <div className="row">
-              <div className="col-sm-6 col-xs-4">
-              </div>
-              <div className="col-sm-6 col-xs-8">
-                <div className="social">
-                  <ul className="social-share">
-                    <li><a href="#"><i className="fa fa-facebook"/></a></li>
-                    <li><a href="#"><i className="fa fa-twitter"/></a></li>
-                    <li><a href="#"><i className="fa fa-linkedin"/></a></li>
-                    <li><a href="#"><i className="fa fa-dribbble"/></a></li>
-                    <li><a href="#"><i className="fa fa-skype"/></a></li>
-                  </ul>
-                  <div className="search">
-                    <form role="form">
-                      <input type="text" className="search-form" autoComplete="off"
-                             placeholder="Search"/>
-                      <i className="fa fa-search"/>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">

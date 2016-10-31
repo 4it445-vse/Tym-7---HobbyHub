@@ -1,0 +1,34 @@
+body{
+    background: #e6e6e6;
+}
+nav.navbar{
+    background:#3e5b8c;
+}
+
+#footer{
+    background: #263652;
+}
+
+#recent-works{
+    padding: 0;
+}
+
+.homepage .container{
+    background: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background: #263652
+}
+
+.navbar-inverse .navbar-nav .dropdown-menu{
+    background: #263652
+}
+
+.navbar-inverse .navbar-nav > li.dropdown{
+    padding-bottom: 0;
+}
+
+.navbar-inverse .navbar-nav .dropdown-menu > li:hover > a, .navbar-inverse .navbar-nav .dropdown-menu > li:focus > a, .navbar-inverse .navbar-nav .dropdown-menu > li.active > a{
+    background:#3e5b8c;
+}
