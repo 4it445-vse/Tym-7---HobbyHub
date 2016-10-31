@@ -7,6 +7,9 @@ nav.navbar{
 
 #footer{
     background: #263652;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 #recent-works{
