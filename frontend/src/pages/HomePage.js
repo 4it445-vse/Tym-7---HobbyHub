@@ -34,13 +34,15 @@ export class HomePageRaw extends Component {
       "name": "Tenis - dvojhra s Ferdou",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus laoreet gravida elit auctor tristique. Vestibulum tincidunt congue tortor, in laoreet odio tincidunt quis. Phasellus in enim dignissim, rhoncus odio at, venenatis ligula. Etiam vestibulum odio et tempus suscipit. Donec sit amet odio non metus ullamcorper congue eget in erat. Vivamus sollicitudin eleifend dolor sit amet congue. Maecenas eget mattis nisi, eu sagittis elit. Vivamus interdum tristique lorem id porttitor. Suspendisse sodales mauris a mauris posuere, eget bibendum odio mollis. Donec aliquam eu lacus eget rhoncus. Vivamus lectus sapien, maximus sed dui vitae, dignissim venenatis ante. Integer vel auctor turpis.",
       "capacity": 10,
+      "attending": 2,
       "latitude": "50.0831937",
       "longitude": "14.4331146",
       "location": "Praha - Hlavní nádraží",
-      "picture": null,
+      "picture": "1.png",
       "created": "2016-10-29T00:00:00.000Z",
       "date": "2016-10-29T00:00:00.000Z",
-      "tags": "tenis, sport, ferda"
+      "tags": "tenis, sport, ferda",
+      "status": "Přihlášen"
     });
     //slowing down script because it is faster than db
     setTimeout(() => {
@@ -59,20 +61,30 @@ export class HomePageRaw extends Component {
                 onClick={() => this.onEventAdd()}
                 type="button"
                 className="btn btn-success"
-              >
+>
                     <span
                       className="glyphicon glyphicon-plus"
                       aria-hidden="true">
                     </span> Add Event
               </button>
               <h2>Eventy</h2>
-              <div className="lead">
-                {events === null ?
-                  <div>Loading...</div> :
-                  <EventList events={events}/>
-                }
+                 <section id="portfolio">
+                   <div className="container">
+                    <div className="row">
+                      <div className="portfolio-items">
+
+                        {events === null ?
+                          <div>Loading...</div> :
+                          <EventList events={events}/>
+                        }
+
+                      </div>
+                    </div>
+                    </div>
+                  </section>
+
               </div>
-            </div>
+
           </div>
         </section>
       </div>
