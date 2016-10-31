@@ -1,0 +1,58 @@
+{
+  "name": "AppUser",
+  "plural": "appusers",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "email": {
+      "type": "string",
+      "required": true
+    },
+    "facebook": {
+      "type": "number"
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "last_online": {
+      "type": "date",
+      "required": true
+    },
+    "rating": {
+      "type": "number"
+    },
+    "picture": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "events": {
+      "type": "hasMany",
+      "model": "EventUser",
+      "foreignKey": "event_id"
+    },
+    "authorEvents": {
+      "type": "hasMany",
+      "model": "Event",
+      "foreignKey": "author_id"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}
