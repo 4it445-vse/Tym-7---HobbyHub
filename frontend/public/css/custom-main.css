@@ -13,8 +13,9 @@ nav.navbar{
     padding: 0;
 }
 
-.homepage .container{
+.content-container{
     background: #fff;
+    padding-bottom: 100px;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover {
@@ -31,4 +32,8 @@ nav.navbar{
 
 .navbar-inverse .navbar-nav .dropdown-menu > li:hover > a, .navbar-inverse .navbar-nav .dropdown-menu > li:focus > a, .navbar-inverse .navbar-nav .dropdown-menu > li.active > a{
     background:#3e5b8c;
+}
+
+h1{
+    color:#333;
 }

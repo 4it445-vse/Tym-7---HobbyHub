@@ -32,11 +32,8 @@ export class EventDetailPage extends Component {
 
   render() {
     const {event} = this.state
-    var tempStyle={
-      background:'black'
-    }
     return (
-      <div style={tempStyle}>
+      <div className="container content-container">
         {event == null ?
           <h1>Načítám...</h1> :
           <div>

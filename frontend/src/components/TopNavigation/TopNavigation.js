@@ -2,6 +2,7 @@
  * Created by Honza on 24.10.2016.
  */
 import React, {Component} from 'react';
+import { Link } from 'react-router'
 
 export class TopNavigation extends Component {
   render() {
@@ -17,13 +18,15 @@ export class TopNavigation extends Component {
                 <span className="icon-bar"/>
                 <span className="icon-bar"/>
               </button>
-              <a className="navbar-brand" href="index.html"><img
-                src={'/' + process.env.PUBLIC_URL + 'images/logo.png'} alt="logo"/></a>
+              <Link className="navbar-brand" to="/">
+                <img src={'/' + process.env.PUBLIC_URL + 'images/logo.png'} alt="logo"/>
+              </Link>
             </div>
 
             <div className="collapse navbar-collapse navbar-right">
-              <a className="navbar-brand" href="index.html"><img src={'/' + process.env.PUBLIC_URL + 'images/logo.png'}
-                                                                 alt="avatar"/></a>
+              <Link className="navbar-brand" to="/">
+                <img src={'/' + process.env.PUBLIC_URL + 'images/logo.png'} alt="avatar"/>
+              </Link>
               <ul className="nav navbar-nav">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="portfolio.html">Profil</a></li>

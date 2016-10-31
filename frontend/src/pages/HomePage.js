@@ -52,41 +52,26 @@ export class HomePageRaw extends Component {
 
   render() {
     const {events} = this.state;
+
     return (
-      <div className="homepage">
-        <section id="recent-works">
-          <div className="container">
-            <div className="center wow fadeInDown">
-              <button
-                onClick={() => this.onEventAdd()}
-                type="button"
-                className="btn btn-success"
->
+      <div className="container content-container">
+        <div className="center wow fadeInDown">
+          <button
+            onClick={() => this.onEventAdd()}
+            type="button"
+            className="btn btn-success"
+          >
                     <span
                       className="glyphicon glyphicon-plus"
                       aria-hidden="true">
                     </span> Add Event
-              </button>
-              <h2>Eventy</h2>
-                 <section id="portfolio">
-                   <div className="container">
-                    <div className="row">
-                      <div className="portfolio-items">
-
-                        {events === null ?
-                          <div>Loading...</div> :
-                          <EventList events={events}/>
-                        }
-
-                      </div>
-                    </div>
-                    </div>
-                  </section>
-
-              </div>
-
-          </div>
-        </section>
+          </button>
+          <h2>Eventy</h2>
+          {events === null ?
+            <div>Loading...</div> :
+            <EventList events={events}/>
+          }
+        </div>
       </div>
     );
   }
