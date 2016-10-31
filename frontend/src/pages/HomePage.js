@@ -71,6 +71,130 @@ export class HomePageRaw extends Component {
                   <div>Loading...</div> :
                   <EventList events={events}/>
                 }
+                
+                 <section id="portfolio">
+        <div className="container">     
+             <div className="row">
+                <div className="portfolio-items">
+                    <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+
+                     <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+                    
+                     <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+
+                   <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+          
+                    <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+
+                    <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+
+                     <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+
+                     <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
+                        <div className="recent-work-wrap">
+                            <img className="img-responsive" src="images/portfolio/recent/item1.png" alt=""></img>
+                            <div className="overlay">
+                                <div className="recent-work-inner">
+                                    <h3><a href="#">Událost</a></h3>
+                                    <p className="date">1. března 2017</p>
+                                </div> 
+                            </div>
+                        </div>
+                        <p className="capacity">1/10</p>
+                        <p className="rsvp">Přihlášen</p>
+                    </div>
+                </div>
+            </div>
+       
+    
+         </div>       
+        
+</section>
+                
               </div>
             </div>
           </div>
