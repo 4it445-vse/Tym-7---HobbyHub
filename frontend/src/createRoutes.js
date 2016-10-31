@@ -18,7 +18,7 @@ export function createRoutes() {
       </Route>
       <Route path="events">
         <IndexRoute component={EventPage}/>
-        <Route path=":event">
+        <Route path=":eventId">
           <IndexRoute component={EventDetailPage}/>
         </Route>
       </Route>
