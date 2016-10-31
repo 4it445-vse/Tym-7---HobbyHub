@@ -40,7 +40,7 @@ export class EventDetailPage extends Component {
             <h1>{event.name}</h1>
             {event.picture !==null?
               <img src={event.picture}/>:
-              <ImageNotFound width="100" height="100" />
+              <ImageNotFound width="200" height="150" />
             }
             <div>{event.description}</div>
             <div>{moment(event.date).format("DD MMMM YYYY")}</div>
