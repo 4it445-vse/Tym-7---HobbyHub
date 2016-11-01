@@ -42,7 +42,8 @@ export class HomePageRaw extends Component {
       "created": "2016-10-29T00:00:00.000Z",
       "date": "2016-10-29T00:00:00.000Z",
       "tags": "tenis, sport, ferda",
-      "status": "Přihlášen"
+      "status": "Přihlášen",
+      "author_id": 1
     });
     //slowing down script because it is faster than db
     setTimeout(() => {
