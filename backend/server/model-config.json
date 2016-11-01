@@ -35,5 +35,13 @@
   "Event": {
     "dataSource": "mysqlds",
     "public": true
+  },
+  "AppUser": {
+    "dataSource": "mysqlds",
+    "public": true
+  },
+  "EventUser": {
+    "dataSource": "mysqlds",
+    "public": true
   }
 }

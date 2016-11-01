@@ -1,0 +1,39 @@
+{
+  "name": "EventUser",
+  "plural": "eventusers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "required": true,
+      "default": "created"
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "resolved": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "event": {
+      "type": "belongsTo",
+      "model": "Event",
+      "foreignKey": "event_id"
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "AppUser",
+      "foreignKey": "user_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

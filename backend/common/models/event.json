@@ -11,10 +11,10 @@
       "type": "string",
       "required": true
     },
-    "description" : {
+    "description": {
       "type": "string"
     },
-    "capacity" : {
+    "capacity": {
       "type": "number"
     },
     "created": {
@@ -46,7 +46,18 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "users": {
+      "type": "hasMany",
+      "model": "EventUser",
+      "foreignKey": "user_id"
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "AppUser",
+      "foreignKey": "author_id"
+    }
+  },
   "acls": [],
   "methods": {}
 }
