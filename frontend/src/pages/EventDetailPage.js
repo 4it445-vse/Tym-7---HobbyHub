@@ -37,14 +37,14 @@ export class EventDetailPage extends Component {
         {event == null ?
           <h1>Načítám...</h1> :
           <div>
-            <h1>{event.name}</h1>
+            <h2>{event.name}</h2>
             {event.picture !==null?
-              <img src={event.picture}/>:
+              <img className="col-md-4" src={event.picture}/>:
               <ImageNotFound width="200" height="150" />
             }
-            <div>{event.description}</div>
-            <div>{moment(event.date).format("DD MMMM YYYY")}</div>
-            <div>
+            <div className="col-md-6">{event.description}</div>
+            <div className="col-md-6">{moment(event.date).format("DD MMMM YYYY")}</div>
+            <div className="col-md-4">
               {event.tags.split(",").map((tag)=>
                 tag
               )}

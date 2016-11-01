@@ -25,10 +25,9 @@ export class TopNavigation extends Component {
 
             <div className="collapse navbar-collapse navbar-right">
               <Link className="navbar-brand" to="/">
-                <img src={'/' + process.env.PUBLIC_URL + 'images/logo.png'} alt="avatar"/>
+                <img className="navbar-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
               </Link>
               <ul className="nav navbar-nav">
-                <li><a href="index.html">Home</a></li>
                 <li><a href="portfolio.html">Profil</a></li>
                 <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <i

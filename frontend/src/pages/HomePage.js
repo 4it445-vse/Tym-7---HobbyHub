@@ -38,7 +38,7 @@ export class HomePageRaw extends Component {
       "latitude": "50.0831937",
       "longitude": "14.4331146",
       "location": "Praha - Hlavní nádraží",
-      "picture": "1.png",
+      "picture": "images/avatar.png",
       "created": "2016-10-29T00:00:00.000Z",
       "date": "2016-10-29T00:00:00.000Z",
       "tags": "tenis, sport, ferda",
@@ -57,6 +57,7 @@ export class HomePageRaw extends Component {
     return (
       <div className="container content-container">
         <div className="center wow fadeInDown">
+          <h2>Události</h2>
           <button
             onClick={() => this.onEventAdd()}
             type="button"
@@ -65,9 +66,8 @@ export class HomePageRaw extends Component {
                     <span
                       className="glyphicon glyphicon-plus"
                       aria-hidden="true">
-                    </span> Add Event
+                    </span> Přidat událost
           </button>
-          <h2>Eventy</h2>
           {events === null ?
             <div>Loading...</div> :
             <EventList events={events}/>
