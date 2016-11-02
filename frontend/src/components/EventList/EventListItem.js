@@ -8,7 +8,7 @@ export class EventListItem extends Component {
     return (
       <div className="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
           <div className="recent-work-wrap">
-              <img className="img-responsive" src="{picture}" alt="{name}"></img>
+              <img src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"></img>
               <div className="overlay">
                   <div className="recent-work-inner">
                       <h3><Link to={"/events/"+id}>{name}</Link></h3>
