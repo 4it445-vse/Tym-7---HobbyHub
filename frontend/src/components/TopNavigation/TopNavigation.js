@@ -11,13 +11,6 @@ export class TopNavigation extends Component {
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">
-              <button type="button" className="navbar-toggle" data-toggle="collapse"
-                      data-target=".navbar-collapse">
-                <span className="sr-only">Toggle navigation</span>
-                <span className="icon-bar"/>
-                <span className="icon-bar"/>
-                <span className="icon-bar"/>
-              </button>
               <Link className="navbar-brand" to="/">
                 <img src={'/' + process.env.PUBLIC_URL + 'images/logo.png'} alt="logo"/>
               </Link>
@@ -30,7 +23,13 @@ export class TopNavigation extends Component {
               <ul className="nav navbar-nav">
                 <li><a href="portfolio.html">Profil</a></li>
                 <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <i
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown"><button type="button" className="navbar-toggle" data-toggle="collapse"
+                                        data-target=".navbar-collapse">
+                                  <span className="sr-only">Toggle navigation</span>
+                                  <span className="icon-bar"/>
+                                  <span className="icon-bar"/>
+                                  <span className="icon-bar"/>
+                                </button><i
                     className="fa fa-angle-down"/></a>
                   <ul className="dropdown-menu">
                     <li><a href="blog-item.html">Nastavení</a></li>
