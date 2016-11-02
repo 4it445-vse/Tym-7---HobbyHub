@@ -44,30 +44,37 @@ export class EventDetailPage extends Component {
               <h2>{event.name}</h2>
             </div>
 
-            {event.picture !==null?
-              <img className="col-md-3" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>:
-              //<img className="col-md-4" src={event.picture}/>:
-              <ImageNotFound width="200" height="150" />
-            }
 
-            <div className="col-md-6"><b>Autor</b> Ferda</div>
-            <div className="col-md-6"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
-            <div className="col-md-6"><b>Kapacita</b> 1 / 2</div>
             <div className="col-md-4">
-              <label><b>Kategorie</b></label>
-              <div className="col-md-12">
-                <ul className="tag-cloud">
-                  {event.tags.split(",").map((tag)=>
-                    <li><a class="btn btn-xs btn-primary" href="#">{tag}</a></li>
-                  )}
-                  </ul>
+              {event.picture !== null ?
+                <img className="col-md-12" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/> :
+                //<img className="col-md-4" src={event.picture}/>:
+                <ImageNotFound width="200" height="150"/>
+              }
+            </div>
+
+            <div className="col-md-8">
+              <div className="col-md-8">
+                <div className="">{event.description}</div>
+              </div>
+              <div className="col-md-4">
+                <div className="col-md-12"><b>Autor</b> Ferda</div>
+                <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
+                <div className="col-md-12"><b>Kapacita</b> 1 / 2</div>
+                <div className="col-md-4">
+                  <label><b>Kategorie</b></label>
+                  <div className="col-md-12">
+                    <ul className="tag-cloud">
+                      {event.tags.split(",").map((tag)=>
+                        <li><a class="btn btn-xs btn-primary" href="#">{tag}</a></li>
+                      )}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="col-md-6">{event.description}</div>
-
           </div>
         }
-
       </div>
     );
   }
