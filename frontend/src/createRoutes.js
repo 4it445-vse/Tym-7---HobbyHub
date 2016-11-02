@@ -6,6 +6,7 @@ import {IndexRoute, Route} from 'react-router';
 import {AppPage} from "./pages/AppPage"
 import {HomePage} from "./pages/HomePage"
 import {EventDetailPage} from "./pages/EventDetailPage"
+import {EventEditPage} from "./pages/EventEditPage"
 import {ProfilePage} from "./pages/ProfilePage"
 import {EventPage} from "./pages/EventPage"
 
@@ -20,6 +21,9 @@ export function createRoutes() {
         <IndexRoute component={EventPage}/>
         <Route path=":eventId">
           <IndexRoute component={EventDetailPage}/>
+        </Route>
+        <Route path="edit/:eventId">
+          <IndexRoute component={EventEditPage}/>
         </Route>
       </Route>
     </Route>
