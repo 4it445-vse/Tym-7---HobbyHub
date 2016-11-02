@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.0.1",
   "private": true,
+  "main": "node_modules/react-scripts/scripts/start.js",
   "devDependencies": {
     "react-scripts": "0.6.1"
   },
