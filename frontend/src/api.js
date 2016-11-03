@@ -1,7 +1,10 @@
 import axios, { CancelToken } from 'axios';
+import {parameters} from './../parameters.js';
+
+const {API_BASE_URL} = parameters;
 
 const api = axios.create({
-  baseURL: 'http://localhost:3001/api/'
+  baseURL: API_BASE_URL
 });
 
 export function getCancelTokenSource() {
