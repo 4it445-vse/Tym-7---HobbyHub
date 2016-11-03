@@ -1,4 +1,4 @@
 .idea/
 backend/node_modules/
 backend/server/datasources.local.js
-frontend/src/parameters.js
+frontend/parameters.js
