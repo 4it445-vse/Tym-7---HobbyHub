@@ -5,10 +5,12 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 import {AppPage} from "./pages/AppPage"
 import {HomePage} from "./pages/HomePage"
-import {EventDetailPage} from "./pages/EventDetailPage"
-import {EventEditPage} from "./pages/EventEditPage"
+import {EventDetailPage} from "./pages/Events/EventDetailPage"
+import {EventEditPage} from "./pages/Events/EventEditPage"
 import {ProfilePage} from "./pages/ProfilePage"
-import {EventPage} from "./pages/EventPage"
+import {EventPage} from "./pages/Events/EventPage"
+import {EventAddPage} from "./pages/Events/EventAddPage"
+import {GenericNotFoundPage} from "./pages/GenericNotFoundPage"
 
 export function createRoutes() {
   return (
@@ -19,13 +21,17 @@ export function createRoutes() {
       </Route>
       <Route path="events">
         <IndexRoute component={EventPage}/>
-        <Route path=":eventId">
+        <Route path="add">
+          <IndexRoute component={EventAddPage}/>
+        </Route>
+        <Route path="detail/:eventId">
           <IndexRoute component={EventDetailPage}/>
         </Route>
         <Route path="edit/:eventId">
           <IndexRoute component={EventEditPage}/>
         </Route>
       </Route>
+      <Route path="*" component={GenericNotFoundPage}/>
     </Route>
   )
 };

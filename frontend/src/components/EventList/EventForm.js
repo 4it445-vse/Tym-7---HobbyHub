@@ -1,43 +1,21 @@
-/**
- * Created by Honza on 22.10.2016.
- */
 import React, {Component} from 'react';
-import {ImageNotFound} from '../components/NotFound/ImageNotFound'
-import api from '../api.js';
+import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
+import api from '../../api.js';
 import moment from 'moment';
 
-export class EventEditPage extends Component {
+
+class EventForm extends Component {
 
   constructor(props) {
     super(props)
     moment.locale('cs');
-    this.state = {
-      event: null
-    }
   }
 
-  fetchEventDetailData() {
-    const {eventId} = this.props.params;
-    api('events/' + eventId)
-      .then((response)=> {
-        this.setState({event: response.data})
-      }).catch(()=> {
-
-    })
-  }
-
-  componentDidMount() {
-    this.fetchEventDetailData()
-  }
 
   render() {
-    const {event} = this.state
-    return (
+    const {event} = this.props;
+    return(
       <div className="container content-container">
-
-        {event == null ?
-          <h1>Načítám...</h1> :
-
           <div>
 
             <div className="col-md-12">
@@ -59,13 +37,13 @@ export class EventEditPage extends Component {
               <div className="col-md-12"><b>Popis</b><textarea name="message" id="message" required="required" className="form-control" rows="8"></textarea></div>
 
               <div className="col-md-2">
-                  <button type="button" name="cancel" className="btn btn-warning btn-lg" required="required">Zrušit</button>
+                <button type="button" name="cancel" className="btn btn-warning btn-lg" required="required">Zrušit</button>
               </div>
               <div className="col-md-2">
-                  <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat</button>
+                <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat</button>
               </div>
               <div className="col-md-2">
-                  <button type="submit" name="submit" className="btn btn-success btn-lg" required="required">Uložit</button>
+                <button type="submit" name="submit" className="btn btn-success btn-lg" required="required">Uložit</button>
               </div>
 
             </div>
@@ -74,6 +52,6 @@ export class EventEditPage extends Component {
         }
 
       </div>
-    );
+    )
   }
 }
