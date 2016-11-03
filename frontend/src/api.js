@@ -1,7 +1,5 @@
 import axios, { CancelToken } from 'axios';
-import {parameters} from './../parameters.js';
-
-const {API_BASE_URL} = parameters;
+import {API_BASE_URL} from './parameters.js';
 
 const api = axios.create({
   baseURL: API_BASE_URL
