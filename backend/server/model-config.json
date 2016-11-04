@@ -43,5 +43,9 @@
   "EventUser": {
     "dataSource": "mysqlds",
     "public": true
+  },
+  "Tag": {
+    "dataSource": "mysqlds",
+    "public": true
   }
 }
