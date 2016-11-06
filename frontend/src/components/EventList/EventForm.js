@@ -4,53 +4,126 @@ import api from '../../api.js';
 import moment from 'moment';
 
 
-class EventForm extends Component {
+export class EventForm extends Component {
 
   constructor(props) {
     super(props)
     moment.locale('cs');
+    this.onInputChange = this.onInputChange.bind(this);
+    this.state = {
+      event: {
+        name: "",
+        date: "",
+        capacity: 0,
+        tags: "0",
+        location: "",
+        description: ""
+      }
+    }
+  }
+
+  onInputChange(event) {
+    const eventName = event.target.name;
+    const eventValue = event.target.value;
+    const newState = {
+      ...this.state
+    }
+    newState.event[eventName]=eventValue;
+    this.setState(newState);
   }
 
 
-  render() {
+  componentDidMount() {
     const {event} = this.props;
-    return(
-      <div className="container content-container">
-          <div>
+    if (typeof event !== "undefined") {
+      this.setState({event})
+    }
+  }
+
+  render() {
+    console.log(this.state);
+    const {event} = this.state;
+    const {actions} = this.props;
+    const {save, remove} = actions;
+    return (
+      <div>
+        <form>
+          <div className="col-md-12">
+            <h2>{event.name}</h2>
+          </div>
+
+          {event.picture !== null ?
+            <img className="col-md-3" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/> :
+            <ImageNotFound width="200" height="150"/>
+          }
+          <div className="col-md-9">
 
             <div className="col-md-12">
-              <h2>{event.name}</h2>
+              <label htmlFor="name">Název</label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                onChange={this.onInputChange}
+                className="form-control"
+                defaultValue={event.name}/>
             </div>
-
-            {event.picture !==null?
-              <img className="col-md-3" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>:
-              //<img className="col-md-4" src={event.picture}/>:
-              <ImageNotFound width="200" height="150" />
-            }
-            <div className="col-md-9">
-
-              <div className="col-md-12"><b>Název</b><input type="text" className="form-control" value="Tenis dvojhra s ferdou"></input></div>
-              <div className="col-md-12"><b>Datum</b><input type="text" className="form-control" value="2. října 2016"></input></div>
-              <div className="col-md-12"><b>Kapacita</b><input type="number" className="form-control" value="10"></input></div>
-              <div className="col-md-12"><b>Kategorie</b><input type="text" className="form-control" value="tenis, sport, Ferda"></input></div>
-              <div className="col-md-12"><b>Lokace</b><input type="text" className="form-control" value="Koněvova, Praha 3"></input></div>
-              <div className="col-md-12"><b>Popis</b><textarea name="message" id="message" required="required" className="form-control" rows="8"></textarea></div>
-
-              <div className="col-md-2">
-                <button type="button" name="cancel" className="btn btn-warning btn-lg" required="required">Zrušit</button>
-              </div>
-              <div className="col-md-2">
-                <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat</button>
-              </div>
-              <div className="col-md-2">
-                <button type="submit" name="submit" className="btn btn-success btn-lg" required="required">Uložit</button>
-              </div>
-
+            <div className="col-md-12">
+              <label htmlFor="capacity">Kapacita</label>
+              <input
+                id="capacity"
+                name="capacity"
+                onChange={this.onInputChange}
+                type="number"
+                className="form-control"
+                defaultValue={event.capacity}/>
             </div>
-
+            <div className="col-md-12">
+              <label htmlFor="tags">Kategorie</label>
+              <input
+                id="tags"
+                name="tags"
+                onChange={this.onInputChange}
+                type="text"
+                className="form-control"
+                defaultValue={event.tags}/>
+            </div>
+            <div className="col-md-12">
+              <label>Lokace</label>
+              <input
+                id="location"
+                name="location"
+                onChange={this.onInputChange}
+                type="text"
+                className="form-control"
+                defaultValue={event.location}/>
+            </div>
+            <div className="col-md-12">
+              <label htmlFor="description">Popis</label>
+              <textarea
+                id="description"
+                name="description"
+                onChange={this.onInputChange}
+                required="required"
+                className="form-control" rows="8"
+                defaultValue={event.description}/></div>
           </div>
-        }
+        </form>
 
+        {save?
+          <div className="col-md-2">
+            <button type="submit" name="submit" className="btn btn-success btn-lg" required="required">Uložit</button>
+          </div>
+          :
+          ''
+        }
+        {remove?
+          <div className="col-md-2">
+            <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat</button>
+          </div>
+          :
+          ''
+        }
       </div>
     )
   }
