@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
 import moment from 'moment';
-
+import {EVENT_ADDED,EVENT_ADD_FAILED, EVENT_WAITING} from './actions';
 
 export class EventForm extends Component {
 
@@ -49,9 +49,8 @@ export class EventForm extends Component {
   }
 
   render() {
-    console.log(this.state);
     const {event} = this.state;
-    const {actions} = this.props;
+    const {actions, newEventState} = this.props;
     const {save, remove} = actions;
     return (
       <div>
@@ -139,17 +138,29 @@ export class EventForm extends Component {
             </div>
             {save?
               <div className="col-md-12">
-                <button type="submit" name="submit" className="btn btn-success btn-lg" required="required">Uložit</button>
+                <button type="submit" name="submit" className="btn btn-success btn-lg" required="required"
+                        disabled={newEventState === EVENT_WAITING?'disabled':false}
+                >Uložit</button>
               </div>
               :
               ''
             }
             {remove ?
               <div className="col-md-12">
-                <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat</button>
+                <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required"
+                        disabled={newEventState === EVENT_WAITING?'disabled':false}
+                >Smazat</button>
               </div>
               :
               ''
+            }
+
+            {
+              newEventState === EVENT_ADDED ?
+                <div>Událost byla vytvořena</div> :
+                (newEventState === EVENT_ADD_FAILED) ?
+                  <div>Událost se nepodařilo vytvořit</div> :
+                  ''
             }
           </div>
         </form>
