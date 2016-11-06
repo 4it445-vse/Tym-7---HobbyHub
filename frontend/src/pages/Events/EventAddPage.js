@@ -3,19 +3,18 @@
  */
 import React, {Component} from 'react';
 import {EventForm} from '../../components/EventList/EventForm'
-import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
-import api from '../../api.js';
-import moment from 'moment';
+import {connect} from 'react-redux'
+import {addEvent} from '../../components/EventList/actions.js';
 
-export class EventAddPage extends Component {
+export class EventAddPageRaw extends Component {
 
   constructor(props){
     super(props);
-    this.onFormSubmit.bind(this);
+    this.onFormSubmit=this.onFormSubmit.bind(this);
   }
 
-  onFormSubmit(form){
-    console.log(form);
+  onFormSubmit(event){
+    this.props.addEvent(event);
   }
 
   render() {
@@ -30,3 +29,8 @@ export class EventAddPage extends Component {
     );
   }
 }
+
+export const EventAddPage = connect(
+  () => ({}),
+  {addEvent}
+)(EventAddPageRaw);

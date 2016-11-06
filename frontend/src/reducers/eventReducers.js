@@ -9,7 +9,9 @@ export const eventReducer = (state = {}, action = {}) => {
       api.post('events', event)
         .then((response) => {
           return {response: response.data};
-        });
+        }).catch((error)=>{
+          console.warn(error);
+      })
 
       return state;
     default:

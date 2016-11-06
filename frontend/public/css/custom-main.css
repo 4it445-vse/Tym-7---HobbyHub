@@ -41,3 +41,10 @@ nav.navbar{
 h1{
     color:#333;
 }
+.event-image{
+    width: 100%;
+}
+.choose-image{
+    margin-top: 20px;
+    width: 100%;
+}
