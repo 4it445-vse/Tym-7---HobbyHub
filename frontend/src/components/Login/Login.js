@@ -55,7 +55,7 @@ export class LoginRaw extends Component {
     render() {
         const {addLogin} = this.props;
         const {loginError} = this.state;
-        const errorMsg = 'Chybnì zadané heslo nebo uživatelské jméno';
+        const errorMsg = 'ChybnÄ› zadanÃ© heslo nebo uÅ¾ivatelskÃ© jmÃ©no';
         return (
             <Navbar.Form pullLeft>
                 <form onSubmit={this.handleSubmit}>
@@ -74,7 +74,7 @@ export class LoginRaw extends Component {
                         );
                     })}
                     {' '}
-                    <Button type="submit">Pøihlásit</Button>
+                    <Button type="submit">PÅ™ihlÃ¡sit</Button>
                     </div>
                 </form>
             </Navbar.Form>
