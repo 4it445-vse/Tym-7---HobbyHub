@@ -12,7 +12,8 @@
       "required": true
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "length": 750
     },
     "capacity": {
       "type": "number"
