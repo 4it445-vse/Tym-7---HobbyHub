@@ -6,6 +6,8 @@ import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
 import {connect} from 'react-redux'
 import {addEvent} from '../components/EventList/actions.js';
+import {addLogin} from '../components/Login/actions.js';
+import { getUserId } from '../components/Login/reducers.js';
 
 export class HomePageRaw extends Component {
   constructor(props) {
@@ -29,6 +31,7 @@ export class HomePageRaw extends Component {
 
   onEventAdd() {
     const {addEvent} = this.props;
+    const { userId } = this.props;
     //demo data for event adding
     addEvent({
       "name": "Tenis - dvojhra s Ferdou",
@@ -43,7 +46,7 @@ export class HomePageRaw extends Component {
       "date": "2016-10-29T00:00:00.000Z",
       "tags": "tenis, sport, ferda",
       "status": "Přihlášen",
-      "author_id": 1
+      "author_id": userId
     });
     //slowing down script because it is faster than db
     setTimeout(() => {
@@ -78,7 +81,17 @@ export class HomePageRaw extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  const { login } = state;
+  return {
+    userId: getUserId(login)
+  };
+}
+
 export const HomePage = connect(
-  () => ({}),
-  {addEvent}
+    mapStateToProps,
+    {
+      addEvent,
+      addLogin
+    }
 )(HomePageRaw);
