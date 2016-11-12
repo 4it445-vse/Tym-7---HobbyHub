@@ -4,7 +4,8 @@
 import React, {Component} from 'react';
 import {EventForm} from '../../components/EventList/EventForm'
 import {connect} from 'react-redux'
-import {addEvent,eventWaiting} from '../../components/EventList/actions.js';
+import api from '../../api'
+import EVENT_STATE from '../../components/EventList/EventHelper'
 
 export class EventAddPageRaw extends Component {
 
@@ -12,23 +13,31 @@ export class EventAddPageRaw extends Component {
     super(props);
     this.onFormSubmit=this.onFormSubmit.bind(this);
     this.state={
-       newEventState:"new"
+      eventState:""
     }
   }
 
   onFormSubmit(event){
-    this.props.addEvent(event);
+    this.setState({eventState:EVENT_STATE.WAITING})
+    api.post('events', event)
+      .then((response) => {
+        this.setState({eventState:EVENT_STATE.SUCCESS})
+        return {response: response.data};
+      }).catch((error)=>{
+        this.setState({eventState:EVENT_STATE.ERROR})
+      console.warn(error);
+    });
   }
 
   render() {
     const formActions = {
       save: true
     }
-    const {newEventState} = this.props;
+    const {eventState} = this.state
 
     return (
       <div className="container content-container">
-        <EventForm actions={formActions} onFormSubmit={this.onFormSubmit} newEventState={newEventState}/>
+        <EventForm actions={formActions} onFormSubmit={this.onFormSubmit} eventState={eventState}/>
       </div>
     );
   }
@@ -44,5 +53,5 @@ const mapStateToProps = state => {
 
 export const EventAddPage = connect(
   mapStateToProps,
-  {addEvent,eventWaiting}
+  {}
 )(EventAddPageRaw);

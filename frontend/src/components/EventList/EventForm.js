@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
 import moment from 'moment';
-import {EVENT_ADDED,EVENT_ADD_FAILED, EVENT_WAITING} from './actions';
+import EVENT_STATES from './EventHelper';
+import {browserHistory} from 'react-router'
 
 export class EventForm extends Component {
 
@@ -10,7 +11,11 @@ export class EventForm extends Component {
     moment.locale('cs');
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.state = {
+    this.state = this.getDefaultState();
+  }
+
+  getDefaultState() {
+    return {
       event: {
         name: "",
         date: "2016-10-29T00:00:00.000Z",
@@ -35,14 +40,6 @@ export class EventForm extends Component {
     this.setState(newState);
   }
 
-
-  componentDidMount() {
-    const {event} = this.props;
-    if (typeof event !== "undefined") {
-      this.setState({event})
-    }
-  }
-
   onFormSubmit(event){
     event.preventDefault();
     this.props.onFormSubmit(this.state.event);
@@ -50,8 +47,13 @@ export class EventForm extends Component {
 
   render() {
     const {event} = this.state;
-    const {actions, newEventState} = this.props;
+    const {actions, eventState} = this.props;
     const {save, remove} = actions;
+
+    if(eventState===EVENT_STATES.SUCCESS){
+      // browserHistory.push("/")
+    }
+
     return (
       <div>
         <form onSubmit={this.onFormSubmit}>
@@ -139,7 +141,7 @@ export class EventForm extends Component {
             {save?
               <div className="col-md-12">
                 <button type="submit" name="submit" className="btn btn-success btn-lg" required="required"
-                        disabled={newEventState === EVENT_WAITING?'disabled':false}
+                        disabled={eventState === EVENT_STATES.WAITING?'disabled':false}
                 >Uložit</button>
               </div>
               :
@@ -148,7 +150,7 @@ export class EventForm extends Component {
             {remove ?
               <div className="col-md-12">
                 <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required"
-                        disabled={newEventState === EVENT_WAITING?'disabled':false}
+                        disabled={eventState === EVENT_STATES.WAITING?'disabled':false}
                 >Smazat</button>
               </div>
               :
@@ -156,9 +158,9 @@ export class EventForm extends Component {
             }
 
             {
-              newEventState === EVENT_ADDED ?
+              eventState === EVENT_STATES.SUCCESS ?
                 <div>Událost byla vytvořena</div> :
-                (newEventState === EVENT_ADD_FAILED) ?
+                (eventState === EVENT_STATES.ERROR) ?
                   <div>Událost se nepodařilo vytvořit</div> :
                   ''
             }
