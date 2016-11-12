@@ -33,6 +33,7 @@ export class HomePageRaw extends Component {
       <div className="container content-container">
         <div className="center wow fadeInDown">
           <h2>Události</h2>
+
           {events === null ?
             <div>Loading...</div> :
             <EventList events={events}/>

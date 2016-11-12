@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
 import moment from 'moment';
 import EVENT_STATES from './EventHelper';
+import {GoogleMap} from '../GoogleMaps/GoogleMap';
 import {browserHistory} from 'react-router'
 
 export class EventForm extends Component {
@@ -45,6 +46,10 @@ export class EventForm extends Component {
     this.props.onFormSubmit(this.state.event);
   }
 
+  componentDidMount(){
+    console.log(this.refs)
+  }
+
   render() {
     const {event} = this.state;
     const {actions, eventState} = this.props;
@@ -78,7 +83,9 @@ export class EventForm extends Component {
               :
               ''
             }
+            <div ref="googleMap" id="google-map"/>
           </div>
+
 
           <div className="col-md-9">
 
@@ -117,17 +124,9 @@ export class EventForm extends Component {
                 className="form-control"
                 defaultValue={event.tags}/>
             </div>
-            <div className="col-md-12">
-              <label>Lokace</label>
-              <input
-                required="required"
-                id="location"
-                name="location"
-                onChange={this.onInputChange}
-                type="text"
-                className="form-control"
-                defaultValue={event.location}/>
-            </div>
+            <GoogleMap
+              onChange={(data)=>console.log(data)}
+              mapId="google-map"/>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
               <textarea
