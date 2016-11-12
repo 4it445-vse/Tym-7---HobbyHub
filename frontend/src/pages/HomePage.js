@@ -6,6 +6,7 @@ import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
 import {connect} from 'react-redux'
 import {addEvent} from '../components/EventList/actions.js';
+import {GoogleMap} from '../components/GoogleMaps/GoogleMap'
 
 export class HomePageRaw extends Component {
   constructor(props) {
@@ -58,6 +59,14 @@ export class HomePageRaw extends Component {
       <div className="container content-container">
         <div className="center wow fadeInDown">
           <h2>Události</h2>
+
+          /**
+           * GOOGLE MAP COMPONENT USAGE
+           */
+          <div id="google-map"></div>
+          <GoogleMap mapElement={document.getElementById('google-map')}/>
+
+
           <button
             onClick={() => this.onEventAdd()}
             type="button"

@@ -41,3 +41,8 @@ nav.navbar{
 h1{
     color:#333;
 }
+
+#google-map{
+    width: 500px;
+    height: 500px;
+}
