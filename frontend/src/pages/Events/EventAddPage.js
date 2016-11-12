@@ -9,24 +9,33 @@ import EVENT_STATE from '../../components/EventList/EventHelper'
 
 export class EventAddPageRaw extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.onFormSubmit=this.onFormSubmit.bind(this);
-    this.state={
-      eventState:""
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.state = {
+      eventState: "",
+      errors: []
     }
   }
 
-  onFormSubmit(event){
-    this.setState({eventState:EVENT_STATE.WAITING})
+  onFormSubmit(event) {
+    const newState = {...this.state};
+    newState.eventState = EVENT_STATE.WAITING;
+    this.setState(newState)
     api.post('events', event)
-      .then((response) => {
-        this.setState({eventState:EVENT_STATE.SUCCESS})
-        return {response: response.data};
-      }).catch((error)=>{
-        this.setState({eventState:EVENT_STATE.ERROR})
-      console.warn(error);
-    });
+      .then(response => {
+        newState.eventState = EVENT_STATE.SUCCESS;
+        this.setState(newState)
+      })
+      .catch(error=> {
+        const { response } = error;
+        const { data } = response;
+        const { errors } = data.error.details;
+        newState.eventState = EVENT_STATE.ERROR;
+        newState.errors = errors;
+        console.log(errors);
+        this.setState(newState)
+      });
   }
 
   render() {
