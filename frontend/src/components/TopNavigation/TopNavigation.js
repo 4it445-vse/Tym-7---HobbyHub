@@ -12,7 +12,7 @@ export class TopNavigation extends Component {
           <div className="container">
             <div className="navbar-header">
               <Link className="navbar-brand" to="/">
-                <img src={'/' + process.env.PUBLIC_URL + 'images/logo.png'} alt="logo"/>
+                <span className="navbar-logo">HobbyHub</span>
               </Link>
             </div>
 

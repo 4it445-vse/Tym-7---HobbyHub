@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-export class EventListItem extends Component {  constructor(props) {
+
+export class EventListItem extends Component {
+
+  constructor(props) {
     super(props)
     moment.locale('cs');
     this.state = {
       event: null
     }
   }
+
   render() {
     const { event } = this.props;
     const { tags, date, name, capacity, picture, attending, status,id } = event;
@@ -32,10 +36,10 @@ export class EventListItem extends Component {  constructor(props) {
                   </div>
               </div>
           </div>
-          <div className="event-details">
-            <div className="capacity">{attending}/{capacity}</div>
-            <div className="rsvp">{status}</div>
-          </div>
+            <div className="event-details">
+              <p className="capacity">{attending}/{capacity}</p>
+              <p className="rsvp">{status}</p>
+            </div>
         </Link></div>
       <div className="col-sm-1 col-md-1"></div>
 

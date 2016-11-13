@@ -41,3 +41,59 @@ nav.navbar{
 h1{
     color:#333;
 }
+
+.event-details {
+  padding: 10px;
+}
+
+.capacity {
+  float: left;
+}
+
+.rsvp {
+float: right;
+}
+
+.recent-work-wrap {
+  height: 15em;
+  overflow: hidden;
+}
+.portfolio-item {
+  padding: 0 0 8% 0;
+}
+
+.recent-work-wrap .overlay {
+  opacity: 1;
+  background: none;
+}
+
+.navbar-logo {
+  background-image: url(/images/logo.png);
+  background-size: 130px 36px;
+  width: 130px;
+  height: 36px;
+  background-repeat: no-repeat;
+  display: block;
+  outline: none;
+  overflow: hidden;
+  text-indent: -999px;
+  white-space: nowrap;
+  margin-top: 10%;
+}
+
+/* for high resolution display */
+
+@media only screen and (min--moz-device-pixel-ratio: 2),
+
+only screen and (-o-min-device-pixel-ratio: 2/1),
+
+only screen and (-webkit-min-device-pixel-ratio: 2),
+
+only screen and (min-device-pixel-ratio: 2) {
+
+  .navbar-logo {
+    background-image: url(/images/logo-hires.png);
+    background-size: 130px 36px;
+  }
+
+}
