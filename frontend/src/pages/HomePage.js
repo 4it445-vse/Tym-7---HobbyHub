@@ -6,7 +6,6 @@ import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
 import {connect} from 'react-redux'
 import {addEvent} from '../components/EventList/actions.js';
-import {EventSignIn} from '../components/EventList/EventSignIn'
 import {addLogin} from '../components/Login/actions.js';
 import { getUserId } from '../components/Login/reducers.js';
 
@@ -62,7 +61,6 @@ export class HomePageRaw extends Component {
       <div className="container content-container">
         <div className="center wow fadeInDown">
           <h2>Události</h2>
-          <EventSignIn eventId="1" userId="2"/>
           <button
             onClick={() => this.onEventAdd()}
             type="button"

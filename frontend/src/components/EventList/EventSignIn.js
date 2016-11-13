@@ -3,7 +3,11 @@
  */
 import React, {Component} from 'react'
 import api from '../../api'
-export class EventSignIn extends Component {
+import {getUserId, getAuthToken, isLoggedIn} from '../Login/reducers.js';
+import {connect} from 'react-redux'
+
+
+export class EventSignInRaw extends Component {
 
   constructor(props) {
     super(props)
@@ -15,15 +19,14 @@ export class EventSignIn extends Component {
   }
 
   eventSignIn() {
-    const postData={
-        userId:"1",
-        eventId:"1"
+    const postData = {
+      eventId: "1"
     }
-    api.post('eventusers/signIn',postData)
+    api.post('eventusers/signIn', postData)
       .then((data)=> {
         console.log(data);
       })
-      .catch((err)=>{
+      .catch((err)=> {
         console.warn(err)
       })
   }
@@ -43,19 +46,41 @@ export class EventSignIn extends Component {
   }
 
   render() {
-    const {eventId, userId} = this.props;
+    const {eventId, getAuthToken, getUserId, isLoggedIn} = this.props;
     const isSignIn = false;
+
+    // console.log("getUserID",getUserId());
+    console.log("GET AUTH TOKEN", isLoggedIn)
 
     return (
       <div>
-        {isSignIn ?
-          <button onClick={this.eventLogout}>SignOut</button>
-          :
-          <button onClick={event=> {
-            this.eventSignIn(event, eventId, userId)
-          }}> SignIn</button>
+        {
+          isLoggedIn===false ?
+            <button disabled="disabled">První se musíte přihlásit</button>
+            :
+            isSignIn ?
+              <button onClick={this.eventLogout}>Odhlásit se z události</button>
+              :
+              <button onClick={event=> {
+                this.eventSignIn(event, eventId)
+              }}>Přihlásit se na událost</button>
         }
       </div>
     )
   }
 }
+
+
+function mapStateToProps(state) {
+  const {login} = state;
+  return {
+    getUserId: getUserId(login),
+    getAuthToken: getAuthToken(login),
+    isLoggedIn: isLoggedIn(login),
+  };
+}
+
+export const EventSignIn = connect(
+  mapStateToProps,
+  {}
+)(EventSignInRaw);
