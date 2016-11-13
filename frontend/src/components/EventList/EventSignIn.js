@@ -14,7 +14,8 @@ export class EventSignInRaw extends Component {
     this.eventLogout = this.eventLogout.bind(this)
     this.eventSignIn = this.eventSignIn.bind(this)
     this.state = {
-      isSignIn: null
+      isSignIn: null,
+      events: []
     }
   }
 
@@ -28,6 +29,10 @@ export class EventSignInRaw extends Component {
     }
     api.post('eventusers?access_token='+token, postData)
       .then((data)=> {
+        this.setState({
+          ...this.state,
+          isSignIn: true
+        })
         console.log(data);
       })
       .catch((err)=> {
@@ -39,13 +44,38 @@ export class EventSignInRaw extends Component {
 
   }
 
-  componentDidMount() {
+  getIndex(value, arr, prop){
+    for(var i = 0; i < arr.length; i++) {
+      if(arr[i][prop] === value) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
+  fetchEvents(token){
+    api('eventusers?access_token='+token)
+      .then((response)=>{
+        const events = response.data;
+        const isSignIn =  this.getIndex(this.props.eventId,events,'id') >=0
+        this.setState({
+          ...this.state,
+          isSignIn,
+          events,
+        })
+      })
+      .catch((err)=>{
+        console.warn(err)
+      })
+  }
+
+  componentDidMount(){
+    this.fetchEvents(this.props.getAuthToken);
   }
 
   render() {
     const {eventId, getAuthToken, getUserId, isLoggedIn} = this.props;
-    const isSignIn = false;
+    const {isSignIn} = this.state
 
     // console.log("getUserID",getUserId());
     console.log("GET AUTH TOKEN", isLoggedIn)
