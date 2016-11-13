@@ -11,11 +11,10 @@ export class EventSignInRaw extends Component {
 
   constructor(props) {
     super(props)
-    this.eventLogout = this.eventLogout.bind(this)
+    this.eventSignOut = this.eventSignOut.bind(this)
     this.eventSignIn = this.eventSignIn.bind(this)
     this.state = {
       isSignIn: null,
-      events: []
     }
   }
 
@@ -40,8 +39,21 @@ export class EventSignInRaw extends Component {
       })
   }
 
-  eventLogout() {
-
+  eventSignOut(eventId,userId,token) {
+    const postData = {
+      event_id: eventId,
+      user_id: userId,
+    }
+    api.post('eventusers/signOut?access_token='+token, postData)
+      .then((data)=> {
+        this.setState({
+          ...this.state,
+          isSignIn: false
+        })
+      })
+      .catch((err)=> {
+        console.warn(err)
+      })
   }
 
   getIndex(value, arr, prop){
@@ -61,7 +73,6 @@ export class EventSignInRaw extends Component {
         this.setState({
           ...this.state,
           isSignIn,
-          events,
         })
       })
       .catch((err)=>{
@@ -87,7 +98,10 @@ export class EventSignInRaw extends Component {
             <button disabled="disabled">První se musíte přihlásit</button>
             :
             isSignIn ?
-              <button onClick={this.eventLogout}>Odhlásit se z události</button>
+              <button onClick={()=>{
+                this.eventSignOut(eventId,getUserId,getAuthToken)
+              }
+              }>Odhlásit se z události</button>
               :
               <button onClick={()=> {
                 this.eventSignIn(eventId,getUserId,getAuthToken)

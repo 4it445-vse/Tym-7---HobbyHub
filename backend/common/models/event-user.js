@@ -1,61 +1,32 @@
 var moment = require('moment');
 
-module.exports = function(Eventuser) {
+module.exports = function (Eventuser) {
 
-  Eventuser.signIn = (userId, eventId, cb)=>{
-    try{
-      var newEventUser = {
-        created: moment().toDate(),
-        resolved: moment().toDate(),
-        event:eventId,
-        user:userId
+  Eventuser.signOut = (user_id, event_id, cb)=> {
+    Eventuser.findOne({where: {user_id}}, (err, eventUser)=> {
+      if(!eventUser || !eventUser.id){
+        cb("error user not found")
       }
-
-      var eventUser = Eventuser.create(newEventUser)
-        .then(()=>{
-          cb(null,"You have successfully signed in!"+ userId +eventId)
-        })
-        .catch(()=>{
-          cb("Bad data");
-        })
-    }
-    catch(e){
-      cb(e)
-    }
-  }
-
-  Eventuser.signOut = (userId, eventId, cb)=>{
-    cb(null,"signOut" + userId+", "+eventId)
+      Eventuser.destroyById(eventUser.id,(err)=>{
+        if(err === null){
+          cb(null,"error")
+        }else{
+          cb("successfully deleted")
+        }
+      })
+    });
   }
 
   Eventuser.remoteMethod(
-    'signIn',{
-      http: {
-        path: "/signIn",
-        verb: "post",
-        errorStatus: 400
-      },
-      accepts:[
-        {arg: "userId", type: "string"},
-        {arg: "eventId", type: "string"},
-      ],
-      returns: {
-        arg: 'status',
-        type: 'string'
-      }
-    }
-  )
-
-  Eventuser.remoteMethod(
-    'signOut',{
+    'signOut', {
       http: {
         path: "/signOut",
         verb: "post",
         errorStatus: 400
       },
-      accepts:[
-        {arg: "userId", type: "string"},
-        {arg: "eventId", type: "string"},
+      accepts: [
+        {arg: "user_id", type: "number"},
+        {arg: "event_id", type: "number"},
       ],
       returns: {
         arg: 'status',
