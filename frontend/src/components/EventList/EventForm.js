@@ -3,6 +3,8 @@ import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
 import moment from 'moment';
 import EVENT_STATES from './EventHelper';
 import {GoogleMap} from '../GoogleMaps/GoogleMap';
+import Modal from 'react-modal'
+import {EventImagePicker} from './Pictures/EventImagePicker'
 import {browserHistory} from 'react-router'
 
 export class EventForm extends Component {
@@ -12,7 +14,9 @@ export class EventForm extends Component {
     moment.locale('cs');
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.openModal = this.openModal.bind(this);
     this.onGoogleMapChange = this.onGoogleMapChange.bind(this);
+    this.onImageSelected = this.onImageSelected.bind(this);
 
     this.state = this.getDefaultState();
   }
@@ -28,7 +32,11 @@ export class EventForm extends Component {
         latitude: "",
         longitude: "",
         location: "",
-        description: ""
+        description: "",
+        picture:""
+      },
+      modal: {
+        isOpen: false
       }
     }
   }
@@ -61,6 +69,38 @@ export class EventForm extends Component {
     this.setState(newState)
   }
 
+  onImageSelected(src){
+    const newState = {
+      ...this.state
+    }
+    newState.modal.isOpen=false;
+    newState.event.picture=src;
+    this.setState(newState);
+  }
+
+
+  openModal(event) {
+    event.stopPropagation();
+    const newState = {
+      ...this.state
+    }
+    newState.modal.isOpen = true;
+    this.setState(newState);
+  }
+
+  createModal(){
+    return (
+      <div>
+        <Modal
+          isOpen={this.state.modal.isOpen}
+          contentLabel="Vyberte obrázek události"
+        >
+          <EventImagePicker onImageSelected={this.onImageSelected}/>
+        </Modal>
+      </div>
+    )
+  }
+
   render() {
     const {event} = this.state;
     const {actions, eventState} = this.props;
@@ -72,33 +112,33 @@ export class EventForm extends Component {
 
     return (
       <div>
+        {this.createModal()}
+
+        <div className="col-md-12">
+          <h2>{event.name}</h2>
+        </div>
+
+        <div className="col-md-3">
+          {event.picture ?
+            <img className="event-image" src={event.picture} alt="Obrázek události"/> :
+            <ImageNotFound width="100%" height="150" className="event-image"/>
+          }
+          {save ?
+            <button
+              name="choose-image"
+              onClick={this.openModal}
+              className="btn btn-default btn-lg choose-image"
+              required="required">
+              <i className="fa fa-upload" aria-hidden="true"/>
+              Vyberte obrázek události
+            </button>
+            :
+            ''
+          }
+          <div ref="googleMap" id="google-map"/>
+        </div>
+
         <form onSubmit={this.onFormSubmit}>
-          <div className="col-md-12">
-            <h2>{event.name}</h2>
-          </div>
-
-          <div className="col-md-3">
-            {event.picture !== null ?
-              <img className="event-image" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/> :
-              <ImageNotFound width="200" height="150" className="event-image"/>
-            }
-            {save ?
-              <button
-                name="choose-image"
-                onClick={(event)=> {
-                  event.preventDefault()
-                }}
-                className="btn btn-default btn-lg choose-image"
-                required="required">
-                <i className="fa fa-upload" aria-hidden="true"/>
-                Vybrat obrázek
-              </button>
-              :
-              ''
-            }
-            <div ref="googleMap" id="google-map"/>
-          </div>
-
 
           <div className="col-md-9">
 
@@ -138,7 +178,7 @@ export class EventForm extends Component {
                 defaultValue={event.tags}/>
             </div>
             <GoogleMap
-              onChange={(location,address)=>this.onGoogleMapChange(location,address)}
+              onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
