@@ -23,10 +23,10 @@ export class EventForm extends Component {
         name: "",
         date: "2016-10-29T00:00:00.000Z",
         created: moment().toDate(),
-        capacity: 0,
+        capacity: 2,
         tags: "",
-        latitude: "50.0831937",
-        longitude: "14.4331146",
+        latitude: "",
+        longitude: "",
         location: "",
         description: ""
       }
@@ -35,25 +35,29 @@ export class EventForm extends Component {
 
   onInputChange(event) {
     const eventName = event.target.name;
-    const eventValue = event.target.value;
+    const eventValue = (event.target.type === "number") ?
+        parseInt(event.target.value) :
+        event.target.value
+      ;
     const newState = {
       ...this.state
     }
-    newState.event[eventName]=eventValue;
+    newState.event[eventName] = eventValue;
     this.setState(newState);
   }
 
-  onFormSubmit(event){
+  onFormSubmit(event) {
     event.preventDefault();
     this.props.onFormSubmit(this.state.event);
   }
 
-  onGoogleMapChange(location){
+  onGoogleMapChange(location, address) {
     const newState = {
       ...this.state
     }
-    newState.latitude=location.lat(),
-    newState.longitude=location.lng(),
+    newState.event.latitude = location.lat();
+    newState.event.longitude = location.lng();
+    newState.event.location = address;
     this.setState(newState)
   }
 
@@ -62,7 +66,7 @@ export class EventForm extends Component {
     const {actions, eventState} = this.props;
     const {save, remove} = actions;
 
-    if(eventState===EVENT_STATES.SUCCESS){
+    if (eventState === EVENT_STATES.SUCCESS) {
       // browserHistory.push("/")
     }
 
@@ -79,14 +83,16 @@ export class EventForm extends Component {
               <ImageNotFound width="200" height="150" className="event-image"/>
             }
             {save ?
-                <button
-                  name="choose-image"
-                  onClick={(event)=>{event.preventDefault()}}
-                  className="btn btn-default btn-lg choose-image"
-                  required="required">
-                  <i className="fa fa-upload" aria-hidden="true"/>
-                  Vybrat obrázek
-                </button>
+              <button
+                name="choose-image"
+                onClick={(event)=> {
+                  event.preventDefault()
+                }}
+                className="btn btn-default btn-lg choose-image"
+                required="required">
+                <i className="fa fa-upload" aria-hidden="true"/>
+                Vybrat obrázek
+              </button>
               :
               ''
             }
@@ -132,7 +138,7 @@ export class EventForm extends Component {
                 defaultValue={event.tags}/>
             </div>
             <GoogleMap
-              onChange={(location)=>this.onGoogleMapChange(location)}
+              onChange={(location,address)=>this.onGoogleMapChange(location,address)}
               mapId="google-map"/>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
@@ -144,11 +150,12 @@ export class EventForm extends Component {
                 className="form-control" rows="8"
                 defaultValue={event.description}/>
             </div>
-            {save?
+            {save ?
               <div className="col-md-12">
                 <button type="submit" name="submit" className="btn btn-success btn-lg" required="required"
-                        disabled={eventState === EVENT_STATES.WAITING?'disabled':false}
-                >Uložit</button>
+                        disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
+                >Uložit
+                </button>
               </div>
               :
               ''
@@ -156,8 +163,9 @@ export class EventForm extends Component {
             {remove ?
               <div className="col-md-12">
                 <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required"
-                        disabled={eventState === EVENT_STATES.WAITING?'disabled':false}
-                >Smazat</button>
+                        disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
+                >Smazat
+                </button>
               </div>
               :
               ''
