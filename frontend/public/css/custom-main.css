@@ -97,3 +97,48 @@ only screen and (min-device-pixel-ratio: 2) {
   }
 
 }
+
+.event-image{
+    width: 100%;
+}
+.choose-image{
+    margin-top: 20px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+#google-map{
+    height: 270px;
+}
+
+.event-pictures .image-picker-wrapper{
+    margin-top: 10px;
+    height: 300px;
+}
+
+.event-pictures .image-picker-inner{
+    position: relative;
+}
+
+.event-pictures .image-picker-select-button{
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    right: 0;
+    margin: auto;
+    width: 50%;
+}
+
+.event-pictures img{
+    height: 100%;
+    width: 100%;
+    border: 5px solid transparent;
+    transition: border 0.3s;
+    -webkit-transition: border 0.3s;
+    -moz-transition: border 0.3s;
+}
+
+.event-pictures img.selected{
+    border-color: #558ace;
+}
+
