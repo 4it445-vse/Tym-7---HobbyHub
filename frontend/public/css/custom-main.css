@@ -107,6 +107,7 @@ only screen and (min-device-pixel-ratio: 2) {
 }
 
 #google-map{
+    margin-top: 20px;
     height: 270px;
 }
 
@@ -141,3 +142,6 @@ only screen and (min-device-pixel-ratio: 2) {
     border-color: #558ace;
 }
 
+.navbar-form .form-group{
+    margin-right: 10px;
+}

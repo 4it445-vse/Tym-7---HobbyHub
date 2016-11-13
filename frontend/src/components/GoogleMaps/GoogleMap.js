@@ -5,12 +5,13 @@ import React,{Component} from 'react'
 // import {createClient} from "@google/maps"
 import GoogleMapsLoader from 'google-maps';
 
-export class GoogleMap extends Component{
+GoogleMapsLoader.KEY="AIzaSyDk13sfxrUQWV4MMTEdH8-HB5It0G3LyR8"
+GoogleMapsLoader.LIBRARIES=['geometry', 'places']
+
+export class GoogleMapAutocomplete extends Component{
   constructor(props){
     super(props);
     this.pinMarker= this.pinMarker.bind(this)
-    GoogleMapsLoader.KEY="AIzaSyDk13sfxrUQWV4MMTEdH8-HB5It0G3LyR8"
-    GoogleMapsLoader.LIBRARIES=['geometry', 'places']
     this.state={
       renderedOnce:false,
       google:null,
@@ -115,6 +116,34 @@ export class GoogleMap extends Component{
           className="form-control"
         />
       </div>
+    )
+  }
+}
+
+export class GoogleMap extends Component{
+
+  loadMap(coordinates){
+    GoogleMapsLoader.load(function(google) {
+      var myLatLng = {lat:parseFloat(coordinates.latitude), lng: parseFloat(coordinates.longitude)};
+
+      const map = new google.maps.Map(document.getElementById('google-map'), {
+        zoom: 17,
+        center: myLatLng
+      });
+
+      const marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'Hello World!'
+      });
+    });
+  }
+
+  render(){
+    const {coordinates} = this.props;
+    this.loadMap(coordinates)
+    return(
+      <div id="google-map"/>
     )
   }
 }
