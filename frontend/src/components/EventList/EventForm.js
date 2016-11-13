@@ -192,7 +192,7 @@ export class EventForm extends Component {
             </div>
             {save ?
               <div className="col-md-12">
-                <button type="submit" name="submit" className="btn btn-success btn-lg" required="required"
+                <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Uložit
                 </button>

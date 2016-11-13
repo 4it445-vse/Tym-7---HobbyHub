@@ -2,7 +2,6 @@
  * Created by Honza on 13.11.2016.
  */
 import React, {Component} from 'react'
-import * as FontAwesome from 'react-icons/fa'
 
 export class EventImagePicker extends Component {
 
