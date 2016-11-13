@@ -18,11 +18,15 @@ export class EventSignInRaw extends Component {
     }
   }
 
-  eventSignIn() {
+  eventSignIn(eventId,userId,token) {
     const postData = {
-      eventId: "1"
+      event_id: eventId,
+      user_id: userId,
+      status: "created",
+      created: "2016-11-13T00:00:00.000Z",
+      resolved: "2016-11-13T00:00:00.000Z",
     }
-    api.post('eventusers/signIn', postData)
+    api.post('eventusers?access_token='+token, postData)
       .then((data)=> {
         console.log(data);
       })
@@ -33,12 +37,6 @@ export class EventSignInRaw extends Component {
 
   eventLogout() {
 
-  }
-
-  eventSignInStatus() {
-    api.post('blah', ()=> {
-
-    })
   }
 
   componentDidMount() {
@@ -61,8 +59,8 @@ export class EventSignInRaw extends Component {
             isSignIn ?
               <button onClick={this.eventLogout}>Odhlásit se z události</button>
               :
-              <button onClick={event=> {
-                this.eventSignIn(event, eventId)
+              <button onClick={()=> {
+                this.eventSignIn(eventId,getUserId,getAuthToken)
               }}>Přihlásit se na událost</button>
         }
       </div>
