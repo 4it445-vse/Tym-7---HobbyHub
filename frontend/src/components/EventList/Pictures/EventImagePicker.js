@@ -29,6 +29,26 @@ export class EventImagePicker extends Component {
         id: 2,
         src: '/' + process.env.PUBLIC_URL + 'images/event/map.jpg',
         name: 'map',
+      },
+      {
+        id: 3,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/baseball.jpg',
+        name: 'baseball',
+      },
+      {
+        id: 5,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/cycling.jpg',
+        name: 'cycling',
+      },
+      {
+        id: 6,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/football.jpg',
+        name: 'football',
+      },
+      {
+        id: 7,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/volleyball.jpg',
+        name: 'volleyball',
       }
     ]
   }

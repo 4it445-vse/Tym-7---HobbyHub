@@ -24,7 +24,10 @@ export class EventListItem extends Component {  constructor(props) {
 
       <div className="portfolio-item apps col-md-10"><Link to={"/events/"+id}>
           <div className="recent-work-wrap">
-              <img src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"></img>
+            {event.picture?
+              <img src={event.picture} alt="{name}"/>:
+              <img src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>
+            }
               <div className="overlay">
                   <div className="recent-work-inner">
                       <h3><Link to={"/events/"+id}>{name}</Link></h3>
