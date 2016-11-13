@@ -8,12 +8,21 @@ import GoogleMapsLoader from 'google-maps';
 export class GoogleMap extends Component{
   constructor(props){
     super(props);
+    this.pinMarker= this.pinMarker.bind(this)
     GoogleMapsLoader.KEY="AIzaSyDk13sfxrUQWV4MMTEdH8-HB5It0G3LyR8"
     GoogleMapsLoader.LIBRARIES=['geometry', 'places']
+    this.state={
+      renderedOnce:false,
+      google:null,
+      place:null,
+      map:null,
+      marker:null
+    }
   }
 
   loadMap(mapId) {
     const {onChange} = this.props;
+    var self= this;
 
     GoogleMapsLoader.load(function(google) {
       const map = new google.maps.Map(document.getElementById(mapId), {
@@ -31,7 +40,10 @@ export class GoogleMap extends Component{
       });
       marker.setVisible(false);
 
-      console.log(autocomplete);
+      self.setState({
+        renderedOnce:true,
+      })
+
       autocomplete.addListener('place_changed',()=>{
         const place = autocomplete.getPlace();
         if (!place.geometry) {
@@ -41,41 +53,48 @@ export class GoogleMap extends Component{
           return
         }
 
-
-        if (place.geometry.viewport) {
-          map.fitBounds(place.geometry.viewport);
-        } else {
-          map.setCenter(place.geometry.location);
-          map.setZoom(17);  // Why 17? Because it looks good.
-        }
-        marker.setIcon(/** @type {google.maps.Icon} */({
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(35, 35)
-        }));
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-
-        var address = '';
-        if (place.address_components) {
-          address = [
-            (place.address_components[0] && place.address_components[0].short_name || ''),
-            (place.address_components[1] && place.address_components[1].short_name || ''),
-            (place.address_components[2] && place.address_components[2].short_name || '')
-          ].join(' ');
-        }
+        self.setState({
+          renderedOnce:true,
+          google:google,
+          place:place,
+          map:map,
+          marker:marker,
+        })
 
         onChange(place.geometry.location)
       })
     });
   }
 
+  pinMarker(){
+    const {google,place,map,marker} = this.state;
+    if(!google||!place||!map||!marker){
+      return
+    }
+
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+  }
+
   render(){
     const {mapId} = this.props;
-    if(mapId)
-      this.loadMap(mapId);
+    const {renderedOnce} = this.state;
+    (renderedOnce===false)?
+      this.loadMap(mapId):
+      this.pinMarker();
     return(
       <div className="col-md-12">
         <label htmlFor="tags">Lokace</label>

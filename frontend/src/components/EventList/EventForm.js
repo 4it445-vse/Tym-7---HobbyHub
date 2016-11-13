@@ -12,6 +12,8 @@ export class EventForm extends Component {
     moment.locale('cs');
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onGoogleMapChange = this.onGoogleMapChange.bind(this);
+
     this.state = this.getDefaultState();
   }
 
@@ -46,8 +48,13 @@ export class EventForm extends Component {
     this.props.onFormSubmit(this.state.event);
   }
 
-  componentDidMount(){
-    console.log(this.refs)
+  onGoogleMapChange(location){
+    const newState = {
+      ...this.state
+    }
+    newState.latitude=location.lat(),
+    newState.longitude=location.lng(),
+    this.setState(newState)
   }
 
   render() {
@@ -125,7 +132,7 @@ export class EventForm extends Component {
                 defaultValue={event.tags}/>
             </div>
             <GoogleMap
-              onChange={(data)=>console.log(data)}
+              onChange={(location)=>this.onGoogleMapChange(location)}
               mapId="google-map"/>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
