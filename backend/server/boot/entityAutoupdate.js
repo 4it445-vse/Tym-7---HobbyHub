@@ -4,6 +4,28 @@ module.exports = function(app) {
   app.dataSources.mysqlds.autoupdate('AppUser', function(err) {
     const { AppUser } = app.models;
     if (!AppUser) { return; }
+    AppUser.count({}, function(err, count) {
+      if (count !== 0) { return; }
+
+      AppUser.create([
+        {
+          "email": "test@test.cz",
+          "facebook": 0,
+          "created": "2016-11-06",
+          "last_online": "2016-11-06",
+          "rating": 0,
+          "picture": "string",
+          "realm": "string",
+          "username": "test",
+          "emailVerified": true,
+          "password":"testpw"
+        }
+      ], function(err, products) {
+        if (err) throw err;
+
+        console.log('Models created: \n', products);
+      });
+    });
   });
 
   app.dataSources.mysqlds.autoupdate('Event', function(err) {

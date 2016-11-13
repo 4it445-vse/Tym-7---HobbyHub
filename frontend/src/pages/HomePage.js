@@ -25,7 +25,6 @@ export class HomePageRaw extends Component {
   componentDidMount() {
     this.fetchEvents();
   }
-
   render() {
     const {events} = this.state;
 
@@ -43,6 +42,7 @@ export class HomePageRaw extends Component {
     );
   }
 }
+
 
 export const HomePage = connect(
   () => ({}),

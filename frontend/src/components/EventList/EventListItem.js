@@ -26,7 +26,7 @@ export class EventListItem extends Component {
 
       <div className="col-md-1"></div>
 
-      <div className="portfolio-item apps col-md-10"><Link to={"/events/"+id}>
+      <div className="portfolio-item apps col-md-10"><Link to={"/events/detail/"+id}>
           <div className="recent-work-wrap">
             {event.picture?
               <img src={event.picture} alt="{name}"/>:
@@ -34,7 +34,7 @@ export class EventListItem extends Component {
             }
               <div className="overlay">
                   <div className="recent-work-inner">
-                      <h3><Link to={"/events/"+id}>{name}</Link></h3>
+                      <h3><Link to={"/events/detail/"+id}>{name}</Link></h3>
                       <p className="date">{moment(event.date).format("DD MMMM YYYY")}</p>
                   </div>
               </div>

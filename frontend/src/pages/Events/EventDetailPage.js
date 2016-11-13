@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
 import api from '../../api.js';
 import moment from 'moment';
+import {EventSignIn} from '../../components/EventList/EventSignIn'
 
 export class EventDetailPage extends Component {
 
@@ -32,10 +33,11 @@ export class EventDetailPage extends Component {
 
   render() {
     const {event} = this.state
+    console.log(event)
     return (
       <div className="container content-container">
 
-        {event == null ?
+        {event === null ?
           <h1>Načítám...</h1> :
 
           <div>
@@ -46,9 +48,8 @@ export class EventDetailPage extends Component {
 
 
             <div className="col-md-4">
-              {event.picture !== null ?
-                <img className="col-md-12" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/> :
-                //<img className="col-md-4" src={event.picture}/>:
+              {event.picture?
+                <img className="col-md-12" src={event.picture} alt="{name}"/> :
                 <ImageNotFound width="200" height="150"/>
               }
             </div>
@@ -65,14 +66,15 @@ export class EventDetailPage extends Component {
                   <label><b>Kategorie</b></label>
                   <div className="col-md-12">
                     <ul className="tag-cloud">
-                      {event.tags.split(",").map((tag)=>
-                        <li><a class="btn btn-xs btn-primary" href="#">{tag}</a></li>
+                      {event.tags.split(",").map((tag,index)=>
+                        <li key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
                       )}
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
+            <EventSignIn eventId={event.id}/>
           </div>
         }
       </div>

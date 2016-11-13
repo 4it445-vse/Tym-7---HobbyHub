@@ -19,6 +19,12 @@
     "resolved": {
       "type": "date",
       "required": true
+    },
+    "user_id": {
+      "required": true
+    },
+    "event_id": {
+      "required": true
     }
   },
   "validations": [],
@@ -26,12 +32,14 @@
     "event": {
       "type": "belongsTo",
       "model": "Event",
-      "foreignKey": "event_id"
+      "foreignKey": "event_id",
+      "required": true
     },
     "user": {
       "type": "belongsTo",
       "model": "AppUser",
-      "foreignKey": "user_id"
+      "foreignKey": "user_id",
+      "required": true
     }
   },
   "acls": [],
