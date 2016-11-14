@@ -95,15 +95,15 @@ export class EventSignInRaw extends Component {
       <div>
         {
           isLoggedIn===false ?
-            <button disabled="disabled">První se musíte přihlásit</button>
+            <button className="btn btn-default" disabled="disabled">První se musíte přihlásit</button>
             :
             isSignIn ?
-              <button onClick={()=>{
+              <button className="btn btn-warning" onClick={()=>{
                 this.eventSignOut(eventId,getUserId,getAuthToken)
               }
               }>Odhlásit se z události</button>
               :
-              <button onClick={()=> {
+              <button className="btn btn-success" onClick={()=> {
                 this.eventSignIn(eventId,getUserId,getAuthToken)
               }}>Přihlásit se na událost</button>
         }

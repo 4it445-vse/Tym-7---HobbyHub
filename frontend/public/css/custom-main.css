@@ -39,6 +39,7 @@ nav.navbar{
 }
 
 h1{
+    text-align: center;
     color:#333;
 }
 
@@ -63,8 +64,7 @@ float: right;
 }
 
 .recent-work-wrap .overlay {
-  opacity: 1;
-  background: none;
+    background-color: rgba(128, 128, 128, 0.45);
 }
 
 .navbar-logo {
@@ -141,3 +141,17 @@ only screen and (min-device-pixel-ratio: 2) {
     border-color: #558ace;
 }
 
+.recent-work-inner{
+    top: 0;
+    background: #3e5b8c;
+    opacity: .8;
+    width: 100%;
+    border-radius: 0 0 10px 10px !important;
+    margin-bottom: 0;
+    position: absolute;
+    left: 0;
+}
+
+.h1-height{
+    height: 36px;
+}

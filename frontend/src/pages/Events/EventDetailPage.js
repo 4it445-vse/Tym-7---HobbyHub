@@ -43,7 +43,7 @@ export class EventDetailPage extends Component {
           <div>
 
             <div className="col-md-12">
-              <h2>{event.name}</h2>
+              <h1>{event.name}</h1>
             </div>
 
 

@@ -115,7 +115,7 @@ export class EventForm extends Component {
         {this.createModal()}
 
         <div className="col-md-12">
-          <h2>{event.name}</h2>
+          <h1 className="h1-height">{event.name}</h1>
         </div>
 
         <div className="col-md-3">
