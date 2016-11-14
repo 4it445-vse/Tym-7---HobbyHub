@@ -102,7 +102,7 @@ a:focus {
 
 .center h2{
   font-size: 36px;
-  margin-top: 0;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -622,10 +622,10 @@ overflow: hidden;
 
 .recent-work-wrap .recent-work-inner{
   top: 0;
-  background: transparent;
+  background: #3e5b8c;
   opacity: .8;
   width: 100%;
-  border-radius: 0;
+  border-radius: 25px;
   margin-bottom: 0;
 }
 
@@ -1954,7 +1954,7 @@ ul.social_icons li  a i{
 
 .form-group .form-control {
   padding: 7px 12px;
-  border-color:#f2f2f2;
+  border-color:#3e5b8c;
   box-shadow: none;
 }
 
@@ -2257,7 +2257,7 @@ ul.sidebar-gallery {
 }
 
 .tag-cloud li a:hover{
-  background:#c52d2f;
+  background:#3e5b8c;
   color: #fff;
 }
 

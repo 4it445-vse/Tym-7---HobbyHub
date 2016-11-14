@@ -58,7 +58,7 @@ export class EventDetailPage extends Component {
           <div>
 
             <div className="col-md-12">
-              <h2>{event.name}</h2>
+              <h1>{event.name}</h1>
             </div>
 
 
@@ -73,14 +73,11 @@ export class EventDetailPage extends Component {
             </div>
 
             <div className="col-md-8">
-              <div className="col-md-8">
-                <div className="">{event.description}</div>
-              </div>
-              <div className="col-md-4">
+              <div className="col-md-12">
                 <div className="col-md-12"><b>Autor</b> Ferda</div>
                 <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
                 <div className="col-md-12"><b>Kapacita</b> 1 / 2</div>
-                <div className="col-md-4">
+                <div className="col-md-12">
                   <label><b>Kategorie</b></label>
                   <div className="col-md-12">
                     <ul className="tag-cloud">
@@ -90,9 +87,18 @@ export class EventDetailPage extends Component {
                     </ul>
                   </div>
                 </div>
+                <div className="col-md-12">
+                  <div className="">{event.description}</div>
+                </div>
               </div>
             </div>
+            <div className="col-md-12">
+            </div>
+            <div className="col-md-5">
+            </div>
+            <div className="col-md-7">
             <EventSignIn eventId={event.id}/>
+            </div>
           </div>
         }
       </div>
