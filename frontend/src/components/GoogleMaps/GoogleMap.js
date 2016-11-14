@@ -99,12 +99,15 @@ export class GoogleMapAutocomplete extends Component{
     marker.setVisible(true);
   }
 
-  render(){
+  componentDidMount(){
     const {mapId} = this.props;
     const {renderedOnce} = this.state;
     (renderedOnce===false)?
       this.loadMap(mapId):
       this.pinMarker();
+  }
+
+  render(){
     return(
       <div className="col-md-12">
         <label htmlFor="tags">Lokace</label>
