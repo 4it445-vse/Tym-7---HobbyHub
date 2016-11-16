@@ -56,20 +56,14 @@ export class EventSignInRaw extends Component {
       })
   }
 
-  getIndex(value, arr, prop){
-    for(var i = 0; i < arr.length; i++) {
-      if(arr[i][prop] === value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   fetchEvents(token){
-    api('eventusers?access_token='+token)
+  //TODO should check if sighned in after login/logout -> maybe should move to render
+    const {eventId, getUserId } = this.props;
+    api('eventusers?access_token='+token, {"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}})
       .then((response)=>{
-        const events = response.data;
-        const isSignIn =  this.getIndex(this.props.eventId,events,'id') >=0
+          console.log(response.data);
+        const eventUsers = response.data;
+        const isSignIn = eventUsers.length > 0;
         this.setState({
           ...this.state,
           isSignIn,
