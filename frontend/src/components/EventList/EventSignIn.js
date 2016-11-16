@@ -59,9 +59,8 @@ export class EventSignInRaw extends Component {
   fetchEvents(token){
   //TODO should check if sighned in after login/logout -> maybe should move to render
     const {eventId, getUserId } = this.props;
-    api('eventusers?access_token='+token, {"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}})
+    api('eventusers?access_token='+token, {"params": {"filter":{"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}}}})
       .then((response)=>{
-          console.log(response.data);
         const eventUsers = response.data;
         const isSignIn = eventUsers.length > 0;
         this.setState({
