@@ -47,13 +47,7 @@ h1{
   padding: 10px;
 }
 
-.capacity {
-  float: left;
-}
 
-.rsvp {
-float: right;
-}
 
 .recent-work-wrap {
   height: 15em;
@@ -144,12 +138,12 @@ only screen and (min-device-pixel-ratio: 2) {
     margin-right: 10px;
 }
 
-.recent-work-inner{
-    top: 0;
-    background: #3e5b8c;
-    opacity: .8;
+.recent-work-wrap .recent-work-inner{
+    bottom: 0;
+    top: auto;
+    background: rgba(26, 25, 24, 0.52);
     width: 100%;
-    border-radius: 0 0 10px 10px !important;
+    border-radius: 0 0 ;
     margin-bottom: 0;
     position: absolute;
     left: 0;
@@ -167,4 +161,12 @@ only screen and (min-device-pixel-ratio: 2) {
 }
 .recent-work-wrap {
   border-radius: 4px
+}
+
+.event-details a.btn.btn-default{
+  padding: 2px 8px;
+}
+.top-create{
+  float: right;
+  margin-top: 0.6em;
 }

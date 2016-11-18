@@ -38,7 +38,7 @@ export class HomePageRaw extends Component {
               </div>
 
               <div className="col-xs-4 col-md-4">
-                <Link className="btn btn-success btn-lg" to="/events/add">Přidat</Link>
+                <span className="top-create"><Link className="btn btn-default"  to="/events/add">Vytvořit událost</Link></span>
               </div>
             </div>
 

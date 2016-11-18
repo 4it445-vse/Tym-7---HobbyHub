@@ -20,12 +20,6 @@ export class EventListItem extends Component {
       <div className="col-xs-12 col-md-3">
 
 
-
-
-
-
-
-
       <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/"+id}>
           <div className="recent-work-wrap">
             {event.picture?
@@ -40,8 +34,12 @@ export class EventListItem extends Component {
               </div>
           </div>
             <div className="event-details">
-              <p className="capacity">{attending}/{capacity}</p>
-              <p className="rsvp">{status}</p>
+              <div className="col-xs-6 col-md-6">
+                <p>{attending}/{capacity}</p>
+              </div>
+              <div className="col-xs-6 col-md-6">
+                <p>{status}<Link className="btn btn-default" to="/events/add">Přihlásit se</Link></p>
+              </div>
             </div>
         </Link></div>
 
