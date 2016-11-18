@@ -17,16 +17,16 @@ export class EventListItem extends Component {
     const { event } = this.props;
     const { tags, date, name, capacity, picture, attending, status,id } = event;
     return (
-      <div className="col-xs-12 col-md-4">
+      <div className="col-xs-12 col-md-3">
 
 
 
 
 
 
-      <div className="col-md-1"></div>
 
-      <div className="portfolio-item apps col-md-10"><Link to={"/events/detail/"+id}>
+
+      <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/"+id}>
           <div className="recent-work-wrap">
             {event.picture?
               <img src={event.picture} alt="{name}"/>:
@@ -44,7 +44,7 @@ export class EventListItem extends Component {
               <p className="rsvp">{status}</p>
             </div>
         </Link></div>
-      <div className="col-sm-1 col-md-1"></div>
+
 
       </div>
     );

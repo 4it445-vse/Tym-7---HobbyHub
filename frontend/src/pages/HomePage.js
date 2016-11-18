@@ -31,14 +31,22 @@ export class HomePageRaw extends Component {
 
     return (
       <div className="container content-container">
-        <div className="center wow fadeInDown">
-          <h2>Události</h2>
 
+            <div className="row">
+              <div className="col-xs-8 col-md-8">
+                <h2>Události</h2>
+              </div>
+
+              <div className="col-xs-4 col-md-4">
+                <Link className="btn btn-success btn-lg" to="/events/add">Přidat</Link>
+              </div>
+            </div>
+
+        <div className="center wow fadeInDown">
           {events === null ?
             <div>Loading...</div> :
             <div>
               <EventList events={events}/>
-              <Link className="btn btn-success btn-lg" to="/events/add">Přidat</Link>
             </div>
           }
         </div>
