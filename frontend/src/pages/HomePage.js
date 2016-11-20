@@ -4,10 +4,9 @@
 import React, {Component} from 'react';
 import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
-import {connect} from 'react-redux'
 import { Link } from 'react-router'
 
-export class HomePageRaw extends Component {
+export class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,9 +45,3 @@ export class HomePageRaw extends Component {
     );
   }
 }
-
-
-export const HomePage = connect(
-  () => ({}),
-  {}
-)(HomePageRaw);

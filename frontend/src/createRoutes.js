@@ -11,6 +11,7 @@ import {ProfilePage} from "./pages/ProfilePage"
 import {EventPage} from "./pages/Events/EventPage"
 import {EventAddPage} from "./pages/Events/EventAddPage"
 import {GenericNotFoundPage} from "./pages/GenericNotFoundPage"
+import {Registration} from "./pages/Registration.js"
 
 export function createRoutes() {
   return (
@@ -18,6 +19,9 @@ export function createRoutes() {
       <IndexRoute component={HomePage}/>
       <Route path="profile">
         <IndexRoute component={ProfilePage}/>
+      </Route>
+      <Route path="registration">
+        <IndexRoute component={Registration}/>
       </Route>
       <Route path="events">
         <IndexRoute component={EventPage}/>
