@@ -17,7 +17,7 @@ export class HomePageRaw extends Component {
   }
 
   fetchEvents() {
-    api('events')
+    api('events', {"params": {"filter":{"include": "users"}}})
       .then((response) => {
         this.setState({events: response.data});
       });

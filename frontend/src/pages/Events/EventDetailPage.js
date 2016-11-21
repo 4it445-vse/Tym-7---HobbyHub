@@ -21,9 +21,7 @@ export class EventDetailPage extends Component {
   fetchEventDetailData() {
     const {eventId} = this.props.params;
     const self = this;
-    console.log('events/' + eventId)
-    console.log(<api></api>)
-    api('events/' + eventId)
+    api('events/' + eventId, {"params": {"filter":{"include": "users"}}})
       .then((response)=> {
         self.setState({
           event: response.data
@@ -47,7 +45,8 @@ export class EventDetailPage extends Component {
   }
 
   render() {
-    const {event} = this.state
+    const {event} = this.state;
+    console.log(event);
     const coordinates = this.getCoordinates();
     return (
       <div className="container content-container">
@@ -76,7 +75,7 @@ export class EventDetailPage extends Component {
               <div className="col-md-12">
                 <div className="col-md-12"><b>Autor</b> Ferda</div>
                 <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
-                <div className="col-md-12"><b>Kapacita</b> 1 / 2</div>
+                <div className="col-md-12"><b>Kapacita</b> {event.users.length} / {event.capacity}</div>
                 <div className="col-md-12">
                   <label><b>Kategorie</b></label>
                   <div className="col-md-12">
