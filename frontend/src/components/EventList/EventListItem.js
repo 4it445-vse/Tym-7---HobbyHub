@@ -17,7 +17,7 @@ export class EventListItem extends Component {
     const { event } = this.props;
     const { tags, date, name, capacity, picture, attending, status,id } = event;
     return (
-      <div className="col-xs-12 col-md-3">
+      <div className="col-xs-12 col-sm-6 col-md-3">
 
 
       <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/"+id}>
@@ -38,7 +38,7 @@ export class EventListItem extends Component {
                 <p>{attending}/{capacity}</p>
               </div>
               <div className="col-xs-6 col-md-6">
-                <p>{status}<Link className="btn btn-default" to="/events/add">Přihlásit se</Link></p>
+                <p>{status}<Link className="pull-right btn btn-default" to="/events/add">Přihlásit se</Link></p>
               </div>
             </div>
         </Link></div>

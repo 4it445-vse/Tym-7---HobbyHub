@@ -166,7 +166,3 @@ only screen and (min-device-pixel-ratio: 2) {
 .event-details a.btn.btn-default{
   padding: 2px 8px;
 }
-.top-create{
-  float: right;
-  margin-top: 0.6em;
-}

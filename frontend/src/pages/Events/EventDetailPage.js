@@ -57,7 +57,12 @@ export class EventDetailPage extends Component {
 
           <div>
 
-            <div className="col-md-12">
+            <div className="col-md-4">
+            <a className="btn btn-default" href="/">Zpět na výpis</a>
+
+            </div>
+
+            <div className="col-md-8">
               <h1>{event.name}</h1>
             </div>
 
