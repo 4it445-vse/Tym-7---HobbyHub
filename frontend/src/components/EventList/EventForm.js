@@ -5,7 +5,8 @@ import EVENT_STATES from './EventHelper';
 import {GoogleMapAutocomplete} from '../GoogleMaps/GoogleMap';
 import Modal from 'react-modal'
 import {EventImagePicker} from './Pictures/EventImagePicker'
-import {browserHistory} from 'react-router'
+import {browserHistory} from 'react-router';
+import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
 
 export class EventForm extends Component {
 
@@ -152,6 +153,14 @@ export class EventForm extends Component {
                 onChange={this.onInputChange}
                 className="form-control"
                 defaultValue={event.name}/>
+            </div>
+
+            <div className="col-md-12">
+              <label htmlFor="date">Datum</label>
+              <CustomDatePicker
+                  id="date"
+                  name="date"
+                  />
             </div>
 
             {/*<label htmlFor="date">Date</label>*/}
