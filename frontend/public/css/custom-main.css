@@ -166,3 +166,16 @@ only screen and (min-device-pixel-ratio: 2) {
 .event-details a.btn.btn-default{
   padding: 2px 8px;
 }
+.post_reply_comments{
+  padding: 15px;
+}
+
+.post_reply_comments p{
+  padding-bottom: 0px;
+}
+.message_heading{
+  margin: 0px;
+}
+#main-contact-form button.btn.btn-primary.btn-lg{
+  margin: 0px;
+}
