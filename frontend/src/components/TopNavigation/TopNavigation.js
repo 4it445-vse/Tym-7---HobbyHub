@@ -36,6 +36,12 @@ export class TopNavigationRaw extends Component {
                   </li>
                   <li className="dropdown">
                     <ul className="dropdown-menu">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
                       <li>
                         <a href="blog-item.html">Nastavení</a>
                       </li>
