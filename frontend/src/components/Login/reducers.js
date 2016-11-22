@@ -1,23 +1,35 @@
 import {
     ADD_LOGIN,
     LOGIN_ERROR,
+    LOGOUT
 } from './actions';
+import { setAuthToken } from '../../api.js';
+import api from '../../api.js';
 
 
 export const eventReducer = (state = { error: null }, action = {}) => {
     switch (action.type) {
         case ADD_LOGIN:
             const { login } = action;
+            setAuthToken(login.id);
             return {
                 ...state,
                 authData: login,
-                error: null,
+                error: null
             };
         case LOGIN_ERROR:
             const { error } = action;
             return {
                 ...state,
-                error,
+                error
+            };
+        case LOGOUT:
+            //disable auth token on backend
+            api.post('appusers/logout');
+            //remove it from header
+            setAuthToken(undefined);
+            //remove it from store
+            return {
             };
         default:
             return state;

@@ -4,8 +4,9 @@
 import React, {Component} from 'react';
 import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
-import {connect} from 'react-redux'
-import { Link } from 'react-router'
+import {connect} from 'react-redux';
+import { Link } from 'react-router';
+import { getUserId } from '../components/Login/reducers.js';
 
 export class HomePageRaw extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export class HomePageRaw extends Component {
   }
 
   fetchEvents() {
-    api('events')
+    api('events', {"params": {"filter":{"include": "users"}}})
       .then((response) => {
         this.setState({events: response.data});
       });
@@ -28,6 +29,7 @@ export class HomePageRaw extends Component {
   }
   render() {
     const {events} = this.state;
+    const {userId} = this.props;
 
     return (
       <div className="container content-container">
@@ -37,7 +39,7 @@ export class HomePageRaw extends Component {
           {events === null ?
             <div>Loading...</div> :
             <div>
-              <EventList events={events}/>
+              <EventList events={events} userId={userId}/>
               <Link className="btn btn-success btn-lg" to="/events/add">Přidat</Link>
             </div>
           }
@@ -47,8 +49,14 @@ export class HomePageRaw extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  const { login } = state;
+  return {
+    userId: getUserId(login)
+  };
+}
 
 export const HomePage = connect(
-  () => ({}),
+  mapStateToProps,
   {}
 )(HomePageRaw);

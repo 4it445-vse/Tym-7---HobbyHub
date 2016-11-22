@@ -38,7 +38,7 @@
     "events": {
       "type": "hasMany",
       "model": "EventUser",
-      "foreignKey": "event_id"
+      "foreignKey": "user_id"
     },
     "authorEvents": {
       "type": "hasMany",
