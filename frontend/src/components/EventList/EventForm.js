@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {ImageNotFound} from '../../components/NotFound/ImageNotFound'
 import moment from 'moment';
 import EVENT_STATES from './EventHelper';
-import {GoogleMap} from '../GoogleMaps/GoogleMap';
+import {GoogleMapAutocomplete} from '../GoogleMaps/GoogleMap';
 import Modal from 'react-modal'
 import {EventImagePicker} from './Pictures/EventImagePicker'
 import {browserHistory} from 'react-router'
@@ -115,7 +115,7 @@ export class EventForm extends Component {
         {this.createModal()}
 
         <div className="col-md-12">
-          <h2>{event.name}</h2>
+          <h1 className="h1-height">{event.name}</h1>
         </div>
 
         <div className="col-md-3">
@@ -177,7 +177,7 @@ export class EventForm extends Component {
                 className="form-control"
                 defaultValue={event.tags}/>
             </div>
-            <GoogleMap
+            <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
             <div className="col-md-12">
