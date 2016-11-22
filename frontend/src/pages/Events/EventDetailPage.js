@@ -10,9 +10,8 @@ import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 export class EventDetailPage extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     moment.locale('cs');
-    console.log("Costructor")
     this.state = {
       event: null
     }
@@ -44,9 +43,19 @@ export class EventDetailPage extends Component {
     }
   }
 
+  getSignedUsersCount(event) {
+    var count = 0;
+    for (var key in event.users) {
+      if (event.users[key].status === 'confirmed') {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
   render() {
     const {event} = this.state;
-    console.log(event);
     const coordinates = this.getCoordinates();
     return (
       <div className="container content-container">
@@ -75,7 +84,7 @@ export class EventDetailPage extends Component {
               <div className="col-md-12">
                 <div className="col-md-12"><b>Autor</b> Ferda</div>
                 <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
-                <div className="col-md-12"><b>Kapacita</b> {event.users.length} / {event.capacity}</div>
+                <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount(event)} / {event.capacity}</div>
                 <div className="col-md-12">
                   <label><b>Kategorie</b></label>
                   <div className="col-md-12">
@@ -96,7 +105,7 @@ export class EventDetailPage extends Component {
             <div className="col-md-5">
             </div>
             <div className="col-md-7">
-            <EventSignIn eventId={event.id}/>
+            <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
             </div>
           </div>
         }

@@ -6,23 +6,41 @@ import moment from 'moment';
 export class EventListItem extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     moment.locale('cs');
     this.state = {
       event: null
     }
   }
 
-  isSigned() {
-    //TODO add redux to get user id
-    //TODO check if user id is in event user if yes return true otherwise return false
-    return false;
+  getSignedStatus() {
+    const {userId, event} = this.props;
+    for (var key in event.users) {
+      if (event.users[key].user_id === userId && event.users[key].status === 'confirmed') {
+        return 'Přihlášen';
+      } else if (event.users[key].user_id === userId) {
+        return 'Čeká na schválení';
+      }
+    }
+
+    return '';
+  }
+
+  getSignedUsersCount(event) {
+    var count = 0;
+    for (var key in event.users) {
+      if (event.users[key].status === 'confirmed') {
+        count++;
+      }
+    }
+
+    return count;
   }
 
   render() {
     const { event } = this.props;
     const { tags, date, name, capacity, picture, id } = event;
-    const status = this.isSigned() ? 'Přihlášen' : 'Nepřihlášen';
+    const status = this.getSignedStatus();
     return (
       <div className="col-xs-12 col-md-4">
 
@@ -47,7 +65,7 @@ export class EventListItem extends Component {
               </div>
           </div>
             <div className="event-details">
-              <p className="capacity">{event.users.length}/{capacity}</p>
+              <p className="capacity">{this.getSignedUsersCount(event)}/{capacity}</p>
               <p className="rsvp">{status}</p>
             </div>
         </Link></div>

@@ -10,41 +10,40 @@ import {connect} from 'react-redux'
 export class EventSignInRaw extends Component {
 
   constructor(props) {
-    super(props)
-    this.eventSignOut = this.eventSignOut.bind(this)
-    this.eventSignIn = this.eventSignIn.bind(this)
+    super(props);
+    this.eventSignOut = this.eventSignOut.bind(this);
+    this.eventSignIn = this.eventSignIn.bind(this);
     this.state = {
       isSignIn: null,
     }
   }
 
-  eventSignIn(eventId,userId,token) {
+  eventSignIn(eventId,userId) {
     const postData = {
       event_id: eventId,
       user_id: userId,
-      status: "created",
+      status: "pending",
       created: "2016-11-13T00:00:00.000Z",
-      resolved: "2016-11-13T00:00:00.000Z",
-    }
-    api.post('eventusers?access_token='+token, postData)
+      resolved: "2016-11-13T00:00:00.000Z"
+    };
+    api.post('eventusers', postData)
       .then((data)=> {
         this.setState({
           ...this.state,
           isSignIn: true
-        })
-        console.log(data);
+        });
       })
       .catch((err)=> {
         console.warn(err)
       })
   }
 
-  eventSignOut(eventId,userId,token) {
+  eventSignOut(eventId,userId) {
     const postData = {
       event_id: eventId,
       user_id: userId,
     }
-    api.post('eventusers/signOut?access_token='+token, postData)
+    api.post('eventusers/signOut', postData)
       .then((data)=> {
         this.setState({
           ...this.state,
@@ -56,10 +55,10 @@ export class EventSignInRaw extends Component {
       })
   }
 
-  fetchEvents(token){
+  fetchEvents() {
   //TODO should check if sighned in after login/logout -> maybe should move to render
     const {eventId, getUserId } = this.props;
-    api('eventusers?access_token='+token, {"params": {"filter":{"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}}}})
+    api('eventusers', {"params": {"filter":{"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}}}})
       .then((response)=>{
         const eventUsers = response.data;
         const isSignIn = eventUsers.length > 0;
@@ -73,16 +72,13 @@ export class EventSignInRaw extends Component {
       })
   }
 
-  componentDidMount(){
-    this.fetchEvents(this.props.getAuthToken);
+  componentDidMount() {
+    this.fetchEvents();
   }
 
   render() {
-    const {eventId, getAuthToken, getUserId, isLoggedIn} = this.props;
-    const {isSignIn} = this.state
-
-    // console.log("getUserID",getUserId());
-    console.log("GET AUTH TOKEN", isLoggedIn)
+    const {eventId, getUserId, isLoggedIn, isFull} = this.props;
+    const {isSignIn} = this.state;
 
     return (
       <div>
@@ -92,12 +88,14 @@ export class EventSignInRaw extends Component {
             :
             isSignIn ?
               <button className="btn btn-warning" onClick={()=>{
-                this.eventSignOut(eventId,getUserId,getAuthToken)
+                this.eventSignOut(eventId,getUserId)
               }
               }>Odhlásit se z události</button>
-              :
+              : isFull ?
+                <button className="btn btn-default" disabled="disabled">Událost má již plnou kapacitu</button>
+                :
               <button className="btn btn-success" onClick={()=> {
-                this.eventSignIn(eventId,getUserId,getAuthToken)
+                this.eventSignIn(eventId,getUserId)
               }}>Přihlásit se na událost</button>
         }
       </div>
