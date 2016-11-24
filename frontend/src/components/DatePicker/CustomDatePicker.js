@@ -21,6 +21,7 @@ export class CustomDatePicker extends Component {
     render() {
         const {id, name} = this.props;
         return <DatePicker
+        todayButton={"Dnes"}
             id={id}
             name={name}
             selected={this.state.startDate}

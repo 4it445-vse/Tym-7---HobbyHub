@@ -28,7 +28,7 @@ export class EventForm extends Component {
         name: "",
         date: "2016-10-29T00:00:00.000Z",
         created: moment().toDate(),
-        capacity: 2,
+        capacity: "",
         tags: "",
         latitude: "",
         longitude: "",
@@ -154,17 +154,14 @@ export class EventForm extends Component {
                 className="form-control"
                 defaultValue={event.name}/>
             </div>
-
-            <div className="col-md-12">
+            <div className="col-md-6">
               <label htmlFor="date">Datum</label>
               <CustomDatePicker
                   id="date"
                   name="date"
                   />
             </div>
-
-            {/*<label htmlFor="date">Date</label>*/}
-            <div className="col-md-12">
+            <div className="col-md-6">
               <label htmlFor="capacity">Kapacita</label>
               <input
                 required="required"
@@ -175,20 +172,20 @@ export class EventForm extends Component {
                 className="form-control"
                 defaultValue={event.capacity}/>
             </div>
-            <div className="col-md-12">
-              <label htmlFor="tags">Kategorie</label>
-              <input
-                required="required"
-                id="tags"
-                name="tags"
-                onChange={this.onInputChange}
-                type="text"
-                className="form-control"
-                defaultValue={event.tags}/>
-            </div>
             <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
+              <div className="col-md-12">
+                <label htmlFor="tags">Kategorie</label>
+                <input
+                  required="required"
+                  id="tags"
+                  name="tags"
+                  onChange={this.onInputChange}
+                  type="text"
+                  className="form-control"
+                  defaultValue={event.tags}/>
+              </div>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
               <textarea
