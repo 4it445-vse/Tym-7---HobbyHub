@@ -21,10 +21,12 @@ export class CustomDatePicker extends Component {
     render() {
         const {id, name} = this.props;
         return <DatePicker
-        todayButton={"Dnes"}
+            todayButton={"Dnes"}
             id={id}
             name={name}
             selected={this.state.startDate}
-            onChange={this.handleChange} />;
+            onChange={this.handleChange}
+            dateFormat="YYYY/MM/DD"
+            />;
     }
 }

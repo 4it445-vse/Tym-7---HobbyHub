@@ -55,9 +55,13 @@ export class EventForm extends Component {
     this.setState(newState);
   }
 
-  onFormSubmit(event) {
-    event.preventDefault();
-    this.props.onFormSubmit(this.state.event);
+  onFormSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { event } = this.state;
+    const dt = new Date();
+    event.date = moment(formData.get('date')).toDate();
+    this.props.onFormSubmit(event);
   }
 
   onGoogleMapChange(location, address) {
