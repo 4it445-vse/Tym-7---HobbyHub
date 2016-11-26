@@ -6,12 +6,12 @@ import { Link } from 'react-router'
 import {connect} from 'react-redux'
 import {Login} from '../Login/Login.js';
 
-import { addLogin } from '../Login/actions.js';
+import { addLogin, logout } from '../Login/actions.js';
 import { isLoggedIn } from '../Login/reducers.js';
 
 export class TopNavigationRaw extends Component {
   render() {
-    const { isLoggedIn } = this.props;
+    const { isLoggedIn, logout } = this.props;
     return (
       <header id="header">
         <nav className="navbar navbar-inverse" role="banner">
@@ -49,7 +49,7 @@ export class TopNavigationRaw extends Component {
                         <a href="blog-item.html">Nastavení</a>
                       </li>
                       <li>
-                        <a href="pricing.html">Odhlásit se</a>
+                        <a onClick={logout} href="#">Odhlásit se</a>
                       </li>
                     </ul>
                   </li>
@@ -73,6 +73,7 @@ function mapStateToProps(state) {
 export const TopNavigation = connect(
     mapStateToProps,
     {
-      addLogin
+      addLogin,
+      logout
     }
 )(TopNavigationRaw);
