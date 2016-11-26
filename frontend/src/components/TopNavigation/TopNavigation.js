@@ -32,7 +32,7 @@ export class TopNavigationRaw extends Component {
                   <li>
                   </li>
                   <li>
-                    <a href="portfolio.html">Profil</a>
+                    <Link to="/profile">Profil</Link>
                   </li>
                   <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
