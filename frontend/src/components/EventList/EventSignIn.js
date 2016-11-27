@@ -13,8 +13,10 @@ export class EventSignInRaw extends Component {
     super(props);
     this.eventSignOut = this.eventSignOut.bind(this);
     this.eventSignIn = this.eventSignIn.bind(this);
+    const { getUserId } = this.props;
     this.state = {
       isSignIn: null,
+      userId: getUserId
     }
   }
 
@@ -56,7 +58,6 @@ export class EventSignInRaw extends Component {
   }
 
   fetchEvents() {
-  //TODO should check if sighned in after login/logout -> maybe should move to render
     const {eventId, getUserId } = this.props;
     api('eventusers', {"params": {"filter":{"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}}}})
       .then((response)=>{
@@ -65,6 +66,7 @@ export class EventSignInRaw extends Component {
         this.setState({
           ...this.state,
           isSignIn,
+          userId: getUserId
         })
       })
       .catch((err)=>{
@@ -79,6 +81,9 @@ export class EventSignInRaw extends Component {
   render() {
     const {eventId, getUserId, isLoggedIn, isFull} = this.props;
     const {isSignIn} = this.state;
+    if (this.state.userId !== getUserId) {
+      this.fetchEvents();
+    }
 
     return (
       <div>
