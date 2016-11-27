@@ -8,8 +8,6 @@ import {EventImagePicker} from './Pictures/EventImagePicker'
 import {browserHistory} from 'react-router'
 import Select2 from 'react-select';
 import 'react-select/dist/react-select.css';
-import {fetchMappedTags} from '../Tags/TagHelper';
-
 import api from '../../api.js';
 
 export class EventForm extends Component {
@@ -27,13 +25,11 @@ export class EventForm extends Component {
   }
 
   handleSelectTagChange(value) {
-    console.log(value);
     const newState = {
       ...this.state
     }
     newState.event.tags=value;
     this.setState(newState);
-    console.log('newState', this.state);
 	}
 
   getDefaultState() {
@@ -52,8 +48,28 @@ export class EventForm extends Component {
       },
       modal: {
         isOpen: false
-      }
+      },
+      tag_options: []
     }
+  }
+
+  fetchTags() {
+    api('tags')
+      .then((response) => {
+        return response.data.map(function(tag) {
+          return {value: tag.name, label: tag.name};
+        })
+    }).then((tagArray) => {
+      const newState = {
+        ...this.state
+      }
+      newState.tag_options=tagArray;
+      this.setState(newState);
+    });
+  }
+
+  componentDidMount() {
+    this.fetchTags();
   }
 
   onInputChange(event) {
@@ -121,30 +137,6 @@ export class EventForm extends Component {
     const {actions, eventState} = this.props;
     const {save, remove} = actions;
 
-    const loadTagOptions = (input) => {
-      return api('tags')
-        .then((response) => {
-          return response.data.map(function(tag) {
-            return {value: tag.id, label: tag.name};
-          })
-      }).then((tagArray) => {
-/*
-        const newState = {
-          ...this.state
-        }
-        newState.tag_options=tagArray;
-        this.setState(newState);
-        console.log('state', this.state);
-        */
-
-        console.log('tagArray', tagArray);
-
-        return { options: tagArray };
-      });
-    }
-
-    /*const Select2 = require('react-select');*/
-
     if (eventState === EVENT_STATES.SUCCESS) {
       // browserHistory.push("/")
     }
@@ -207,18 +199,17 @@ export class EventForm extends Component {
             </div>
             <div className="col-md-12">
               <label htmlFor="tags">Kategorie</label>
-              <Select2.Async
+              <Select2
                 multi
                 simpleValue
                 placeholder="Vyberte kategorie"
                 id="tags"
                 name="tags"
                 value={this.state.event.tags}
-              /*  options={this.state.tag_options}*/
+                options={this.state.tag_options}
                 joinValues
                 onChange={this.handleSelectTagChange}
-                loadOptions={loadTagOptions}
-              ></Select2.Async>
+              ></Select2>
             </div>
             <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
