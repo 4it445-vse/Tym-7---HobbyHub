@@ -23,7 +23,6 @@ export class EventForm extends Component {
     this.onImageSelected = this.onImageSelected.bind(this);
 
     this.state = this.getDefaultState();
-    this.fetchTags();
   }
 
   handleSelectTagChange(value) {
