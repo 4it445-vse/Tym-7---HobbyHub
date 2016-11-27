@@ -17,11 +17,16 @@ export class TopNavigationRaw extends Component {
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">
+            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            </button>
               <Link className="navbar-brand" to="/">
                 <span className="navbar-logo">HobbyHub</span>
               </Link>
             </div>
-
             <div className="collapse navbar-collapse navbar-right">
               {!isLoggedIn && <Login/>}
               {isLoggedIn && <Link className="navbar-brand" to="/">
@@ -35,13 +40,8 @@ export class TopNavigationRaw extends Component {
                     <a href="portfolio.html">Profil</a>
                   </li>
                   <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <i className="fa fa-angle-down"></i></a>
                     <ul className="dropdown-menu">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-<span class="sr-only">Toggle navigation</span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-</button>
                       <li>
                         <a href="blog-item.html">Nastavení</a>
                       </li>
