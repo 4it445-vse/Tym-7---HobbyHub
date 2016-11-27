@@ -47,5 +47,9 @@
   "Tag": {
     "dataSource": "mysqlds",
     "public": true
+  },
+  "EventComment": {
+    "dataSource": "mysqlds",
+    "public": true
   }
 }

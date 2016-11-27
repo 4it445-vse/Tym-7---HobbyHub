@@ -1,0 +1,42 @@
+{
+  "name": "EventComment",
+  "plural": "eventcomments",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "text": {
+      "type": "string",
+      "length": 750
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "user_id": {
+      "required": true
+    },
+    "event_id": {
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "event": {
+      "type": "belongsTo",
+      "model": "Event",
+      "foreignKey": "event_id",
+      "required": true
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "AppUser",
+      "foreignKey": "user_id",
+      "required": true
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
