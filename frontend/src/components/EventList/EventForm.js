@@ -8,7 +8,9 @@ import {EventImagePicker} from './Pictures/EventImagePicker'
 import {browserHistory} from 'react-router'
 import Select2 from 'react-select';
 import 'react-select/dist/react-select.css';
-import TagHelper from '../Tags/TagHelper';
+import {fetchMappedTags} from '../Tags/TagHelper';
+
+import api from '../../api.js';
 
 export class EventForm extends Component {
 
@@ -21,16 +23,17 @@ export class EventForm extends Component {
     this.openModal = this.openModal.bind(this);
     this.onGoogleMapChange = this.onGoogleMapChange.bind(this);
     this.onImageSelected = this.onImageSelected.bind(this);
-
     this.state = this.getDefaultState();
   }
 
   handleSelectTagChange(value) {
+    console.log(value);
     const newState = {
       ...this.state
     }
     newState.event.tags=value;
     this.setState(newState);
+    console.log('newState', this.state);
 	}
 
   getDefaultState() {
@@ -49,8 +52,7 @@ export class EventForm extends Component {
       },
       modal: {
         isOpen: false
-      },
-      tag_options: TagHelper.fetchMappedTags()
+      }
     }
   }
 
@@ -119,6 +121,28 @@ export class EventForm extends Component {
     const {actions, eventState} = this.props;
     const {save, remove} = actions;
 
+    const loadTagOptions = (input) => {
+      return api('tags')
+        .then((response) => {
+          return response.data.map(function(tag) {
+            return {value: tag.id, label: tag.name};
+          })
+      }).then((tagArray) => {
+/*
+        const newState = {
+          ...this.state
+        }
+        newState.tag_options=tagArray;
+        this.setState(newState);
+        console.log('state', this.state);
+        */
+
+        console.log('tagArray', tagArray);
+
+        return { options: tagArray };
+      });
+    }
+
     /*const Select2 = require('react-select');*/
 
     if (eventState === EVENT_STATES.SUCCESS) {
@@ -183,16 +207,18 @@ export class EventForm extends Component {
             </div>
             <div className="col-md-12">
               <label htmlFor="tags">Kategorie</label>
-              <Select2
+              <Select2.Async
                 multi
                 simpleValue
                 placeholder="Vyberte kategorie"
                 id="tags"
                 name="tags"
                 value={this.state.event.tags}
-                options={this.state.tag_options}
+              /*  options={this.state.tag_options}*/
+                joinValues
                 onChange={this.handleSelectTagChange}
-              ></Select2>
+                loadOptions={loadTagOptions}
+              ></Select2.Async>
             </div>
             <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}

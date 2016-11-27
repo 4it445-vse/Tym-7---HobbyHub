@@ -1,27 +1,30 @@
 import api from '../../api.js';
 
-export class TagHelper {
-  constructor() {
-      this.fetchMappedTags = this.fetchMappedTags.bind(this);
-  }
+export function fetchMappedTags() {
+  console.log('log1');
+  api('tags')
+    .then((response) => {
+      console.log('log2', response.data);
+      var mappedTags = mapTags(response.data);
+      console.log('mappedTags', mappedTags);
+      return mappedTags;
 
-  fetchMappedTags() {
-    var tags = this.fetchTags();
-    return [];
-    tags.map(function(tag) {
-      console.log(tag);
-    })
-  }
-
-  fetchTags() {
-    api('tags')
-      .then((response) => {
-        return response.data;
-        /*
-        this.setState({tag_options: response.data});
-        */
-      });
-  }
+    });
 }
 
-export default TagHelper;
+function mapTags(tags) {
+  return tags.map(function(tag) {
+    return {value:1, label:"one"};
+    console.log(tag);
+  })
+}
+
+/*
+
+api('tags')
+  .then((response) => {
+    return response.data.map(function(tag) {
+      return {value:1, label:"one"};
+    })
+  })
+*/
