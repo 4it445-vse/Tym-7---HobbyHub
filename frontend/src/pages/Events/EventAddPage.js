@@ -6,6 +6,7 @@ import {EventForm} from '../../components/EventList/EventForm'
 import {connect} from 'react-redux'
 import api from '../../api'
 import EVENT_STATE from '../../components/EventList/EventHelper'
+import {getUserId} from '../../components/Login/reducers.js';
 
 export class EventAddPageRaw extends Component {
 
@@ -20,12 +21,14 @@ export class EventAddPageRaw extends Component {
 
   onFormSubmit(event) {
     const newState = {...this.state};
+    const userId = this.props.getUserId
     newState.eventState = EVENT_STATE.WAITING;
     this.setState(newState)
-    api.post('events', event)
+    api.post('appusers/'+userId+'/authorEvents', event)
       .then(response => {
-        newState.eventState = EVENT_STATE.SUCCESS;
-        this.setState(newState)
+        console.log("onFormSubmit1",response)
+          newState.eventState = EVENT_STATE.SUCCESS;
+          this.setState(newState)
       })
       .catch(error=> {
         const { response } = error;
@@ -53,11 +56,11 @@ export class EventAddPageRaw extends Component {
 }
 
 
-const mapStateToProps = state => {
-  const {newEventState} = state.events;
+function mapStateToProps(state) {
+  const {login} = state;
   return {
-    newEventState
-  }
+    getUserId: getUserId(login),
+  };
 }
 
 export const EventAddPage = connect(

@@ -6,8 +6,10 @@ import api from '../../api.js';
 import moment from 'moment';
 import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
+import {getUserId} from '../../components/Login/reducers.js';
+import {connect} from 'react-redux'
 
-export class EventDetailPage extends Component {
+export class EventDetailPageRaw extends Component {
 
   constructor(props) {
     super(props);
@@ -20,7 +22,7 @@ export class EventDetailPage extends Component {
   fetchEventDetailData() {
     const {eventId} = this.props.params;
     const self = this;
-    api('events/' + eventId, {"params": {"filter":{"include": "users"}}})
+    api('events/' + eventId, {"params": {"filter":{"include": ["users","user"]}}})
       .then((response)=> {
         self.setState({
           event: response.data
@@ -44,14 +46,13 @@ export class EventDetailPage extends Component {
   }
 
   getSignedUsersCount(event) {
-    var count = 0;
-    for (var key in event.users) {
-      if (event.users[key].status === 'confirmed') {
-        count++;
-      }
-    }
+    return event.users.reduce((prev,current)=>{
+      if(current.status==='confirmed') return prev + 1
+    },0);
+  }
 
-    return count;
+  isEventCreatedByMe(event){
+    return (event && event.user && (event.user.id===this.props.getUserId))
   }
 
   render() {
@@ -105,7 +106,13 @@ export class EventDetailPage extends Component {
             <div className="col-md-5">
             </div>
             <div className="col-md-7">
-            <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
+              {
+                this.isEventCreatedByMe(event)
+                  ?
+                 <div>Je to můj </div>
+                :
+                <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
+              }
             </div>
           </div>
         }
@@ -113,3 +120,16 @@ export class EventDetailPage extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const {login} = state;
+  return {
+    getUserId: getUserId(login),
+  };
+}
+
+export const EventDetailPage = connect(
+  mapStateToProps,
+  {}
+)(EventDetailPageRaw);
+
