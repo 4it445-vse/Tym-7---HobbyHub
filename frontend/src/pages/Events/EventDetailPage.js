@@ -10,12 +10,12 @@ import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 export class EventDetailPage extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     moment.locale('cs');
     console.log("Costructor")
     this.state = {
       event: null
-    }
+    };
   }
 
   fetchEventDetailData() {
@@ -34,7 +34,7 @@ export class EventDetailPage extends Component {
   }
 
   componentDidMount() {
-    this.fetchEventDetailData()
+    this.fetchEventDetailData();
   }
 
   getCoordinates() {
@@ -47,7 +47,7 @@ export class EventDetailPage extends Component {
   }
 
   render() {
-    const {event} = this.state
+    const {event} = this.state;
     const coordinates = this.getCoordinates();
     return (
       <div className="container content-container">

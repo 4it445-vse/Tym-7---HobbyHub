@@ -59,8 +59,8 @@ export class EventForm extends Component {
     e.preventDefault();
     const formData = new FormData(e.target);
     const { event } = this.state;
-    const dt = new Date();
-    event.date = moment(formData.get('date')).toDate();
+    const dt = new Date(formData.get('date'));
+    event.date = moment(dt).toDate();
     this.props.onFormSubmit(event);
   }
 
@@ -110,10 +110,6 @@ export class EventForm extends Component {
     const {event} = this.state;
     const {actions, eventState} = this.props;
     const {save, remove} = actions;
-
-    if (eventState === EVENT_STATES.SUCCESS) {
-      // browserHistory.push("/")
-    }
 
     return (
       <div>
