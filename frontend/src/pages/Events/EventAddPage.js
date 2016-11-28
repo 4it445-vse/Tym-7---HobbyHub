@@ -54,11 +54,9 @@ export class EventAddPageRaw extends Component {
 
 
 const mapStateToProps = state => {
-  const {newEventState} = state.events;
   return {
-    newEventState
   }
-}
+};
 
 export const EventAddPage = connect(
   mapStateToProps,
