@@ -19,6 +19,9 @@ export function createRoutes() {
       <IndexRoute component={HomePage}/>
       <Route path="profile">
         <IndexRoute component={ProfilePage}/>
+        <Route path=":profileId">
+          <IndexRoute component={ProfilePage}/>
+        </Route>
       </Route>
       <Route path="registration">
         <IndexRoute component={Registration}/>

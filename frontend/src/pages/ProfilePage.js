@@ -6,6 +6,8 @@ import api from '../api.js';
 import {connect} from 'react-redux';
 import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
 import lodash from 'lodash';
+import { UserForm } from '../components/User/UserForm.js';
+import { UserProfile } from '../components/User/UserProfile.js';
 
 export class ProfilePageRaw extends Component {
   constructor(props) {
@@ -59,6 +61,7 @@ export class ProfilePageRaw extends Component {
   }
 
   componentDidMount() {
+    const { profileId } = this.props.params;
     const { loggedIn, userId } = this.props;
     if (loggedIn) {
       this.fetchUser(userId);
@@ -75,7 +78,25 @@ export class ProfilePageRaw extends Component {
 
   render() {
     const { username, email } = this.state.userData;
-    const { loggedIn } = this.props;
+    const { loggedIn, userId } = this.props;
+    const { profileId } = this.props.params;
+    //only logged in user can see its or others profile
+    if (!loggedIn) {
+      return (
+          <div className="container content-container">
+            <div>
+              <div className="col-md-2">
+                <a className="btn btn-default" href="/">Zpět na výpis</a>
+              </div>
+
+              <div className="col-md-10">
+                <h1 className="pull-left">Pro zobrazení profilu se musíte nejprve přihlásit</h1>
+              </div>
+            </div>
+          </div>
+      );
+    }
+
     return (
       <div className="container content-container">
         <div>
@@ -95,18 +116,10 @@ export class ProfilePageRaw extends Component {
 
           <div className="col-md-8">
             <div className="col-md-12">
-              <form onSubmit={this.handleSubmit}>
-              <div className="col-md-12"><b>Přezdívka</b><input name="username" type="text" className="form-control" placeholder={username}></input></div>
-              <div className="col-md-6"><b>E-mail</b><input name="email" type="text" className="form-control" placeholder={email}></input></div>
-              <div className="col-md-6"><b>E-mail znovu</b><input name="email_confirm" type="text" className="form-control" placeholder={email}></input></div>
-              <div className="col-md-6"><b>Heslo</b><input name="password" type="password" className="form-control" placeholder="*****"></input></div>
-              <div className="col-md-6"><b>Heslo znovu</b><input name="password_confirm" type="password" className="form-control" placeholder="*****"></input></div>
-
-              <div className="col-md-12">
-                  <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat profil</button>
-                  <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required">Uložit</button>
-              </div>
-            </form>
+              {userId == profileId ?
+                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email}></UserForm> :
+                  <UserProfile username={username} email={email}></UserProfile>
+              }
             </div>
           </div>
         </div>
