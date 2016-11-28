@@ -7,6 +7,7 @@ import {AppPage} from "./pages/AppPage"
 import {HomePage} from "./pages/HomePage"
 import {EventDetailPage} from "./pages/Events/EventDetailPage"
 import {EventEditPage} from "./pages/Events/EventEditPage"
+import {UserPage} from "./pages/UserPage"
 import {ProfilePage} from "./pages/ProfilePage"
 import {EventPage} from "./pages/Events/EventPage"
 import {EventAddPage} from "./pages/Events/EventAddPage"
@@ -18,7 +19,7 @@ export function createRoutes() {
     <Route path="/" component={AppPage}>
       <IndexRoute component={HomePage}/>
       <Route path="profile">
-        <IndexRoute component={ProfilePage}/>
+        <IndexRoute component={UserPage}/>
         <Route path=":profileId">
           <IndexRoute component={ProfilePage}/>
         </Route>
