@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import api from '../../api.js';
 import moment from 'moment';
 import {EventSignIn} from '../../components/EventList/EventSignIn'
+import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 
 export class EventDetailPage extends Component {
@@ -76,7 +77,7 @@ export class EventDetailPage extends Component {
                 ''
               }
               <div className="col-md-12">
-                {/*<GoogleMap coordinates={coordinates}/>*/}
+                {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
               </div>
             </div>
 
@@ -105,6 +106,7 @@ export class EventDetailPage extends Component {
             <div className="col-md-5">
             </div>
             <div className="col-md-7">
+            {/*<EventAddComment eventId={event.id}/>*/}
             <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
             </div>
           </div>
