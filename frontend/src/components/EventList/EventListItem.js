@@ -42,16 +42,10 @@ export class EventListItem extends Component {
     const { tags, date, name, capacity, picture, id } = event;
     const status = this.getSignedStatus();
     return (
-      <div className="col-xs-12 col-md-4">
+      <div className="col-xs-12 col-sm-6 col-md-3">
 
 
-
-
-
-
-      <div className="col-md-1"></div>
-
-      <div className="portfolio-item apps col-md-10"><Link to={"/events/detail/"+id}>
+      <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/"+id}>
           <div className="recent-work-wrap">
             {event.picture?
               <img src={event.picture} alt="{name}"/>:
@@ -65,11 +59,15 @@ export class EventListItem extends Component {
               </div>
           </div>
             <div className="event-details">
-              <p className="capacity">{this.getSignedUsersCount(event)}/{capacity}</p>
-              <p className="rsvp">{status}</p>
+              <div className="col-xs-6 col-md-6">
+                <p>{this.getSignedUsersCount(event)}/{capacity}</p>
+              </div>
+              <div className="col-xs-6 col-md-6">
+                <p>{status}<Link className="pull-right btn btn-default" to="/events/add">Přihlásit se</Link></p>
+              </div>
             </div>
         </Link></div>
-      <div className="col-sm-1 col-md-1"></div>
+
 
       </div>
     );
