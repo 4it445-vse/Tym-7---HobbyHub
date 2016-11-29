@@ -131,7 +131,7 @@ export class EventDetailPage extends Component {
                     <div className="media-body post_reply_comments">
                         <h3>Marsh</h3>
                         <h4>{moment(event.date).format("DD MMMM YYYY")}</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
+                        <p>Lorem ipsum dolor sit amet, adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
                     </div>
                 </div>
 
