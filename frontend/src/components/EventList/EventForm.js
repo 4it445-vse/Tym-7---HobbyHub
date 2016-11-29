@@ -6,6 +6,9 @@ import {GoogleMapAutocomplete} from '../GoogleMaps/GoogleMap';
 import Modal from 'react-modal'
 import {EventImagePicker} from './Pictures/EventImagePicker'
 import {browserHistory} from 'react-router'
+import Select2 from 'react-select';
+import 'react-select/dist/react-select.css';
+import api from '../../api.js';
 
 export class EventForm extends Component {
 
@@ -13,13 +16,21 @@ export class EventForm extends Component {
     super(props)
     moment.locale('cs');
     this.onInputChange = this.onInputChange.bind(this);
+    this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.openModal = this.openModal.bind(this);
     this.onGoogleMapChange = this.onGoogleMapChange.bind(this);
     this.onImageSelected = this.onImageSelected.bind(this);
-
     this.state = this.getDefaultState();
   }
+
+  handleSelectTagChange(value) {
+    const newState = {
+      ...this.state
+    }
+    newState.event.tags=value;
+    this.setState(newState);
+	}
 
   getDefaultState() {
     return {
@@ -37,8 +48,28 @@ export class EventForm extends Component {
       },
       modal: {
         isOpen: false
-      }
+      },
+      tag_options: []
     }
+  }
+
+  fetchTags() {
+    api('tags')
+      .then((response) => {
+        return response.data.map(function(tag) {
+          return {value: tag.name, label: tag.name};
+        })
+    }).then((tagArray) => {
+      const newState = {
+        ...this.state
+      }
+      newState.tag_options=tagArray;
+      this.setState(newState);
+    });
+  }
+
+  componentDidMount() {
+    this.fetchTags();
   }
 
   onInputChange(event) {
@@ -171,14 +202,17 @@ export class EventForm extends Component {
             </div>
             <div className="col-md-12">
               <label htmlFor="tags">Kategorie</label>
-              <input
-                required="required"
+              <Select2
+                multi
+                simpleValue
+                placeholder="Vyberte kategorie"
                 id="tags"
                 name="tags"
-                onChange={this.onInputChange}
-                type="text"
-                className="form-control"
-                defaultValue={event.tags}/>
+                value={this.state.event.tags}
+                options={this.state.tag_options}
+                joinValues
+                onChange={this.handleSelectTagChange}
+              ></Select2>
             </div>
             <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}

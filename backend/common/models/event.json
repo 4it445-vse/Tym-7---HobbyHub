@@ -51,7 +51,7 @@
     "users": {
       "type": "hasMany",
       "model": "EventUser",
-      "foreignKey": "user_id"
+      "foreignKey": "event_id"
     },
     "user": {
       "type": "belongsTo",
