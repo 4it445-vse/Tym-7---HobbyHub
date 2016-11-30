@@ -1,5 +1,8 @@
 import throttle from 'lodash/throttle';
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+
+import eventRootSaga from '../components/EventList/sagas'
 
 import { rootReducer } from '../reducers'
 
@@ -14,10 +17,14 @@ function stateThatShouldBeSaved(state) {
 }
 
 export function configureStore(preloadedState, saveState) {
+    const sagaMiddleware = createSagaMiddleware()
     const store = createStore(
         rootReducer,
-        preloadedState
+        preloadedState,
+        applyMiddleware(sagaMiddleware)
     );
+
+    sagaMiddleware.run(eventRootSaga);
 
     if (saveState) {
         store.subscribe(throttle(() => {

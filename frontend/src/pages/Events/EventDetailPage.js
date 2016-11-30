@@ -107,7 +107,7 @@ export class EventDetailPageRaw extends Component {
             </div>
             <div className="col-md-7">
               {
-                this.isEventCreatedByMe(event)
+                !this.isEventCreatedByMe(event)
                   ?
                  <div>Je to můj </div>
                 :

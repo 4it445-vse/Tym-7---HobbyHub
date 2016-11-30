@@ -5,6 +5,7 @@ import React, {Component} from 'react'
 import api from '../../api'
 import {getUserId, getAuthToken, isLoggedIn} from '../Login/reducers.js';
 import {connect} from 'react-redux'
+import {eventSignIn} from './actions';
 
 
 export class EventSignInRaw extends Component {
@@ -12,35 +13,15 @@ export class EventSignInRaw extends Component {
   constructor(props) {
     super(props);
     this.eventSignOut = this.eventSignOut.bind(this);
-    this.eventSignIn = this.eventSignIn.bind(this);
-    const { getUserId } = this.props;
+    const {getUserId} = this.props;
     this.state = {
       isSignIn: null,
-      userId: getUserId
+      userId: getUserId,
+      event: null,
     }
   }
 
-  eventSignIn(eventId,userId) {
-    const postData = {
-      event_id: eventId,
-      user_id: userId,
-      status: "pending",
-      created: "2016-11-13T00:00:00.000Z",
-      resolved: "2016-11-13T00:00:00.000Z"
-    };
-    api.post('eventusers', postData)
-      .then((data)=> {
-        this.setState({
-          ...this.state,
-          isSignIn: true
-        });
-      })
-      .catch((err)=> {
-        console.warn(err)
-      })
-  }
-
-  eventSignOut(eventId,userId) {
+  eventSignOut(eventId, userId) {
     const postData = {
       event_id: eventId,
       user_id: userId,
@@ -49,7 +30,7 @@ export class EventSignInRaw extends Component {
       .then((data)=> {
         this.setState({
           ...this.state,
-          isSignIn: false
+          event:null
         })
       })
       .catch((err)=> {
@@ -58,9 +39,9 @@ export class EventSignInRaw extends Component {
   }
 
   fetchEvents() {
-    const {eventId, getUserId } = this.props;
-    api('eventusers', {"params": {"filter":{"where":{"and": [{"user_id":getUserId},{"event_id": eventId} ]}}}})
-      .then((response)=>{
+    const {eventId, getUserId} = this.props;
+    api('eventusers', {"params": {"filter": {"where": {"and": [{"user_id": getUserId}, {"event_id": eventId}]}}}})
+      .then((response)=> {
         const eventUsers = response.data;
         const isSignIn = eventUsers.length > 0;
         this.setState({
@@ -69,7 +50,7 @@ export class EventSignInRaw extends Component {
           userId: getUserId
         })
       })
-      .catch((err)=>{
+      .catch((err)=> {
         console.warn(err)
       })
   }
@@ -81,6 +62,7 @@ export class EventSignInRaw extends Component {
   render() {
     const {eventId, getUserId, isLoggedIn, isFull} = this.props;
     const {isSignIn} = this.state;
+    const isWaiting = false;
     if (this.state.userId !== getUserId) {
       this.fetchEvents();
     }
@@ -88,19 +70,20 @@ export class EventSignInRaw extends Component {
     return (
       <div>
         {
-          isLoggedIn===false ?
+          isLoggedIn === false ?
             <button className="btn btn-default" disabled="disabled">První se musíte přihlásit</button>
             :
             isSignIn ?
               <button className="btn btn-warning" onClick={()=>{
                 this.eventSignOut(eventId,getUserId)
-              }
-              }>Odhlásit se z události</button>
+              }}>Odhlásit se z události</button>
               : isFull ?
-                <button className="btn btn-default" disabled="disabled">Událost má již plnou kapacitu</button>
-                :
+              <button className="btn btn-default" disabled="disabled">Událost má již plnou kapacitu</button>
+              : isWaiting ?
+              <div>I am waiting</div>
+              :
               <button className="btn btn-success" onClick={()=> {
-                this.eventSignIn(eventId,getUserId)
+                this.props.eventSignIn(eventId,getUserId)
               }}>Přihlásit se na událost</button>
         }
       </div>
@@ -120,5 +103,7 @@ function mapStateToProps(state) {
 
 export const EventSignIn = connect(
   mapStateToProps,
-  {}
+  {
+    eventSignIn
+  }
 )(EventSignInRaw);
