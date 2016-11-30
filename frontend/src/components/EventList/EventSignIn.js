@@ -108,7 +108,6 @@ export class EventSignInRaw extends Component {
   }
 }
 
-
 function mapStateToProps(state) {
   const {login} = state;
   return {

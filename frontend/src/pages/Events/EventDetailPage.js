@@ -7,6 +7,7 @@ import moment from 'moment';
 import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
+import {EventCommentList} from '../../components/EventList/EventCommentList'
 
 export class EventDetailPage extends Component {
 
@@ -32,7 +33,8 @@ export class EventDetailPage extends Component {
   }
 
   componentDidMount() {
-    this.fetchEventDetailData()
+    this.fetchEventDetailData();
+    this.fetchComments();
   }
 
   getCoordinates() {
@@ -55,8 +57,24 @@ export class EventDetailPage extends Component {
     return count;
   }
 
+  fetchComments() {
+    const {eventId} = this.props;
+    console.log('eID', eventId);
+    api('eventcomments', {"params": {"filter":{"where":{"event_id": eventId}, "include": "user" }}})
+      .then((response)=>{
+        const eventComments = response.data;
+        this.setState({
+          ...this.state,
+          eventComments: eventComments
+        })
+      })
+      .catch((err)=>{
+        console.warn(err)
+      })
+  }
+
   render() {
-    const {event} = this.state;
+    const {event, eventComments} = this.state;
     const coordinates = this.getCoordinates();
     return (
       <div className="container content-container">
@@ -110,59 +128,15 @@ export class EventDetailPage extends Component {
                 <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
               </div>
 
-              <h2>Komentáře</h2>
-                <div className="media comment_section">
-                    <div className="pull-left post_comments">
-                        <a href="#"><img src={event.picture} className="img-circle" alt="" /></a>
-                    </div>
-                    <div className="media-body post_reply_comments">
-                        <h3>Marsh</h3>
-                        <h4>{moment(event.date).format("DD MMMM YYYY")}</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
-                    </div>
-                </div>
-                <div className="media comment_section">
-                    <div className="pull-left post_comments">
-                        <a href="#"><img src={event.picture} className="img-circle" alt="" /></a>
-                    </div>
-                    <div className="media-body post_reply_comments">
-                        <h3>Marsh</h3>
-                        <h4>{moment(event.date).format("DD MMMM YYYY")}</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
-                    </div>
-                </div>
-                <div className="media comment_section">
-                    <div className="pull-left post_comments">
-                        <a href="#"><img src={event.picture} className="img-circle" alt="" /></a>
-                    </div>
-                    <div className="media-body post_reply_comments">
-                        <h3>Marsh</h3>
-                        <h4>{moment(event.date).format("DD MMMM YYYY")}</h4>
-                        <p>Lorem ipsum dolor sit amet, adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
-                    </div>
-                </div>
+              <EventCommentList eventComments={eventComments} />
 
                 <div id="contact-page clearfix">
                   <div className="message_heading">
                       <h4>Přidat komentář</h4>
                   </div>
 
-                  <form id="main-contact-form" className="contact-form" name="contact-form" method="post" action="sendemail.php" role="form">
-                      <div className="row">
+                  <EventAddComment eventId={event.id}/>
 
-                          <div className="col-xs-9 col-sm-9">
-                            <div className="form-group">
-                              <textarea name="message" id="message" required="required" className="form-control" rows="1"></textarea>
-                            </div>
-                          </div>
-                          <div className="col-xs-3 col-sm-3">
-                            <div className="form-group">
-                              <button type="submit" className="btn btn-primary btn-lg" required="required">Odeslat</button>
-                            </div>
-                          </div>
-
-                      </div>
-                  </form>
                 </div>
 
             </div>

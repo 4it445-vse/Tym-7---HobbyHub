@@ -4,61 +4,85 @@
 import React, {Component} from 'react'
 import api from '../../api'
 import {getUserId, getAuthToken, isLoggedIn} from '../Login/reducers.js';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import moment from 'moment';
 
 
-export class EventSignInRaw extends Component {
+export class EventAddCommentRaw extends Component {
 
   constructor(props) {
     super(props);
-    this.eventAddComment = this.eventAddComment.bind(this);
-    const { getUserId } = this.props;
+    const { eventId } = this.props;
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-      userId: getUserId
+      userId: this.props.getUserId,
+      eventId: this.props.eventId
     }
   }
 
-  eventAddComment(eventId,userId,text) {
-    const postData = {
-      event_id: eventId,
-      user_id: userId,
-      text: text,
-      created: "2016-11-13T00:00:00.000Z"
-    };
-    api.post('eventcomments', postData)
-      .catch((err)=> {
-        console.warn(err)
-      })
+  handleSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const eventCommentData = {
+          created: moment().toDate(),
+          text : formData.get('message'),
+          user_id: this.state.userId,
+          event_id: this.state.eventId
+      };
+
+      console.log('FORMDATA', eventCommentData);
+      api.post('eventcomments', eventCommentData)
+          .then(({ data }) => this.commentSuccess())
+          .catch(error => {
+              this.commentError(error);
+          });
   }
 
-  fetchComments() {
-    const {eventId} = this.props;
-    api('eventcomments', {"params": {"filter":{"where":{"event_id": eventId} }}})
-      .then((response)=>{
-        const eventComments = response.data;
-        this.setState({
-          ...this.state,
-          eventComments: eventComments
-        })
-      })
-      .catch((err)=>{
-        console.warn(err)
-      })
+  commentSuccess() {
+    console.log('com succ');
   }
 
-  componentDidMount() {
-    this.fetchComments();
+  commentError() {
+    console.log('com err');
   }
 
   render() {
     const {eventId, getUserId} = this.props;
     return (
       <div>
-        <button className="btn btn-warning" onClick={()=>{
-          this.eventAddComment(eventId,getUserId)
-        }
-        }>Přidat komentář</button>
+
+      <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit} role="form">
+          <div className="row">
+
+              <div className="col-xs-9 col-sm-9">
+                <div className="form-group">
+                  <textarea name="message" id="message" required="required" className="form-control" rows="1"></textarea>
+                </div>
+              </div>
+              <div className="col-xs-3 col-sm-3">
+                <div className="form-group">
+                  <button type="submit" className="btn btn-primary btn-lg">Přidat komentář</button>
+                </div>
+              </div>
+          </div>
+      </form>
+
+
       </div>
     )
   }
 }
+
+function mapStateToProps(state) {
+  const {login} = state;
+  return {
+    getUserId: getUserId(login),
+    getAuthToken: getAuthToken(login),
+    isLoggedIn: isLoggedIn(login),
+  };
+}
+
+export const EventAddComment = connect(
+  mapStateToProps,
+  {}
+)(EventAddCommentRaw);
