@@ -138,15 +138,18 @@ export class EventForm extends Component {
     const {save, remove} = actions;
 
     if (eventState === EVENT_STATES.SUCCESS) {
-      // browserHistory.push("/")
+      browserHistory.push("/")
     }
 
     return (
       <div>
         {this.createModal()}
 
-        <div className="col-md-12">
-          <h1 className="h1-height">{event.name}</h1>
+        <div className="col-md-3">
+          <a className="btn btn-default" href="/">Zpět na výpis</a>
+        </div>
+        <div className="col-md-9">
+          <h1 className="pull-left h1-height">{event.name}</h1>
         </div>
 
         <div className="col-md-3">
@@ -224,6 +227,7 @@ export class EventForm extends Component {
                 className="form-control" rows="8"
                 defaultValue={event.description}/>
             </div>
+
             {save ?
               <div className="col-md-12">
                 <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required"

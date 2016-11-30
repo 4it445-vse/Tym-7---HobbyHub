@@ -5,7 +5,9 @@ import React, {Component} from 'react';
 import api from '../../api.js';
 import moment from 'moment';
 import {EventSignIn} from '../../components/EventList/EventSignIn'
+import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
+import {EventCommentList} from '../../components/EventList/EventCommentList'
 
 export class EventDetailPage extends Component {
 
@@ -31,7 +33,8 @@ export class EventDetailPage extends Component {
   }
 
   componentDidMount() {
-    this.fetchEventDetailData()
+    this.fetchEventDetailData();
+    this.fetchComments();
   }
 
   getCoordinates() {
@@ -54,8 +57,24 @@ export class EventDetailPage extends Component {
     return count;
   }
 
+  fetchComments() {
+    const {eventId} = this.props;
+    console.log('eID', eventId);
+    api('eventcomments', {"params": {"filter":{"where":{"event_id": eventId}, "include": "user" }}})
+      .then((response)=>{
+        const eventComments = response.data;
+        this.setState({
+          ...this.state,
+          eventComments: eventComments
+        })
+      })
+      .catch((err)=>{
+        console.warn(err)
+      })
+  }
+
   render() {
-    const {event} = this.state;
+    const {event, eventComments} = this.state;
     const coordinates = this.getCoordinates();
     return (
       <div className="container content-container">
@@ -65,22 +84,27 @@ export class EventDetailPage extends Component {
 
           <div>
 
-            <div className="col-md-12">
-              <h1>{event.name}</h1>
-            </div>
-
-
             <div className="col-md-4">
-              {event.picture ?
-                <img className="col-md-12" src={event.picture} alt="{name}"/> :
-                ''
-              }
-              <div className="col-md-12">
-                {/*<GoogleMap coordinates={coordinates}/>*/}
-              </div>
+            <a className="btn btn-default" href="/">Zpět na výpis</a>
+
             </div>
 
             <div className="col-md-8">
+              <h1 className="pull-left">{event.name}</h1>
+            </div>
+            <div className="row"></div>
+
+            <div className="col-xs-12 col-md-4">
+              {event.picture ?
+                <img className="col-xs-12 col-md-12" src={event.picture} alt="{name}"/> :
+                ''
+              }
+              <div className="col-md-12">
+                {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
+              </div>
+            </div>
+
+            <div className="col-xs-12 col-md-8">
               <div className="col-md-12">
                 <div className="col-md-12"><b>Autor</b> Ferda</div>
                 <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
@@ -99,13 +123,22 @@ export class EventDetailPage extends Component {
                   <div className="">{event.description}</div>
                 </div>
               </div>
-            </div>
-            <div className="col-md-12">
-            </div>
-            <div className="col-md-5">
-            </div>
-            <div className="col-md-7">
-            <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
+
+              <div className="col-md-12">
+                <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
+              </div>
+
+              <EventCommentList eventComments={eventComments} />
+
+                <div id="contact-page clearfix">
+                  <div className="message_heading">
+                      <h4>Přidat komentář</h4>
+                  </div>
+
+                  <EventAddComment eventId={event.id}/>
+
+                </div>
+
             </div>
           </div>
         }

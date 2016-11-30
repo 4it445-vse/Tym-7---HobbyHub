@@ -38,6 +38,11 @@ module.exports = function(app) {
     if (!EventUser) { return; }
   });
 
+  app.dataSources.mysqlds.autoupdate('EventComment', function(err) {
+    const { EventComment } = app.models;
+    if (!EventComment) { return; }
+  });
+
   app.dataSources.mysqlds.autoupdate('Tag', function(err) {
     const { Tag } = app.models;
     if (!Tag) { return; }
