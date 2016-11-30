@@ -4,15 +4,15 @@
 import React, {Component} from 'react'
 import api from '../../api'
 import {getUserId, getAuthToken, isLoggedIn} from '../Login/reducers.js';
+import {getEventState} from '../EventList/reducers.js';
 import {connect} from 'react-redux'
-import {eventSignIn} from './actions';
+import {eventSignIn,eventSignOut} from './actions';
 
 
 export class EventSignInRaw extends Component {
 
   constructor(props) {
     super(props);
-    this.eventSignOut = this.eventSignOut.bind(this);
     const {getUserId} = this.props;
     this.state = {
       isSignIn: null,
@@ -60,7 +60,8 @@ export class EventSignInRaw extends Component {
   }
 
   render() {
-    const {eventId, getUserId, isLoggedIn, isFull} = this.props;
+    const {eventId, getUserId, isLoggedIn, isFull, eventState} = this.props;
+    console.log(eventState);
     const {isSignIn} = this.state;
     const isWaiting = false;
     if (this.state.userId !== getUserId) {
@@ -93,17 +94,19 @@ export class EventSignInRaw extends Component {
 
 
 function mapStateToProps(state) {
-  const {login} = state;
+  const {login, eventUser} = state;
   return {
     getUserId: getUserId(login),
     getAuthToken: getAuthToken(login),
     isLoggedIn: isLoggedIn(login),
+    eventState: getEventState(eventUser)
   };
 }
 
 export const EventSignIn = connect(
   mapStateToProps,
   {
-    eventSignIn
+    eventSignIn,
+    eventSignOut
   }
 )(EventSignInRaw);

@@ -6,6 +6,7 @@ module.exports = function (Eventuser) {
     Eventuser.findOne({where: {user_id}}, (err, eventUser)=> {
       if(!eventUser || !eventUser.id){
         cb("error user not found")
+        return;
       }
       Eventuser.destroyById(eventUser.id,(err)=>{
         if(err === null){
