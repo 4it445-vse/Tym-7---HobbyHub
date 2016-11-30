@@ -24,29 +24,6 @@ export class HomePageRaw extends Component {
       });
   }
 
-  paramsForSerchString(searchString) {
-    if (!searchString) { return {}; }
-    return {
-      filter: {
-        where:
-          { title: { like: `%${searchString}%` },
-        },
-      },
-    }
-  }
-
-  fetchProducts(searchString) {
-  api('events', { params: this.paramsForSerchString(searchString) })
-    .then((response) => {
-      this.setState({ events: response.data });
-    });
-}
-
-  handleSearchChange(events) {
-    const searchString  = events.target.value;
-    this.fetchProductsDebounced(searchString);
-  }
-
   componentDidMount() {
     this.fetchEvents();
   }
@@ -59,11 +36,11 @@ export class HomePageRaw extends Component {
         <div className="center wow fadeInDown">
           <h2>Události</h2>
           <div className="search-form">
-          <form className="form-wrapper cf">
+      {/*    <form className="form-wrapper cf">
             	<input onChange={this.handleSearchChange}
               type="text" placeholder="Hledat události..." required/>
           	  <button type="submit">Hledat</button>
-          </form>
+          </form> */}
           </div>
 
           {events === null ?
