@@ -34,11 +34,11 @@ export class EventSignInRaw extends Component {
                 <button className="btn btn-default" disabled="disabled">Událost má již plnou kapacitu</button>
                 : eventState === "pending" ?
                 <div>
-                  <button disabled="disabled">Čekám na schválení</button>
+                  <button className="btn btn-default" disabled="disabled">Čekám na schválení</button>
                 </div>
                 : eventState === "rejected" ?
                 <div>
-                  <button disabled="disabled">Vaše žádost byla zamítnuta</button>
+                  <button className="btn btn-default" disabled="disabled">Vaše žádost byla zamítnuta</button>
                 </div>
                 :
                 <button className="btn btn-success" onClick={()=> {
