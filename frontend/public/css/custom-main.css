@@ -166,3 +166,24 @@ only screen and (min-device-pixel-ratio: 2) {
 .event-details a.btn.btn-default{
   padding: 2px 8px;
 }
+.profile-avatar{
+  border-radius: 500px;
+  margin: 15%;
+}
+@media screen and (max-width: 767px)  {
+
+  .profile-avatar{
+    max-width: 20%;
+    margin: 10% 0 0 10%;
+  }
+
+}
+
+.top-buffer {
+   margin-top:20px;
+ }
+ .profile-rating {
+   font-size: 3em;
+   font-weight: bold;
+   line-height: 2em;
+  }

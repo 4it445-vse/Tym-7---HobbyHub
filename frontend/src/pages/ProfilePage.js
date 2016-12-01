@@ -84,47 +84,44 @@ export class ProfilePageRaw extends Component {
         //only logged in user can see its or others profile
         if (!loggedIn) {
             return (
-                <div className="container content-container">
-                    <div>
-                        <div className="col-md-2">
-                            <a className="btn btn-default" href="/">Zpět na výpis</a>
-                        </div>
+              <div className="container content-container">
+                <div>
 
-                        <div className="col-md-10">
-                            <h1 className="pull-left">Pro zobrazení profilu se musíte nejprve přihlásit</h1>
-                        </div>
-                    </div>
+
+                  <div className="col-md-12">
+                  <h1>Nepřihlášen</h1>
+                  <p className="center">Pro zobrazení profilu se nejdříve přihlašte.</p>
+                  <p className="center">Ješte nemáte účet? <Link to="/registration">Zaregistrujte se</Link>.</p>
+                  </div>
                 </div>
+              </div>
             );
         }
 
         return (
-            <div className="container content-container">
-                <div>
-                    <div className="col-md-4">
-                        <a className="btn btn-default" href="/">Zpět na výpis</a>
-                    </div>
+          <div className="container content-container">
+            <div>
 
-                    <div className="col-md-8">
-                        <h1 className="pull-left">Profil</h1>
-                    </div>
+              <div className="col-xs-12 col-md-3">
+                <img className="profile-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
+              </div>
 
-                    <div className="row"></div>
-
-                    <div className="col-md-4">
-                        <img className="col-md-12" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>
-                    </div>
-
-                    <div className="col-md-8">
-                        <div className="col-md-12">
-                            {userId == profileId || profileId === undefined?
-                                <UserForm handleSubmit={this.handleSubmit} username={username} email={email}></UserForm> :
-                                <UserProfile username={username} email={email}></UserProfile>
-                            }
-                        </div>
-                    </div>
+              <div className="col-md-9">
+                <div className="col-md-12">
+                  <div className="col-md-12">
+                    <h1 className="pull-left">Ferda</h1>
+                  </div>
+                  <div className="row"></div>
+                  <div className="col-md-12">
+                    <b>Hodnocení</b>
+                  </div>
+                  <div className="col-md-12">
+                    <span className="profile-rating">85%</span>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
         );
     }
 }
