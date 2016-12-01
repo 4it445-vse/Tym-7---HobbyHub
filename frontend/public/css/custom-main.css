@@ -133,7 +133,6 @@ only screen and (min-device-pixel-ratio: 2) {
 .event-pictures img.selected{
     border-color: #558ace;
 }
-
 .navbar-form .form-group{
     margin-right: 10px;
 }
