@@ -5,14 +5,14 @@ module.exports = function (Eventuser) {
   Eventuser.signOut = (user_id, event_id, cb)=> {
     Eventuser.findOne({where: {user_id}}, (err, eventUser)=> {
       if (!eventUser || !eventUser.id) {
-        cb("error user not found")
+        cb(new Error("Do not cheat!"))
         return;
       }
       Eventuser.destroyById(eventUser.id, (err)=> {
         if (err === null) {
-          cb(null, "error")
+          cb(null,"deleted")
         } else {
-          cb("successfully deleted")
+          cb(new Error("Do not cheat!"))
         }
       })
     });
@@ -50,11 +50,44 @@ module.exports = function (Eventuser) {
           const error = new Error();
           error.status = 403;
           error.message = 'You have already requested that event';
-          next(error)
+          next(error);
+        }else{
+          next();
         }
       });
+    }else{
       next();
     }
   })
+
+
+  Eventuser.changeStatus = (new_event_status, event_id, cb)=> {
+    Eventuser.updateAll({id:event_id},{status:new_event_status},(err,info)=>{
+      console.log(err,info)
+      if(err){
+        cb(new Error("Do not cheat!"))
+      }else{
+        cb(null,"succes changed");
+      }
+    })
+  }
+
+  Eventuser.remoteMethod(
+    'changeStatus', {
+      http: {
+        path: "/changeStatus",
+        verb: "post",
+        errorStatus: 400
+      },
+      accepts: [
+        {arg: "new_event_status", type: "string", required: true},
+        {arg: "event_id", type: "number", required: true},
+      ],
+      returns: {
+        arg: 'status',
+        type: 'string'
+      }
+    }
+  )
 
 };

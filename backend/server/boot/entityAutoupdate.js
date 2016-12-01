@@ -19,6 +19,18 @@ module.exports = function(app) {
           "username": "test",
           "emailVerified": true,
           "password":"testpw"
+        },
+        {
+          "email": "test2@test.cz",
+          "facebook": 0,
+          "created": "2016-11-06",
+          "last_online": "2016-11-06",
+          "rating": 0,
+          "picture": "string",
+          "realm": "string",
+          "username": "test",
+          "emailVerified": true,
+          "password":"testpw"
         }
       ], function(err, products) {
         if (err) throw err;
