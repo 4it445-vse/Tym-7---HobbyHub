@@ -164,3 +164,15 @@ only screen and (min-device-pixel-ratio: 2) {
 .recent-work-wrap img{
     height: 100%;
 }
+.regcover{
+    background-image: url(https://static.pexels.com/photos/7432/pexels-photo.jpg);
+    background-size: cover;
+}
+@media screen and (max-width: 768px){
+
+
+  .regcover{
+      background-image: none ;
+  }
+
+}
