@@ -50,7 +50,7 @@ export class HomePageRaw extends Component {
             <div>Loading...</div> :
             <div>
               <EventList events={events} userId={userId}/>
-              <Link className="btn btn-success btn-lg" to="/events/add">Přidat</Link>
+
             </div>
           }
         </div>

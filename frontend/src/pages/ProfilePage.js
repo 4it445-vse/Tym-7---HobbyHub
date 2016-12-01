@@ -1,57 +1,141 @@
-/**
- * Created by Honza on 22.10.2016.
- */
-/**
- * Created by Honza on 22.10.2016.
- */
 import React, {Component} from 'react';
+import api from '../api.js';
+import {connect} from 'react-redux';
+import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
+import lodash from 'lodash';
+import { UserForm } from '../components/User/UserForm.js';
+import { UserProfile } from '../components/User/UserProfile.js';
+import { browserHistory } from 'react-router';
 
-export class ProfilePage extends Component {
-  render() {
-    return (
+export class ProfilePageRaw extends Component {
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = { userData:{} };
+    }
 
-      <div className="container content-container">
-        <div>
-          <div className="col-md-4">
-          <a className="btn btn-default" href="/">Zpět na výpis</a>
+    handleSubmit(event) {
+        event.preventDefault();
+        const { loggedIn, userId } = this.props;
+        if (!loggedIn) {
+            console.log('you cannot edit profile if you are not logged in');
+            return;
+        }
 
-          </div>
+        const { username, email } = this.state.userData;
+        const formData = new FormData(event.target);
+        if (formData.get('password') !== formData.get('password_confirm')) {
+            alert('Heslo nejsou stejná');
+            return;
+        }
+        if (formData.get('email') !== formData.get('email_confirm')) {
+            alert('Emaily nejsou stejné');
+            return;
+        }
+        var userData = {};
+        ['username', 'email', 'password'].map(field => {
+                if (formData.get(field)) {
+                    userData[field] = formData.get(field);
+                }
+            }
+        );
+        if (lodash.isEmpty(userData)) {
+            alert('Není vyplněno nic k aktualizaci.');
+            return;
+        }
+        api.patch('appusers/'+userId, userData)
+            .then(({ data }) => this.loginSuccess())
+            .catch(error => {
+                console.log('could not save profile data');
+            });
+    }
 
-          <div className="col-md-8">
-            <h1 className="pull-left">Profil</h1>
-          </div>
-          <div className="row"></div>
+    loginSuccess() {
+        alert('Data úspěšně uložena!');
+        const { loggedIn, userId } = this.props;
+        const { profileId } = this.props.params;
+        browserHistory.push('/profile');
+    }
 
-          <div className="col-md-4">
+    componentDidMount() {
+        const { profileId } = this.props.params;
+        const { loggedIn, userId } = this.props;
+        if (loggedIn) {
+            if (profileId === undefined) {
+                this.fetchUser(userId);
+            } else {
+                this.fetchUser(profileId);
+            }
+        }
+    }
 
-                <img className="col-md-12" src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>
+    fetchUser(userId) {
+        api.get('appusers/'+userId)
+            .then(({ data }) => this.setState({userData: data}))
+            .catch(error => {
+                console.log('there were some errors loading user profile');
+            });
+    }
+
+    render() {
+        const { username, email, rating } = this.state.userData;
+        const { loggedIn, userId } = this.props;
+        const { profileId } = this.props.params;
+        //only logged in user can see its or others profile
+        if (!loggedIn) {
+            return (
+              <div className="container content-container">
+                <div>
 
 
-          </div>
-
-          <div className="col-md-8">
-            <div className="col-md-12">
-              <div className="col-md-12"><b>Přezdívka</b><input type="text" className="form-control" value="Ferda"></input></div>
-              <div className="col-md-6"><b>E-mail</b><input type="text" className="form-control" value="ferda@seznam.cz"></input></div>
-              <div className="col-md-6"><b>E-mail znovu</b><input type="text" className="form-control" value=""></input></div>
-              <div className="col-md-6"><b>Heslo</b><input type="text" className="form-control" value=""></input></div>
-              <div className="col-md-6"><b>Heslo znovu</b><input type="text" className="form-control" value=""></input></div>
-
-              <div className="col-md-6">
-                  <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required">Smazat profil</button>
+                  <div className="col-md-12">
+                  <h1>Nepřihlášen</h1>
+                  <p className="center">Pro zobrazení profilu se nejdříve přihlašte.</p>
+                  <p className="center">Ješte nemáte účet? <Link to="/registration">Zaregistrujte se</Link>.</p>
+                  </div>
+                </div>
               </div>
-              <div className="col-md-6">
-                  <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required">Uložit</button>
+            );
+        }
+
+        return (
+          <div className="container content-container">
+            <div>
+
+              <div className="col-xs-12 col-md-3">
+                <img className="profile-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
               </div>
 
-
-
+              <div className="col-md-9">
+                <div className="col-md-12">
+                  <div className="col-md-12">
+                    <h1 className="pull-left">{username}</h1>
+                  </div>
+                  <div className="row"></div>
+                  <div className="col-md-12">
+                    <b>Hodnocení</b>
+                  </div>
+                  <div className="col-md-12">
+                    <span className="profile-rating">{rating}</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
-
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
+
+function mapStateToProps(state) {
+    const { login } = state;
+    return {
+        loggedIn: isLoggedIn(login),
+        userId: getUserId(login)
+    };
+}
+
+export const ProfilePage = connect(
+    mapStateToProps,
+    {
+    }
+)(ProfilePageRaw);
