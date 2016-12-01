@@ -1,6 +1,7 @@
 import {
   EVENT_USER_CHANGED_SUCCESS,
   EVENT_USER_CHANGED_ERROR,
+  EVENT_FETCH_SUCCESS
 } from './actions';
 
 
@@ -18,6 +19,13 @@ export const eventReducer = (state={}, action = {}) => {
         ...state,
         error
       };
+    case EVENT_FETCH_SUCCESS:
+      const {fetchEventUser} = action;
+      return {
+        ...state,
+        ...fetchEventUser,
+        fetched: true,
+      }
     default:
       return state;
   }
@@ -26,6 +34,10 @@ export const eventReducer = (state={}, action = {}) => {
 
 export const getEventState =(state)=>{
   return state.status;
+}
+
+export const isFetching = (state) =>{
+  return state.fetched===true;
 }
 
 export default eventReducer;
