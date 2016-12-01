@@ -9,6 +9,7 @@ import {browserHistory} from 'react-router'
 import Select2 from 'react-select';
 import 'react-select/dist/react-select.css';
 import api from '../../api.js';
+import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
 
 export class EventForm extends Component {
 
@@ -38,7 +39,7 @@ export class EventForm extends Component {
         name: "",
         date: "2016-10-29T00:00:00.000Z",
         created: moment().toDate(),
-        capacity: 2,
+        capacity: "",
         tags: "",
         latitude: "",
         longitude: "",
@@ -85,9 +86,13 @@ export class EventForm extends Component {
     this.setState(newState);
   }
 
-  onFormSubmit(event) {
-    event.preventDefault();
-    this.props.onFormSubmit(this.state.event);
+  onFormSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { event } = this.state;
+    const dt = new Date(formData.get('date'));
+    event.date = moment(dt).toDate();
+    this.props.onFormSubmit(event);
   }
 
   onGoogleMapChange(location, address) {
@@ -137,10 +142,6 @@ export class EventForm extends Component {
     const {actions, eventState} = this.props;
     const {save, remove} = actions;
 
-    if (eventState === EVENT_STATES.SUCCESS) {
-      browserHistory.push("/")
-    }
-
     return (
       <div>
         {this.createModal()}
@@ -187,9 +188,14 @@ export class EventForm extends Component {
                 className="form-control"
                 defaultValue={event.name}/>
             </div>
-
-            {/*<label htmlFor="date">Date</label>*/}
-            <div className="col-md-12">
+            <div className="col-md-6">
+              <label htmlFor="date">Datum</label>
+              <CustomDatePicker
+                  id="date"
+                  name="date"
+                  />
+            </div>
+            <div className="col-md-6">
               <label htmlFor="capacity">Kapacita</label>
               <input
                 required="required"
@@ -217,6 +223,17 @@ export class EventForm extends Component {
             <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
+              <div className="col-md-12">
+                <label htmlFor="tags">Kategorie</label>
+                <input
+                  required="required"
+                  id="tags"
+                  name="tags"
+                  onChange={this.onInputChange}
+                  type="text"
+                  className="form-control"
+                  defaultValue={event.tags}/>
+              </div>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
               <textarea

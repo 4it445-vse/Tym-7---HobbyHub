@@ -16,7 +16,7 @@ export class EventDetailPage extends Component {
     moment.locale('cs');
     this.state = {
       event: null
-    }
+    };
   }
 
   fetchEventDetailData() {

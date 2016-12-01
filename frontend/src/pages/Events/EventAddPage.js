@@ -2,10 +2,11 @@
  * Created by Honza on 22.10.2016.
  */
 import React, {Component} from 'react';
-import {EventForm} from '../../components/EventList/EventForm'
-import {connect} from 'react-redux'
-import api from '../../api'
-import EVENT_STATE from '../../components/EventList/EventHelper'
+import {EventForm} from '../../components/EventList/EventForm';
+import {connect} from 'react-redux';
+import api from '../../api';
+import EVENT_STATE from '../../components/EventList/EventHelper';
+import {browserHistory} from 'react-router';
 
 export class EventAddPageRaw extends Component {
 
@@ -24,8 +25,7 @@ export class EventAddPageRaw extends Component {
     this.setState(newState)
     api.post('events', event)
       .then(response => {
-        newState.eventState = EVENT_STATE.SUCCESS;
-        this.setState(newState)
+          browserHistory.push("/events/detail/"+response.data.id);
       })
       .catch(error=> {
         const { response } = error;
