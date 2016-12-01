@@ -8,6 +8,7 @@ import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 import {getUserId} from '../../components/Login/reducers.js';
 import {connect} from 'react-redux'
+import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
 
 export class EventDetailPageRaw extends Component {
 
@@ -107,9 +108,9 @@ export class EventDetailPageRaw extends Component {
             </div>
             <div className="col-md-7">
               {
-                !this.isEventCreatedByMe(event)
+                this.isEventCreatedByMe(event)
                   ?
-                 <div>Je to můj </div>
+                 <ListOfUsersForm eventId={event.id}  />
                 :
                 <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
               }
