@@ -7,6 +7,7 @@ import {EventList} from '../components/EventList/EventList.js';
 import {connect} from 'react-redux';
 import { Link } from 'react-router';
 import { getUserId } from '../components/Login/reducers.js';
+import {Filter} from '../components/Filter/Filter.js';
 
 export class HomePageRaw extends Component {
   constructor(props) {
@@ -36,6 +37,8 @@ export class HomePageRaw extends Component {
         <div className="center wow fadeInDown">
           <h2>Události</h2>
           <div className="search-form">
+          <Filter/>
+
       {/*    <form className="form-wrapper cf">
             	<input onChange={this.handleSearchChange}
               type="text" placeholder="Hledat události..." required/>
