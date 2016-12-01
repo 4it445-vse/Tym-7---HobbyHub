@@ -7,11 +7,7 @@ export class CheckboxCustom extends Component {
   render() {
       const {id, name} = this.props;
       return <label>
-            <Checkbox
-              defaultChecked
-            />
-
-            &nbsp; Volná kapacita
+            <Checkbox/>
           </label>
   }
 }
