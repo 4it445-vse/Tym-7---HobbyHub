@@ -223,17 +223,6 @@ export class EventForm extends Component {
             <GoogleMapAutocomplete
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
-              <div className="col-md-12">
-                <label htmlFor="tags">Kategorie</label>
-                <input
-                  required="required"
-                  id="tags"
-                  name="tags"
-                  onChange={this.onInputChange}
-                  type="text"
-                  className="form-control"
-                  defaultValue={event.tags}/>
-              </div>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
               <textarea
