@@ -88,6 +88,7 @@ export class GoogleMapAutocomplete extends Component{
       map.setCenter(place.geometry.location);
       map.setZoom(17);  // Why 17? Because it looks good.
     }
+
     marker.setIcon(/** @type {google.maps.Icon} */({
       url: place.icon,
       size: new google.maps.Size(71, 71),
@@ -95,16 +96,20 @@ export class GoogleMapAutocomplete extends Component{
       anchor: new google.maps.Point(17, 34),
       scaledSize: new google.maps.Size(35, 35)
     }));
+
     marker.setPosition(place.geometry.location);
     marker.setVisible(true);
   }
 
-  render(){
+  componentDidMount(){
     const {mapId} = this.props;
     const {renderedOnce} = this.state;
     (renderedOnce===false)?
       this.loadMap(mapId):
       this.pinMarker();
+  }
+
+  render(){
     return(
       <div className="col-md-12">
         <label htmlFor="tags">Lokace</label>
