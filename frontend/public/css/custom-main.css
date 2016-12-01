@@ -180,3 +180,8 @@ only screen and (min-device-pixel-ratio: 2) {
 .list-of-users-form tbody tr.accepted{
     background-color: green;
 }
+
+.list-of-users-form tbody tr.rejected{
+    background-color: #870000;
+    color:white;
+}

@@ -25,9 +25,9 @@ export class ListOfUsersRow extends Component {
         <td>
           {created}
         </td>
-        <td>
+        <div>
           <EventUserAvailableActions status={status} onChangeEventUserState={onChangeEventUserState}/>
-        </td>
+        </div>
       </tr>
     )
   }
@@ -37,37 +37,52 @@ export class EventUserAvailableActions extends Component {
 
   render() {
     const {status, onChangeEventUserState} = this.props
-
+    console.log(status)
     if (status === "pending") {
       return (
         <div>
-          <a
-            onClick={(e)=>{
+          <td>
+            <a
+              onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("accepted")
           }}
-            href="">Přijmout</a>
-          <a
-            onClick={(e)=>{
+              href="">Přijmout</a>
+          </td>
+          <td>
+            <a
+              onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("rejected")
           }}
-            href="">Zamítnout</a>
+              href="">Zamítnout</a>
+          </td>
         </div>
       );
     } else if (status === "accepted") {
       return (
-        <div>
+        <td>
           <a
             onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("rejected")
           }}
             href="">Zamítnout</a>
-        </div>
+        </td>
       );
-    } else {
-
+    } else if (status === "rejected") {
+      return (
+        <div>
+          <td>
+            <a
+              onClick={(e)=>{
+            e.preventDefault();
+            onChangeEventUserState("accepted")
+          }}
+              href="">Přijmout</a>
+          </td>
+        </div>
+      )
     }
   }
 }

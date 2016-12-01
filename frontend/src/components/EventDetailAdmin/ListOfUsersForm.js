@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import api from '../../api.js';
 import {ListOfUsersRow} from './ListOfUsersRow';
+import Immutable from 'immutable';
 
 export class ListOfUsersForm extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export class ListOfUsersForm extends Component {
         })
       })
       .catch(error=> {
-        console.warn("error")
+        console.warn("error",error)
         self.setState({
           ...self.state,
           error: error
@@ -37,7 +38,29 @@ export class ListOfUsersForm extends Component {
   }
 
   onChangeEventUserState(data) {
-    console.log(data)
+    var self = this;
+    api.post('eventusers/changeStatus',data)
+      .then((response)=> {
+        const listState = Immutable.fromJS(self.state.eventUsers)
+        const updatedList = listState.update(
+          listState.findIndex((item)=>{
+            return item.get('id')===data.event_id
+          }),
+          (item)=>{
+            return item.set('status',data.new_event_status)
+          }
+        )
+        self.setState({
+          eventUsers:updatedList.toJS(),
+          error:null
+        })
+      })
+      .catch(error=> {
+        self.setState({
+          ...self.state,
+          error: error
+        })
+      })
   }
 
   render() {
@@ -59,7 +82,7 @@ export class ListOfUsersForm extends Component {
                     <td>Email</td>
                     <td>Stav žádosti</td>
                     <td>Vytvořeno</td>
-                    <td></td>
+                    <td colSpan="2"/>
                   </tr>
                   </thead>
                   <tbody>
@@ -67,7 +90,7 @@ export class ListOfUsersForm extends Component {
                     <ListOfUsersRow
                       key={eventUser.id}
                       onChangeEventUserState={(newEventUserState)=>{
-                        this.onChangeEventUserState({user_id:eventUser.id, state:newEventUserState});
+                        this.onChangeEventUserState({event_id:eventUser.id, new_event_status:newEventUserState});
                       }}
                       {...eventUser}
                     />
