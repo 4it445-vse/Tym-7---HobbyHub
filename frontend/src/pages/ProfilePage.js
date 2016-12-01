@@ -78,7 +78,7 @@ export class ProfilePageRaw extends Component {
     }
 
     render() {
-        const { username, email } = this.state.userData;
+        const { username, email, rating } = this.state.userData;
         const { loggedIn, userId } = this.props;
         const { profileId } = this.props.params;
         //only logged in user can see its or others profile
@@ -109,14 +109,14 @@ export class ProfilePageRaw extends Component {
               <div className="col-md-9">
                 <div className="col-md-12">
                   <div className="col-md-12">
-                    <h1 className="pull-left">Ferda</h1>
+                    <h1 className="pull-left">{username}</h1>
                   </div>
                   <div className="row"></div>
                   <div className="col-md-12">
                     <b>Hodnocení</b>
                   </div>
                   <div className="col-md-12">
-                    <span className="profile-rating">85%</span>
+                    <span className="profile-rating">{rating}</span>
                   </div>
                 </div>
               </div>
