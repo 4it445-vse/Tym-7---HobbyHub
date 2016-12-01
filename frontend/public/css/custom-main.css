@@ -215,3 +215,30 @@ only screen and (min-device-pixel-ratio: 2) {
     width: 2.3rem !important;
     line-height: 2.3rem !important;
 }
+
+.regcover{
+    background-image: url(https://static.pexels.com/photos/28017/pexels-photo-28017.jpg);
+    background-size: cover;
+}
+@media screen and (max-width: 768px){
+
+
+  .regcover{
+      background-image: none ;
+  }
+  .white-bg{
+
+      position: relative;
+      padding: 0;
+      margin-top: 0;
+      border-radius: 0;
+  }
+
+}
+.white-bg{
+    background-color: rgba(255, 255, 255, 0.82);
+    position: absolute;
+    padding: 0 5% 5% 5%;
+    margin-top: 10%;
+    border-radius: 10px;
+}

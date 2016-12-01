@@ -60,11 +60,12 @@ export class RegistrationFormRaw extends Component {
                             </FormGroup>
                         );
                     })}
-                      <div className="col-md-8">
+                    <div className="row"></div>
+                      <div className="col-xs-6 col-md-6">
                         <p>Registrací souhlasíte s <a href="">podmínkami služby</a>.</p>
                       </div>
-                      <div className="col-md-4">
-                        <Button type="submit" className="btn btn-success btn-lg">Registrovat</Button>
+                      <div className="col-xs-6 col-md-6">
+                        <Button type="submit" className="btn btn-success btn-lg pull-right">Registrovat</Button>
                       </div>
                 </div>
             </form>

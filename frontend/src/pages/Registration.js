@@ -8,15 +8,15 @@ export class RegistrationRaw extends Component {
     render() {
         const { registrationSuccessful } = this.props;
         return (
-            <div className="container content-container">
-              <div className="col-md-2"></div>
-                <div className="col-md-3">
+            <div className="container content-container regcover">
+              <div className="col-md-3"></div>
+                <div className="col-md-6">
+                <div className="white-bg">
                     <h1>Registrace</h1>
-                </div>
-                <div className="col-md-5">
+
                     {registrationSuccessful ? <h2>Úspěšně jste se zaregistrovali!</h2> : <RegistrationForm></RegistrationForm>}
-                </div>
-              <div className="col-md-2"></div>
+                </div></div>
+              <div className="col-md-3"></div>
             </div>
         );
     }
