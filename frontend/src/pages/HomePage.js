@@ -8,8 +8,6 @@ import {connect} from 'react-redux';
 import { Link } from 'react-router';
 import { getUserId } from '../components/Login/reducers.js';
 import {Filter} from '../components/Filter/Filter.js';
-import {Checkbox1} from '../components/Filter/Checkbox.js';
-import {Datepicker} from '../components/Filter/Datepicker.js';
 
 export class HomePageRaw extends Component {
   constructor(props) {
@@ -39,8 +37,7 @@ export class HomePageRaw extends Component {
         <div className="center wow fadeInDown">
           <h2>Události</h2>
           <div className="search-form">
-          <Datepicker/>
-          <Checkbox1/>
+          <Filter/>
 
       {/*    <form className="form-wrapper cf">
             	<input onChange={this.handleSearchChange}
