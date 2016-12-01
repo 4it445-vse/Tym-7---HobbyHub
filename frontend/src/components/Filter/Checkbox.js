@@ -6,13 +6,12 @@ export class Checkbox1 extends Component {
 
   render() {
       const {id, name} = this.props;
-      return <div><label>
+      return <label>
             <Checkbox
               defaultChecked
             />
 
-            &nbsp; defaultChecked rc-checkbox
+            &nbsp; Volná kapacita
           </label>
-          </div>
   }
 }

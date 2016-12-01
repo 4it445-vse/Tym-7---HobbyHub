@@ -4,7 +4,7 @@ import moment from 'moment';
 
 require('react-datepicker/dist/react-datepicker.css');
 
-export class DatePicker extends Component {
+export class Datepicker extends Component {
   constructor(props) {
       super(props);
       this.state = {
