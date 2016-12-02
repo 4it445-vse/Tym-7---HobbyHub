@@ -17,11 +17,16 @@ export class TopNavigationRaw extends Component {
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">
+            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            </button>
               <Link className="navbar-brand" to="/">
                 <span className="navbar-logo">HobbyHub</span>
               </Link>
             </div>
-
             <div className="collapse navbar-collapse navbar-right">
               {!isLoggedIn && <Login/>}
               {isLoggedIn && <Link className="navbar-brand" to="/">
@@ -32,18 +37,10 @@ export class TopNavigationRaw extends Component {
                   <li>
                   </li>
                   <li>
-                    <a href="portfolio.html">Profil</a>
+                    <Link to="/profile">Profil</Link>
                   </li>
                   <li className="dropdown">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                      <button type="button" className="navbar-toggle" data-toggle="collapse"    data-target=".navbar-collapse">
-                        <span className="sr-only">Toggle navigation</span>
-                        <span className="icon-bar"/>
-                        <span className="icon-bar"/>
-                        <span className="icon-bar"/>
-                      </button>
-                      <i className="fa fa-angle-down"/>
-                      </a>
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <i className="fa fa-angle-down"></i></a>
                     <ul className="dropdown-menu">
                       <li>
                         <a href="blog-item.html">Nastavení</a>

@@ -59,11 +59,11 @@ export class EventListItem extends Component {
               </div>
           </div>
             <div className="event-details">
-              <div className="col-xs-6 col-md-6">
+              <div className="col-xs-4 col-md-4">
                 <p>{this.getSignedUsersCount(event)}/{capacity}</p>
               </div>
-              <div className="col-xs-6 col-md-6">
-                <p>{status}<Link className="pull-right btn btn-default" to="/events/add">Přihlásit se</Link></p>
+              <div className="col-xs-8 col-md-8">
+                <p>{status}</p>
               </div>
             </div>
         </Link></div>
