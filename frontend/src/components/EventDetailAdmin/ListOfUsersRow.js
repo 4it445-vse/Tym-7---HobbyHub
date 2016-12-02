@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 import moment from 'moment'
+import { Link } from 'react-router'
 
 export class ListOfUsersRow extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export class ListOfUsersRow extends Component {
 
   render() {
     const {status, created, user, onChangeEventUserState} = this.props;
+    const profileLink = "/profile/"+user.id;
     console.log(this.props)
     return (
       <tr>
@@ -34,7 +36,9 @@ export class ListOfUsersRow extends Component {
 
         </td>
         <td>
-          {user.username}
+          <Link to={profileLink}>
+            {user.username}
+          </Link>
         </td>
         <td>
           {user.email}
