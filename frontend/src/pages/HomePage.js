@@ -5,8 +5,9 @@ import React, {Component} from 'react';
 import api from '../api.js';
 import {EventList} from '../components/EventList/EventList.js';
 import {connect} from 'react-redux';
-import { Link } from 'react-router';
-import { getUserId } from '../components/Login/reducers.js';
+import {Link} from 'react-router';
+import {getUserId} from '../components/Login/reducers.js';
+import {Filter} from '../components/Filter/Filter.js';
 
 export class HomePageRaw extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export class HomePageRaw extends Component {
   }
 
   fetchEvents() {
-    api('events', {"params": {"filter":{"include": "users"}}})
+    api('events', {"params": {"filter": {"include": "users"}}})
       .then((response) => {
         this.setState({events: response.data});
       });
@@ -27,32 +28,39 @@ export class HomePageRaw extends Component {
   componentDidMount() {
     this.fetchEvents();
   }
+
   render() {
     const {events} = this.state;
     const {userId} = this.props;
 
     return (
       <div className="container content-container">
-
-            <div className="row first-header-row">
-              <div className="col-xs-8 col-md-8">
-                <h2>Události</h2>
-              </div>
-
-              <div className="col-xs-4 col-md-4">
-
-                <Link className="pull-right btn btn-default"  to="/events/add">Vytvořit událost</Link>
-              </div>
-            </div>
-
         <div className="center wow fadeInDown">
-          {events === null ?
-            <div>Loading...</div> :
-            <div>
-              <EventList events={events} userId={userId}/>
+          <h2>Události</h2>
+          <div className="search-form">
+            <Filter/>
+          </div>
 
+          <div className="row first-header-row">
+            <div className="col-xs-8 col-md-8">
+              <h2>Události</h2>
             </div>
-          }
+
+            <div className="col-xs-4 col-md-4">
+
+              <Link className="pull-right btn btn-default" to="/events/add">Vytvořit událost</Link>
+            </div>
+          </div>
+
+          <div className="center wow fadeInDown">
+            {events === null ?
+              <div>Loading...</div> :
+              <div>
+                <EventList events={events} userId={userId}/>
+
+              </div>
+            }
+          </div>
         </div>
       </div>
     );
@@ -60,7 +68,7 @@ export class HomePageRaw extends Component {
 }
 
 function mapStateToProps(state) {
-  const { login } = state;
+  const {login} = state;
   return {
     userId: getUserId(login)
   };
