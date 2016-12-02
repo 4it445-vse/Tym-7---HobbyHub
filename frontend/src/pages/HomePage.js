@@ -36,21 +36,19 @@ export class HomePageRaw extends Component {
     return (
       <div className="container content-container">
         <div className="center wow fadeInDown">
-          <h2>Události</h2>
-          <div className="search-form">
+            <div className="col-xs-8 col-md-8">
+              <h2 className="pull-left">Události</h2>
+            </div>
+            <div className="col-xs-4 col-md-4">
+              <Link className="pull-right btn btn-default top-buffer" to="/events/add">Vytvořit událost</Link>
+            </div>
+        </div>
+          <div className="row  filter">
             <Filter/>
           </div>
 
           <div className="row first-header-row">
-            <div className="col-xs-8 col-md-8">
-              <h2>Události</h2>
-            </div>
 
-            <div className="col-xs-4 col-md-4">
-
-              <Link className="pull-right btn btn-default" to="/events/add">Vytvořit událost</Link>
-            </div>
-          </div>
 
           <div className="center wow fadeInDown">
             {events === null ?
