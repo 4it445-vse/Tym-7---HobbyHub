@@ -34,7 +34,7 @@ export class HomePageRaw extends Component {
     return (
       <div className="container content-container">
 
-            <div className="row">
+            <div className="row first-header-row">
               <div className="col-xs-8 col-md-8">
                 <h2>Události</h2>
               </div>

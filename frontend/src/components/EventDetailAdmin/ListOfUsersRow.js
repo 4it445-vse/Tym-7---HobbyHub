@@ -2,6 +2,7 @@
  * Created by honza on 01/12/16.
  */
 import React, {Component} from 'react';
+import moment from 'moment'
 
 export class ListOfUsersRow extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export class ListOfUsersRow extends Component {
           {status}
         </td>
         <td>
-          {created}
+          {moment(created).format("D.M.YYYY")}
         </td>
         <div>
           <EventUserAvailableActions status={status} onChangeEventUserState={onChangeEventUserState}/>

@@ -12,7 +12,7 @@ export class EventAddCommentRaw extends Component {
 
   constructor(props) {
     super(props);
-    const { eventId } = this.props;
+    const {eventId} = this.props;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       userId: this.props.getUserId,
@@ -21,21 +21,21 @@ export class EventAddCommentRaw extends Component {
   }
 
   handleSubmit(event) {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const eventCommentData = {
-          created: moment().toDate(),
-          text : formData.get('message'),
-          user_id: this.state.userId,
-          event_id: this.state.eventId
-      };
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const eventCommentData = {
+      created: moment().toDate(),
+      text: formData.get('message'),
+      user_id: this.state.userId,
+      event_id: this.state.eventId
+    };
 
-      console.log('FORMDATA', eventCommentData);
-      api.post('eventcomments', eventCommentData)
-          .then(({ data }) => this.commentSuccess())
-          .catch(error => {
-              this.commentError(error);
-          });
+    console.log('FORMDATA', eventCommentData);
+    api.post('eventcomments', eventCommentData)
+      .then(({data}) => this.commentSuccess())
+      .catch(error => {
+        this.commentError(error);
+      });
   }
 
   commentSuccess() {
@@ -51,21 +51,17 @@ export class EventAddCommentRaw extends Component {
     return (
       <div>
 
-      <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit} role="form">
+        <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit}
+              role="form">
           <div className="row">
-
-              <div className="col-xs-9 col-sm-9">
-                <div className="form-group">
-                  <textarea name="message" id="message" required="required" className="form-control" rows="1"></textarea>
-                </div>
-              </div>
-              <div className="col-xs-3 col-sm-3">
-                <div className="form-group">
-                  <button type="submit" className="btn btn-primary btn-lg">Přidat komentář</button>
-                </div>
-              </div>
+            <div className="form-group col-md-10 col-md-offset-1">
+              <textarea name="message" id="message" required="required" className="form-control" rows="1"></textarea>
+              <button type="submit" className="btn pull-right btn-success btn-sm form-control add-comment-button">Přidat
+                komentář
+              </button>
+            </div>
           </div>
-      </form>
+        </form>
 
 
       </div>

@@ -78,9 +78,9 @@ export class ListOfUsersForm extends Component {
                 <table className="list-of-users-form">
                   <thead>
                   <tr>
-                    <td>Uživatelské jméno</td>
+                    <td>Uživatel</td>
                     <td>Email</td>
-                    <td>Stav žádosti</td>
+                    <td>Stav</td>
                     <td>Vytvořeno</td>
                     <td colSpan="2"/>
                   </tr>

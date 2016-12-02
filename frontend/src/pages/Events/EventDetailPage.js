@@ -25,13 +25,13 @@ export class EventDetailPageRaw extends Component {
   fetchEventDetailData() {
     const {eventId} = this.props.params;
     const self = this;
-    api('events/' + eventId, {"params": {"filter":{"include": ["users","user"]}}})
+    api('events/' + eventId, {"params": {"filter": {"include": ["users", "user"]}}})
       .then((response)=> {
         self.setState({
           event: response.data
         })
       }).catch((e)=> {
-        console.warn(eventId,e);
+      console.warn(eventId, e);
     })
   }
 
@@ -50,27 +50,27 @@ export class EventDetailPageRaw extends Component {
   }
 
   getSignedUsersCount() {
-    return this.state.event.users.reduce((prev,current)=>{
-      if(current.status==='accepted') return prev + 1
-    },0);
+    return this.state.event.users.reduce((prev, current)=> {
+      if (current.status === 'accepted') return prev + 1
+    }, 0);
   }
 
-  isEventCreatedByMe(event){
-    return (event && event.user && (event.user.id===this.props.getUserId))
+  isEventCreatedByMe(event) {
+    return (event && event.user && (event.user.id === this.props.getUserId))
   }
 
   fetchComments() {
     const {eventId} = this.props.params;
     console.log('eID', eventId);
-    api('eventcomments', {"params": {"filter":{"where":{"event_id": eventId}, "include": ["user","users"] }}})
-      .then((response)=>{
+    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user", "users"]}}})
+      .then((response)=> {
         const eventComments = response.data;
         this.setState({
           ...this.state,
           eventComments: eventComments
         })
       })
-      .catch((err)=>{
+      .catch((err)=> {
         console.warn(err)
       })
   }
@@ -85,66 +85,69 @@ export class EventDetailPageRaw extends Component {
           <h1>Načítám...</h1> :
 
           <div>
+            <div className="row first-header-row">
 
-            <div className="col-md-4">
-            <a className="btn btn-default" href="/">Zpět na výpis</a>
+              <div className="col-md-4">
+                <a className="btn btn-default" href="/">Zpět na výpis</a>
 
-            </div>
-
-            <div className="col-md-8">
-              <h1 className="pull-left">{event.name}</h1>
-            </div>
-            <div className="row"></div>
-
-            <div className="col-xs-12 col-md-4">
-              {event.picture ?
-                <img className="col-xs-12 col-md-12" src={event.picture} alt="{name}"/> :
-                ''
-              }
-              <div className="col-md-12">
-                {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
               </div>
-            </div>
 
-            <div className="col-xs-12 col-md-8">
               <div className="col-md-12">
-                <div className="col-md-12"><b>Autor</b> Ferda</div>
-                <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
-                <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount()} / {event.capacity}</div>
+                <h1 className="text-center">{event.name}</h1>
+              </div>
+
+              <div className="col-xs-12 col-md-4">
+                {event.picture ?
+                  <img className="col-xs-12 col-md-12" src={event.picture} alt="{name}"/> :
+                  ''
+                }
                 <div className="col-md-12">
-                  <label><b>Kategorie</b></label>
+                  {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
+
+                </div>
+              </div>
+
+              <div className="col-xs-12 col-md-5">
+                <div className="col-md-12">
+                  <div className="col-md-12"><b>Autor</b> Ferda</div>
+                  <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
+                  <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount()} / {event.capacity}</div>
+
                   <div className="col-md-12">
-                    <ul className="tag-cloud">
-                      {event.tags.split(",").map((tag, index)=>
-                        <li key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
-                      )}
-                    </ul>
+                    <div className="">{event.description}</div>
                   </div>
                 </div>
+              </div>
+
+              <div className="col-md-2">
+                <label><b>Kategorie</b></label>
                 <div className="col-md-12">
-                  <div className="">{event.description}</div>
+                  <ul className="tag-cloud col-md-12">
+                    {event.tags.split(",").map((tag, index)=>
+                      <li className="col-md-12" key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
+                    )}
+                  </ul>
                 </div>
               </div>
-              <div className="col-md-12">
+            </div>
+            <div className="row second-row-detail-page">
+              <div className="col-md-5">
                 {
                   this.isEventCreatedByMe(event)
                     ?
-                    <ListOfUsersForm eventId={event.id}  />
+                    <ListOfUsersForm eventId={event.id}/>
                     :
                     <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
                 }
               </div>
 
-              <EventCommentList eventComments={eventComments} />
+              <div className="col-md-7">
+                <EventCommentList eventComments={eventComments}/>
 
-                <div id="contact-page clearfix">
-                  <div className="message_heading">
-                      <h4>Přidat komentář</h4>
-                  </div>
-
+                <div>
                   <EventAddComment eventId={event.id}/>
-
                 </div>
+              </div>
             </div>
           </div>
         }

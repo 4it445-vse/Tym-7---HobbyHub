@@ -8,7 +8,6 @@ export class EventImagePicker extends Component {
   constructor(props) {
     super(props);
     this.selectImage = this.selectImage.bind(this)
-    this.onImageSelected = this.onImageSelected.bind(this)
     this.state = {
       selectedImage: {
         id: null,
@@ -53,16 +52,10 @@ export class EventImagePicker extends Component {
     ]
   }
 
-  selectImage(image) {
-    this.setState({
-      selectedImage: image
-    })
-  }
-
-  onImageSelected(image){
+  selectImage(imgSrc) {
     const {onImageSelected} = this.props;
     if(typeof onImageSelected==="function"){
-      onImageSelected(image.src);
+      onImageSelected(imgSrc);
     }
   }
 
@@ -79,19 +72,9 @@ export class EventImagePicker extends Component {
 
       return (
         <div key={image.id} className="image-picker-wrapper col-md-2">
-          <div className="image-picker-inner">
-            <img src={image.src} alt={image.name} onClick={()=>this.selectImage(image)}
+          <div className="image-picker-inner crop">
+            <img src={image.src} alt={image.name} onClick={()=>this.selectImage(image.src)}
                  className={classes}/>
-            {(selectedImage.id === image.id)?
-              <button
-                className="image-picker-select-button"
-                onClick={()=>{
-                  this.onImageSelected(image)
-                }}
-              >Vybrat</button>:
-              ''
-
-            }
           </div>
         </div>
 
