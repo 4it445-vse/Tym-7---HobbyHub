@@ -27,14 +27,9 @@ export class EventListItem extends Component {
   }
 
   getSignedUsersCount(event) {
-    var count = 0;
-    for (var key in event.users) {
-      if (event.users[key].status === 'confirmed') {
-        count++;
-      }
-    }
-
-    return count;
+    return event.users.reduce((prev, user)=>{
+      return user.status==="accepted" ? prev + 1 : prev;
+    },0)
   }
 
   render() {
