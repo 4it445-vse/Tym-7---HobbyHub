@@ -215,4 +215,27 @@ only screen and (min-device-pixel-ratio: 2) {
     margin: 0.2rem !important;
     width: 2.3rem !important;
     line-height: 2.3rem !important;
+    height: 100%;
+}
+
+.list-of-users-form{
+    width: 100%;
+}
+
+.list-of-users-form thead{
+    font-weight: 700;
+}
+
+.list-of-users-form tbody tr.pending{
+    background-color: #fff;
+}
+
+.list-of-users-form tbody tr.accepted{
+    background-color: green;
+    color:white;
+}
+
+.list-of-users-form tbody tr.rejected{
+    background-color: #870000;
+    color:white;
 }

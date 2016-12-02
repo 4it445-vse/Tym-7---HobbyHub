@@ -9,9 +9,13 @@ export class EventCommentList extends Component {
     return (
       <div>
         <h2>Komentáře</h2>
-        {eventComments.map(eventComment =>
-          <EventCommentItem eventComment={eventComment} key={eventComment.id}/>
-        )}
+        {!eventComments?
+          ""
+          :
+          eventComments.map(eventComment =>
+            <EventCommentItem eventComment={eventComment} key={eventComment.id}/>
+          )
+        }
       </div>
     );
   }

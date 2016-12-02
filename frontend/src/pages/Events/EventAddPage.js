@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import api from '../../api';
 import EVENT_STATE from '../../components/EventList/EventHelper';
 import {browserHistory} from 'react-router';
+import {getUserId} from '../../components/Login/reducers.js';
 
 export class EventAddPageRaw extends Component {
 
@@ -21,9 +22,10 @@ export class EventAddPageRaw extends Component {
 
   onFormSubmit(event) {
     const newState = {...this.state};
+    const userId = this.props.getUserId
     newState.eventState = EVENT_STATE.WAITING;
     this.setState(newState)
-    api.post('events', event)
+    api.post('appusers/'+userId+'/authorEvents', event)
       .then(response => {
           browserHistory.push("/events/detail/"+response.data.id);
       })
@@ -53,10 +55,13 @@ export class EventAddPageRaw extends Component {
 }
 
 
-const mapStateToProps = state => {
+
+function mapStateToProps(state) {
+  const {login} = state;
   return {
-  }
-};
+    getUserId: getUserId(login),
+  };
+}
 
 export const EventAddPage = connect(
   mapStateToProps,

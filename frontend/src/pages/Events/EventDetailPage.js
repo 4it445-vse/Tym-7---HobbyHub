@@ -8,8 +8,11 @@ import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
+import {getUserId} from '../../components/Login/reducers.js';
+import {connect} from 'react-redux'
+import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
 
-export class EventDetailPage extends Component {
+export class EventDetailPageRaw extends Component {
 
   constructor(props) {
     super(props);
@@ -22,7 +25,7 @@ export class EventDetailPage extends Component {
   fetchEventDetailData() {
     const {eventId} = this.props.params;
     const self = this;
-    api('events/' + eventId, {"params": {"filter":{"include": "users"}}})
+    api('events/' + eventId, {"params": {"filter":{"include": ["users","user"]}}})
       .then((response)=> {
         self.setState({
           event: response.data
@@ -46,21 +49,20 @@ export class EventDetailPage extends Component {
     }
   }
 
-  getSignedUsersCount(event) {
-    var count = 0;
-    for (var key in event.users) {
-      if (event.users[key].status === 'confirmed') {
-        count++;
-      }
-    }
+  getSignedUsersCount() {
+    return this.state.event.users.reduce((prev,current)=>{
+      if(current.status==='accepted') return prev + 1
+    },0);
+  }
 
-    return count;
+  isEventCreatedByMe(event){
+    return (event && event.user && (event.user.id===this.props.getUserId))
   }
 
   fetchComments() {
-    const {eventId} = this.props;
+    const {eventId} = this.props.params;
     console.log('eID', eventId);
-    api('eventcomments', {"params": {"filter":{"where":{"event_id": eventId}, "include": "user" }}})
+    api('eventcomments', {"params": {"filter":{"where":{"event_id": eventId}, "include": ["user","users"] }}})
       .then((response)=>{
         const eventComments = response.data;
         this.setState({
@@ -108,7 +110,7 @@ export class EventDetailPage extends Component {
               <div className="col-md-12">
                 <div className="col-md-12"><b>Autor</b> Ferda</div>
                 <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
-                <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount(event)} / {event.capacity}</div>
+                <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount()} / {event.capacity}</div>
                 <div className="col-md-12">
                   <label><b>Kategorie</b></label>
                   <div className="col-md-12">
@@ -123,9 +125,14 @@ export class EventDetailPage extends Component {
                   <div className="">{event.description}</div>
                 </div>
               </div>
-
               <div className="col-md-12">
-                <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(event)}/>
+                {
+                  this.isEventCreatedByMe(event)
+                    ?
+                    <ListOfUsersForm eventId={event.id}  />
+                    :
+                    <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
+                }
               </div>
 
               <EventCommentList eventComments={eventComments} />
@@ -138,7 +145,6 @@ export class EventDetailPage extends Component {
                   <EventAddComment eventId={event.id}/>
 
                 </div>
-
             </div>
           </div>
         }
@@ -146,3 +152,16 @@ export class EventDetailPage extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const {login} = state;
+  return {
+    getUserId: getUserId(login),
+  };
+}
+
+export const EventDetailPage = connect(
+  mapStateToProps,
+  {}
+)(EventDetailPageRaw);
+
