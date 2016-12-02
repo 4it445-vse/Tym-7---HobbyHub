@@ -230,15 +230,6 @@ only screen and (min-device-pixel-ratio: 2) {
     background-color: #fff;
 }
 
-.list-of-users-form tbody tr.accepted{
-    background-color: green;
-    color:white;
-}
-
-.list-of-users-form tbody tr.rejected{
-    background-color: #870000;
-    color:white;
-}
 
 .regcover{
     background-image: url(https://static.pexels.com/photos/28017/pexels-photo-28017.jpg);
@@ -318,6 +309,31 @@ only screen and (min-device-pixel-ratio: 2) {
     width: 200px;
 }
 
-.second-row-detail-page{
+.second-row-detail-page {
     margin-top: 100px;
+}
+
+.circle{
+    width:20px;
+    height:20px;
+    border-radius:10px;
+    font-size:20px;
+    line-height:200px;
+    text-align:center;
+    margin: auto;
+}
+
+.circle.circle-green{
+    background-color: green;
+}
+
+.circle.circle-red{
+    background-color: red;
+}
+.circle.circle.neutral{
+    background-color: wheat;
+}
+
+.no-margin-top{
+    margin-top: 0;
 }

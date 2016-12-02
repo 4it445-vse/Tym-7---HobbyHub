@@ -13,7 +13,26 @@ export class ListOfUsersRow extends Component {
     const {status, created, user, onChangeEventUserState} = this.props;
     console.log(this.props)
     return (
-      <tr className={status}>
+      <tr>
+        <td className="text-center">
+          {
+            status === "pending"
+              ?
+              <div className="circle circle-neutral">
+              </div>
+              : status === "accepted"
+              ?
+              <div className="circle circle-green">
+              </div>
+              : status === "rejected"
+              ?
+              <div className="circle circle-red">
+              </div> :
+
+              ""
+          }
+
+        </td>
         <td>
           {user.username}
         </td>
@@ -21,14 +40,11 @@ export class ListOfUsersRow extends Component {
           {user.email}
         </td>
         <td>
-          {status}
-        </td>
-        <td>
           {moment(created).format("D.M.YYYY")}
         </td>
-        <div>
+        <td>
           <EventUserAvailableActions status={status} onChangeEventUserState={onChangeEventUserState}/>
-        </div>
+        </td>
       </tr>
     )
   }
@@ -42,47 +58,37 @@ export class EventUserAvailableActions extends Component {
     if (status === "pending") {
       return (
         <div>
-          <td>
-            <a
-              onClick={(e)=>{
+          <a
+            onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("accepted")
           }}
-              href="">Přijmout</a>
-          </td>
-          <td>
-            <a
-              onClick={(e)=>{
-            e.preventDefault();
-            onChangeEventUserState("rejected")
-          }}
-              href="">Zamítnout</a>
-          </td>
-        </div>
-      );
-    } else if (status === "accepted") {
-      return (
-        <td>
+            href="">Přijmout</a>
           <a
             onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("rejected")
           }}
             href="">Zamítnout</a>
-        </td>
+        </div>
+      );
+    } else if (status === "accepted") {
+      return (
+        <a
+          onClick={(e)=>{
+            e.preventDefault();
+            onChangeEventUserState("rejected")
+          }}
+          href="">Zamítnout</a>
       );
     } else if (status === "rejected") {
       return (
-        <div>
-          <td>
-            <a
-              onClick={(e)=>{
+        <a
+          onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("accepted")
           }}
-              href="">Přijmout</a>
-          </td>
-        </div>
+          href="">Přijmout</a>
       )
     }
   }

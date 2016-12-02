@@ -75,12 +75,12 @@ export class ListOfUsersForm extends Component {
               <div>Nastala chyba při načítání dat ze serveru</div>
               :
               <div>
-                <table className="list-of-users-form">
+                <table className="text-center list-of-users-form table-striped table-bordered table-hover">
                   <thead>
                   <tr>
+                    <td></td>
                     <td>Uživatel</td>
                     <td>Email</td>
-                    <td>Stav</td>
                     <td>Vytvořeno</td>
                     <td colSpan="2"/>
                   </tr>

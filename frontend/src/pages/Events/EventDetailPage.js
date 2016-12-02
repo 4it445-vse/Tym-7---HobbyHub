@@ -131,7 +131,7 @@ export class EventDetailPageRaw extends Component {
               </div>
             </div>
             <div className="row second-row-detail-page">
-              <div className="col-md-5">
+              <div className="col-md-7">
                 {
                   this.isEventCreatedByMe(event)
                     ?
@@ -141,7 +141,7 @@ export class EventDetailPageRaw extends Component {
                 }
               </div>
 
-              <div className="col-md-7">
+              <div className="col-md-5">
                 <EventCommentList eventComments={eventComments}/>
 
                 <div>
