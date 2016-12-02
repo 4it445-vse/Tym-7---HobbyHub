@@ -131,19 +131,20 @@ export class EventDetailPageRaw extends Component {
               </div>
             </div>
             <div className="row second-row-detail-page">
-              <div className="col-md-7">
                 {
                   this.isEventCreatedByMe(event)
                     ?
-                    <ListOfUsersForm eventId={event.id}/>
+                    <div className="col-md-7">
+                      <ListOfUsersForm eventId={event.id}/>
+                    </div>
                     :
-                    <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
+                    <div className="col-md-2">
+                      <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
+                    </div>
                 }
-              </div>
 
-              <div className="col-md-5">
+              <div className={this.isEventCreatedByMe(event)?"col-md-5":"col-md-offset-1 col-md-8"}>
                 <EventCommentList eventComments={eventComments}/>
-
                 <div>
                   <EventAddComment eventId={event.id}/>
                 </div>
