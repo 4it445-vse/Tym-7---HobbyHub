@@ -61,8 +61,7 @@ export class EventDetailPageRaw extends Component {
 
   fetchComments() {
     const {eventId} = this.props.params;
-    console.log('eID', eventId);
-    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user", "users"]}}})
+    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"]}}})
       .then((response)=> {
         const eventComments = response.data;
         this.setState({
@@ -168,4 +167,3 @@ export const EventDetailPage = connect(
   mapStateToProps,
   {}
 )(EventDetailPageRaw);
-
