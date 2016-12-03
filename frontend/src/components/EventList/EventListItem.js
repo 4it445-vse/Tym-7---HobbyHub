@@ -16,7 +16,7 @@ export class EventListItem extends Component {
   getSignedStatus() {
     const {userId, event} = this.props;
     for (var key in event.users) {
-      if (event.users[key].user_id === userId && event.users[key].status === 'confirmed') {
+      if (event.users[key].user_id === userId && event.users[key].status === 'accepted') {
         return 'Přihlášen';
       } else if (event.users[key].user_id === userId) {
         return 'Čeká na schválení';
