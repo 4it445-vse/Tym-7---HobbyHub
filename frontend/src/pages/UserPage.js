@@ -102,6 +102,22 @@ export class UserPageRaw extends Component {
       );
     }
 
+    if (lodash.isEmpty(this.state.userData)) {
+      return (
+          <div className="container content-container">
+            <div>
+
+
+              <div className="col-md-12">
+                <h1>404 Nenalezeno</h1>
+                <p className="center">Při zobrazování účtu došlo k chybě.</p>
+                <p className="center">Účet neexistuje.</p>
+              </div>
+            </div>
+          </div>
+      );
+    }
+
     return (
       <div className="container content-container">
         <div>
