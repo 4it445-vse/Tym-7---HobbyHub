@@ -6,6 +6,7 @@ import lodash from 'lodash';
 import { UserForm } from '../components/User/UserForm.js';
 import { UserProfile } from '../components/User/UserProfile.js';
 import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 export class ProfilePageRaw extends Component {
     constructor(props) {
