@@ -29,10 +29,11 @@ export class EventAddCommentRaw extends Component {
       user_id: this.state.userId,
       event_id: this.state.eventId
     };
+    const {fetchComments} = this.props;
 
     console.log('FORMDATA', eventCommentData);
     api.post('eventcomments', eventCommentData)
-      .then(({data}) => this.commentSuccess())
+      .then(({data}) => {this.commentSuccess(); fetchComments();})
       .catch(error => {
         this.commentError(error);
       });

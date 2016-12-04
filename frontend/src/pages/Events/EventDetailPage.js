@@ -20,6 +20,7 @@ export class EventDetailPageRaw extends Component {
     this.state = {
       event: null
     };
+    this.fetchComments = this.fetchComments.bind(this);
   }
 
   fetchEventDetailData() {
@@ -145,7 +146,7 @@ export class EventDetailPageRaw extends Component {
               <div className={this.isEventCreatedByMe(event)?"col-md-5":"col-md-offset-1 col-md-8"}>
                 <EventCommentList eventComments={eventComments}/>
                 <div>
-                  <EventAddComment eventId={event.id}/>
+                  <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
                 </div>
               </div>
             </div>
