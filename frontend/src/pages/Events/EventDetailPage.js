@@ -50,9 +50,9 @@ export class EventDetailPageRaw extends Component {
   }
 
   getSignedUsersCount() {
-    return this.state.event.users.reduce((prev, current)=> {
-      if (current.status === 'accepted') return prev + 1
-    }, 0);
+    return this.state.event.users.reduce((prev, user)=>{
+      return user.status==="accepted" ? prev + 1 : prev;
+    },0)
   }
 
   isEventCreatedByMe(event) {
