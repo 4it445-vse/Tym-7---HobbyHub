@@ -14,6 +14,7 @@ export class EventAddCommentRaw extends Component {
     super(props);
     const {eventId} = this.props;
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.commentSuccess = this.commentSuccess.bind(this);
     this.state = {
       userId: this.props.getUserId,
       eventId: this.props.eventId
@@ -29,17 +30,22 @@ export class EventAddCommentRaw extends Component {
       user_id: this.state.userId,
       event_id: this.state.eventId
     };
-    const {fetchComments} = this.props;
+
 
     console.log('FORMDATA', eventCommentData);
     api.post('eventcomments', eventCommentData)
-      .then(({data}) => {this.commentSuccess(); fetchComments();})
+      .then(({data}) => {this.commentSuccess();})
       .catch(error => {
         this.commentError(error);
       });
   }
 
   commentSuccess() {
+    const {fetchComments} = this.props;
+    const {message} = this.refs;
+    message.value = "";
+    fetchComments();
+
     console.log('com succ');
   }
 
@@ -55,7 +61,7 @@ export class EventAddCommentRaw extends Component {
               role="form">
           <div className="row">
             <div className="form-group col-md-12">
-              <textarea name="message" id="message" required="required" className="form-control" rows="1"></textarea>
+              <textarea name="message" id="message" required="required" className="form-control" rows="1" ref="message"></textarea>
               <button type="submit" className="btn pull-right btn-success btn-sm form-control add-comment-button">Přidat
                 komentář
               </button>

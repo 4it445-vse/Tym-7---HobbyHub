@@ -37,8 +37,13 @@ export class EventDetailPageRaw extends Component {
   }
 
   componentDidMount() {
+    //fetch data
     this.fetchEventDetailData();
-    this.fetchComments();
+    this.fetchComments()
+    //set comments polling
+    setInterval(function() {
+      this.fetchComments();
+    }.bind(this), 5000);
   }
 
   getCoordinates() {
@@ -62,7 +67,7 @@ export class EventDetailPageRaw extends Component {
 
   fetchComments() {
     const {eventId} = this.props.params;
-    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"]}}})
+    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"], "order": "created desc"}}})
       .then((response)=> {
         const eventComments = response.data;
         this.setState({
