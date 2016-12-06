@@ -8,7 +8,7 @@ import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
-import {getUserId} from '../../components/Login/reducers.js';
+import {getUserId,isLoggedIn} from '../../components/Login/reducers.js';
 import {connect} from 'react-redux'
 import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
 
@@ -77,6 +77,7 @@ export class EventDetailPageRaw extends Component {
 
   render() {
     const {event, eventComments} = this.state;
+    const {isLoggedIn} = this.props;
     const coordinates = this.getCoordinates();
     return (
       <div className="container content-container">
@@ -143,12 +144,13 @@ export class EventDetailPageRaw extends Component {
                     </div>
                 }
 
+              {isLoggedIn &&
               <div className={this.isEventCreatedByMe(event)?"col-md-5":"col-md-offset-1 col-md-8"}>
                 <EventCommentList eventComments={eventComments}/>
                 <div>
                   <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
         }
@@ -161,6 +163,7 @@ function mapStateToProps(state) {
   const {login} = state;
   return {
     getUserId: getUserId(login),
+    isLoggedIn: isLoggedIn(login)
   };
 }
 

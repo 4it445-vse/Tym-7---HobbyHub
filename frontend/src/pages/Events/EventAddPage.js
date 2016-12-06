@@ -7,7 +7,8 @@ import {connect} from 'react-redux';
 import api from '../../api';
 import EVENT_STATE from '../../components/EventList/EventHelper';
 import {browserHistory} from 'react-router';
-import {getUserId} from '../../components/Login/reducers.js';
+import {getUserId, isLoggedIn} from '../../components/Login/reducers.js';
+import { Link } from 'react-router';
 
 export class EventAddPageRaw extends Component {
 
@@ -44,8 +45,21 @@ export class EventAddPageRaw extends Component {
     const formActions = {
       save: true
     }
-    const {eventState} = this.state
-
+    const {eventState} = this.state;
+    const {isLoggedIn} = this.props;
+    if (!isLoggedIn) {
+      return (
+          <div className="container content-container">
+            <div>
+              <div className="col-md-12">
+                <h1>Nepřihlášen</h1>
+                <p className="center">Pro vytvření události se nejdříve přihlašte.</p>
+                <p className="center">Ješte nemáte účet? <Link to="/registration">Zaregistrujte se</Link>.</p>
+              </div>
+            </div>
+          </div>
+      );
+    }
     return (
       <div className="container content-container">
         <EventForm actions={formActions} onFormSubmit={this.onFormSubmit} eventState={eventState}/>
@@ -60,6 +74,7 @@ function mapStateToProps(state) {
   const {login} = state;
   return {
     getUserId: getUserId(login),
+    isLoggedIn: isLoggedIn(login)
   };
 }
 

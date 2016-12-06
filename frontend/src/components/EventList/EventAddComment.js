@@ -51,7 +51,6 @@ export class EventAddCommentRaw extends Component {
     const {eventId, getUserId} = this.props;
     return (
       <div>
-
         <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit}
               role="form">
           <div className="row">
