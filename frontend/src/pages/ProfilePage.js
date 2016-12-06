@@ -12,7 +12,8 @@ export class ProfilePageRaw extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = { userData:{} };
+        const {userId} = this.props;
+        this.state = { userData:{}, loggedUserId: userId};
     }
 
     handleSubmit(event) {
@@ -70,9 +71,10 @@ export class ProfilePageRaw extends Component {
         }
     }
 
-    fetchUser(userId) {
-        api.get('appusers/'+userId)
-            .then(({ data }) => this.setState({userData: data}))
+    fetchUser(requestedUserId) {
+        const { userId } = this.props;
+        api.get('appusers/'+requestedUserId)
+            .then(({ data }) => this.setState({userData: data, loggedUserId: userId}))
             .catch(error => {
                 console.log('there were some errors loading user profile');
             });
@@ -82,6 +84,11 @@ export class ProfilePageRaw extends Component {
         const { username, email, rating } = this.state.userData;
         const { loggedIn, userId } = this.props;
         const { profileId } = this.props.params;
+        const { loggedUserId } = this.state;
+        //reload data if user logged out or logged in
+        if (loggedIn && userId != loggedUserId) {
+            this.fetchUser(userId);
+        }
         //only logged in user can see its or others profile
         if (!loggedIn) {
             return (
