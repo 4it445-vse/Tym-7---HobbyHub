@@ -13,6 +13,12 @@ export class Filter extends Component {
     moment.locale('cs');
   }
 
+  handleFilterSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    console.log(formData);
+}
+
   render() {
     return (
 
@@ -23,8 +29,8 @@ export class Filter extends Component {
             </div>
             <div className="col-md-10">
               <CustomDatePicker
-                    id="date"
-                    name="date"
+                    id="date-from"
+                    name="date-from"
                     />
             </div>
           </div>
@@ -34,8 +40,8 @@ export class Filter extends Component {
             </div>
             <div className="col-md-10">
               <CustomDatePicker
-                    id="date"
-                    name="date"
+                    id="date-to"
+                    name="date-to"
                     />
             </div>
           </div>
@@ -45,8 +51,10 @@ export class Filter extends Component {
           <div className="col-xs-6 col-md-2">
             <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox/>
           </div>
+          <div>
+      <button onClick={this.handleFilterSubmit} className="pull-right btn btn-success btn-lg" type="submit">Filter</button>
+    </div>
       </div>
-
     );
   }
 }
