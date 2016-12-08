@@ -11,17 +11,20 @@ export class Filter extends Component {
   constructor(props) {
     super(props)
     moment.locale('cs');
+    this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
   }
 
   handleFilterSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    console.log(formData);
+    const dt = new Date(formData.get('date-to'));
+    event.date = moment(dt).toDate();
+    console.log(dt);
 }
 
   render() {
     return (
-
+<form onSubmit={this.handleFilterSubmit}>
       <div className="col-md-12">
           <div className="col-md-4">
             <div className="col-md-2">
@@ -45,16 +48,22 @@ export class Filter extends Component {
                     />
             </div>
           </div>
-          <div className="col-xs-6 col-md-2">
-            <label className="box filter-label">&nbsp; Jsem přihlášen:</label><Checkbox/>
+          <div className="col-xs-4 col-md-2">
+            <label className="box filter-label">&nbsp; Jsem přihlášen:</label>
+              <Checkbox
+                    id="chstat"
+                    name="chstat"/>
           </div>
-          <div className="col-xs-6 col-md-2">
+          <div className="col-xs-4 col-md-2">
             <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox/>
           </div>
-          <div>
-      <button onClick={this.handleFilterSubmit} className="pull-right btn btn-success btn-lg" type="submit">Filter</button>
+          <div className="col-xs-4 col-md-2">
+          <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required"
+          >Filter
+          </button>
     </div>
       </div>
+      </form>
     );
   }
 }
