@@ -18,26 +18,21 @@ export class Filter extends Component {
   handleFilterSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const dtto = new Date(formData.get('date-to'));
-    const dtfrom = new Date(formData.get('date-from'));
-    const chckstat = new Date(formData.get('check-stat'));
-    event.date = moment(dtto).toDate();
+    const dateTo = new Date(formData.get('date-to'));
+    const dateFrom = new Date(formData.get('date-from'));
+    const checkboxStatus = formData.get('check-stat');
+    const checkboxCapacity = formData.get('check-cap');
+    var filterData = {dateFrom: dateFrom, dateTo: dateTo, checkboxStatus: checkboxStatus, checkboxCapacity: checkboxCapacity};
 
-    formData.append(
-      'items',
-      JSON.stringify(dtto)
+    formData.append('data',JSON.stringify(filterData)
     );
+
+    console.log(formData);
 
     api.post('orders/submit', formData)
   .then(({ data }) => {
-    this.setState({ errors: {} });
+    this.setState({ event: {} });
   })
-  .catch(error => {
-    const { response } = error;
-    const { errors } = response.data.error.details;
-
-    this.setState({ errors });
-  });
 }
 
   render() {
@@ -71,7 +66,7 @@ export class Filter extends Component {
               <Checkbox name="check-stat"/>
           </div>
           <div className="col-xs-4 col-md-2">
-            <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox/>
+            <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox name="check-cap"/>
           </div>
           <div className="col-xs-4 col-md-2">
           <button type="submit" name="submit" className="pull-right btn btn-default" required="required"
