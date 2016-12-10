@@ -3,6 +3,7 @@ import Checkbox from 'rc-checkbox';
 import {DatePickerCustom} from './DatePicker'
 import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
 import moment from 'moment';
+import api from '../../api.js';
 
 
 
@@ -17,16 +18,33 @@ export class Filter extends Component {
   handleFilterSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const dt = new Date(formData.get('date-to'));
-    event.date = moment(dt).toDate();
-    console.log(dt);
+    const dtto = new Date(formData.get('date-to'));
+    const dtfrom = new Date(formData.get('date-from'));
+    const chckstat = new Date(formData.get('check-stat'));
+    event.date = moment(dtto).toDate();
+
+    formData.append(
+      'items',
+      JSON.stringify(dtto)
+    );
+
+    api.post('orders/submit', formData)
+  .then(({ data }) => {
+    this.setState({ errors: {} });
+  })
+  .catch(error => {
+    const { response } = error;
+    const { errors } = response.data.error.details;
+
+    this.setState({ errors });
+  });
 }
 
   render() {
     return (
 <form onSubmit={this.handleFilterSubmit}>
       <div className="col-md-12">
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="col-md-2">
               <label className="filter-label">Od:</label>
             </div>
@@ -37,7 +55,7 @@ export class Filter extends Component {
                     />
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-3">
             <div className="col-md-2">
               <label className="filter-label">Do:</label>
             </div>
@@ -50,16 +68,14 @@ export class Filter extends Component {
           </div>
           <div className="col-xs-4 col-md-2">
             <label className="box filter-label">&nbsp; Jsem přihlášen:</label>
-              <Checkbox
-                    id="chstat"
-                    name="chstat"/>
+              <Checkbox name="check-stat"/>
           </div>
           <div className="col-xs-4 col-md-2">
             <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox/>
           </div>
           <div className="col-xs-4 col-md-2">
-          <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required"
-          >Filter
+          <button type="submit" name="submit" className="pull-right btn btn-default" required="required"
+          >Filtrovat
           </button>
     </div>
       </div>
