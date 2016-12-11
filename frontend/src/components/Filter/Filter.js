@@ -52,20 +52,16 @@ export class Filter extends Component {
     const checkboxCapacity = formData.get('check-cap');
     var filterData = {dateFrom: dateFrom, dateTo: dateTo, checkboxStatus: checkboxStatus, checkboxCapacity: checkboxCapacity};
 
-    const test = "heracek"
-
-
-    api.post('events/filter', test)
+    api.post('events/filter', formData)
        .then((response) => {
          console.log('response',response);
-
      })
-
-
 
 /*    for (var pair of formData.entries())
 {
  console.log(pair[0]+ ', '+ pair[1]);
+
+ vypis formData
 }*/
 
   }
