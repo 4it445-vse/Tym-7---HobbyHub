@@ -52,12 +52,21 @@ export class Filter extends Component {
     const checkboxCapacity = formData.get('check-cap');
     var filterData = {dateFrom: dateFrom, dateTo: dateTo, checkboxStatus: checkboxStatus, checkboxCapacity: checkboxCapacity};
 
-    api.post('orders/submit', formData)
+    const test = "heracek"
 
-    for (var pair of formData.entries())
+
+    api.post('events/filter', test)
+       .then((response) => {
+         console.log('response',response);
+
+     })
+
+
+
+/*    for (var pair of formData.entries())
 {
  console.log(pair[0]+ ', '+ pair[1]);
-}
+}*/
 
   }
 
