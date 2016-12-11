@@ -15,6 +15,9 @@ export class Filter extends Component {
     moment.locale('cs');
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
+    this.state={
+      event:{}
+    }
   }
 
   handleSelectTagChange(value) {
@@ -50,20 +53,19 @@ export class Filter extends Component {
     const dateFrom = new Date(formData.get('date-from'));
     const checkboxStatus = formData.get('check-stat');
     const checkboxCapacity = formData.get('check-cap');
-    var filterData = {dateFrom: dateFrom, dateTo: dateTo, checkboxStatus: checkboxStatus, checkboxCapacity: checkboxCapacity};
+    const filterData = {
+      dateFrom,
+      dateTo,
+      checkboxStatus,
+      checkboxCapacity,
+    };
 
-    api.post('events/filter', formData)
+    console.log("filterData",filterData)
+
+    api.post('events/filter', filterData)
        .then((response) => {
          console.log('response',response);
      })
-
-/*    for (var pair of formData.entries())
-{
- console.log(pair[0]+ ', '+ pair[1]);
-
- vypis formData
-}*/
-
   }
 
   render() {
@@ -100,37 +102,35 @@ export class Filter extends Component {
             <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox name="check-cap"/>
           </div>
           <div className="col-xs-4 col-md-2">
-          <button type="submit" name="submit" className="pull-right btn btn-default top-filter-buffer" required="required"
+          <button type="submit" name="submit" className="pull-right btn btn-default top-filter-buffer"
           >Filtrovat
           </button>
     </div>
-    <div className="col-md-3">
-      <div className="col-md-3">
-        <label className="filter-label">Místo:</label>
-      </div>
-      <div className="col-md-9">
-      <input
-        required="required"
-        id="place"
-        type="text"
-        className="form-control"
-        name="place"/>
-      </div>
-    </div>
+    {/*<div className="col-md-3">*/}
+      {/*<div className="col-md-3">*/}
+        {/*<label className="filter-label">Místo:</label>*/}
+      {/*</div>*/}
+      {/*<div className="col-md-9">*/}
+      {/*<input*/}
+        {/*id="place"*/}
+        {/*type="text"*/}
+        {/*className="form-control"*/}
+        {/*name="place"/>*/}
+      {/*</div>*/}
+    {/*</div>*/}
     <div className="col-md-3">
       <div className="col-md-3">
         <label className="filter-label">Název:</label>
       </div>
       <div className="col-md-9">
       <input
-        required="required"
         id="name"
         type="text"
         className="form-control"
         name="name"/>
       </div>
     </div>
-    <div className="col-md-4">
+    <div className="col-md-8">
       <div className="col-md-4">
         <label className="filter-label" htmlFor="tags">Kategorie:</label>
       </div>
@@ -141,6 +141,8 @@ export class Filter extends Component {
         placeholder="Vyberte kategorie"
         id="tags"
         name="tags"
+        options={this.state.tag_options}
+        value = {this.state.event.tags}
         joinValues
         onChange={this.handleSelectTagChange}
       ></Select2>

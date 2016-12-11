@@ -65,30 +65,5 @@
     }
   },
   "acls": [],
-  "methods": {
-    "filter": {
-        "accepts": [
-          {
-            "arg": "test",
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "returns": [
-          {
-            "arg": "filter",
-            "type": "any",
-            "root": false,
-            "description": ""
-          }
-        ],
-        "description": "",
-        "http": [
-          {
-            "path": "/filter",
-            "verb": "post"
-          }
-        ]
-      }
-    }
+  "methods": []
 }
