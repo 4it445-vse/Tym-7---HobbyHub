@@ -140,7 +140,7 @@ export class EventForm extends Component {
   render() {
     const {event} = this.state;
     const {actions, eventState} = this.props;
-    const {save, remove} = actions;
+    const {save, remove, edit} = actions;
 
     return (
       <div>
@@ -254,7 +254,16 @@ export class EventForm extends Component {
               :
               ''
             }
-
+            {edit ?
+              <div className="col-md-12">
+                <button type="button" name="edit" className="btn btn-danger btn-lg" required="required"
+                        disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
+                >Upravit
+                </button>
+              </div>
+              :
+              ''
+            }
             {
               eventState === EVENT_STATES.SUCCESS ?
                 <div>Událost byla vytvořena</div> :
