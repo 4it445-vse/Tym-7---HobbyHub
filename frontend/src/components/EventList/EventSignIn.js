@@ -10,10 +10,33 @@ import {eventSignIn, eventSignOut, fetchEvent} from './actions';
 
 export class EventSignInRaw extends Component {
 
+  constructor(props){
+    super(props)
+    this.renderLoginToEventButton=this.renderLoginToEventButton.bind(this)
+    this.renderLogoutToEventButton=this.renderLogoutToEventButton.bind(this)
+  }
 
   componentDidMount() {
     const {fetchEvent, getUserId, eventId} = this.props;
     fetchEvent(getUserId, eventId)
+  }
+
+  renderLoginToEventButton(){
+    const {eventId, getUserId} = this.props;
+    return(
+      <button className="btn btn-success" onClick={()=> {
+        this.props.eventSignIn(eventId,getUserId)
+      }}>Přihlásit se na událost</button>
+    )
+  }
+
+  renderLogoutToEventButton(){
+    const {eventId, getUserId} = this.props;
+    return (
+      <button className="btn btn-warning" onClick={()=>{
+        this.props.eventSignOut(eventId,getUserId)
+      }}>Odhlásit se z události</button>
+    )
   }
 
   render() {
@@ -28,23 +51,20 @@ export class EventSignInRaw extends Component {
               <button className="btn btn-default" disabled="disabled">První se musíte přihlásit</button>
               :
               eventState === "accepted" ?
-                <button className="btn btn-warning" onClick={()=>{
-                this.props.eventSignOut(eventId,getUserId)
-              }}>Odhlásit se z události</button>
+                this.renderLogoutToEventButton()
                 : isFull ?
-                <button className="btn btn-default" disabled="disabled">Událost má již plnou kapacitu</button>
+                <h3>Událost má již plnou kapacitu</h3>
                 : eventState === "pending" ?
                 <div>
-                  <button className="btn btn-default" disabled="disabled">Čekám na schválení</button>
+                  <h3>Čekám na schválení</h3>
+                  {this.renderLogoutToEventButton()}
                 </div>
                 : eventState === "rejected" ?
                 <div>
-                  <button className="btn btn-default" disabled="disabled">Vaše žádost byla zamítnuta</button>
+                  <h3>Vaše žádost byla zamítnuta</h3>
                 </div>
                 :
-                <button className="btn btn-success" onClick={()=> {
-                this.props.eventSignIn(eventId,getUserId)
-              }}>Přihlásit se na událost</button>
+                this.renderLoginToEventButton()
             :
             'Ověřování stavu'
         }
