@@ -107,6 +107,7 @@ export class EventForm extends Component {
     const { event } = this.state;
     const dt = new Date(formData.get('date'));
     event.date = moment(dt).toDate();
+    console.log(event.target,dt);
     this.props.onFormSubmit(event);
   }
 
@@ -249,7 +250,7 @@ export class EventForm extends Component {
 
             {save ?
               <div className="col-md-12">
-                <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required"
+                <button type="submit" name="action" value="submit" className="pull-right btn btn-success btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Uložit
                 </button>
@@ -257,19 +258,19 @@ export class EventForm extends Component {
               :
               ''
             }
-            {remove ?
-              <div className="col-md-12">
-                <button type="submit" name="cancel" className="btn btn-danger btn-lg" required="required"
-                        disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
-                >Smazat
-                </button>
-              </div>
-              :
-              ''
-            }
+            {/*{remove ?*/}
+              {/*<div className="col-md-12">*/}
+                {/*<button type="submit" name="action" value="delete" className="btn btn-danger btn-lg" required="required"*/}
+                        {/*disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}*/}
+                {/*>Smazat*/}
+                {/*</button>*/}
+              {/*</div>*/}
+              {/*:*/}
+              {/*''*/}
+            {/*}*/}
             {edit ?
               <div className="col-md-12">
-                <button type="submit" name="edit" className="btn btn-danger btn-lg" required="required"
+                <button type="submit" name="action" value="edit" className="btn btn-success btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Upravit
                 </button>

@@ -91,7 +91,8 @@ export class EventDetailPageRaw extends Component {
     const {event, eventComments} = this.state;
     const {isLoggedIn} = this.props;
     const coordinates = this.getCoordinates();
-    const linkToProfile = (event && event.user)? `profile/${event.user.id}`:``;
+    const linkToProfile = (event && event.user)? `/profile/${event.user.id}`:``;
+    const linkToEditEvent = (event)?  `/events/edit/${event.id}` : '';
 
     return (
       <div className="container content-container">
@@ -165,6 +166,18 @@ export class EventDetailPageRaw extends Component {
                   <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
                 </div>
               </div>}
+
+              {
+                this.isEventCreatedByMe(event)
+                ?
+                  <div className="row col-xs-12">
+                    <div className="text-center">
+                      <Link to={linkToEditEvent}>Upravit událost</Link>
+                    </div>
+                  </div>
+                  :
+                  ''
+              }
             </div>
           </div>
         }

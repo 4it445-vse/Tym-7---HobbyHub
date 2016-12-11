@@ -52,6 +52,15 @@ export class EventEditPageRaw extends Component {
   }
 
   onFormSubmit(event) {
+    const eventPut = {...event}
+    delete eventPut.id
+    delete eventPut.user
+    api.put(`events/${event.id}`,eventPut)
+      .then(response =>{
+        console.log("response",response)
+      }).catch(error=>{
+        console.warn(error)
+    })
     console.log("onFormSubmit", event)
   }
 
