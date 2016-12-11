@@ -29,6 +29,7 @@ export class DatePickerCustom extends Component {
           name={name}
           selected={this.state.startDate}
           onChange={this.handleChange}
+          className="form-control"
           dateFormat="YYYY/MM/DD"
         /></div>)
   }
