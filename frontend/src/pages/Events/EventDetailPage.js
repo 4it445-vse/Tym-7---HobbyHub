@@ -90,76 +90,104 @@ export class EventDetailPageRaw extends Component {
         {event === null ?
           <h1>Načítám...</h1> :
 
-          <div>
-            <div className="row first-header-row">
+  <div>
 
-              <div className="col-md-4">
-                <a className="btn btn-default" href="/">Zpět na výpis</a>
 
-              </div>
-
-              <div className="col-md-12">
-                <h1 className="text-center">{event.name}</h1>
-              </div>
-
-              <div className="col-xs-12 col-md-4">
-                {event.picture ?
-                  <img className="col-xs-12 col-md-12" src={event.picture} alt="{name}"/> :
-                  ''
-                }
-                <div className="col-md-12">
-                  {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
-
-                </div>
-              </div>
-
-              <div className="col-xs-12 col-md-5">
-                <div className="col-md-12">
-                  <div className="col-md-12"><b>Autor</b> Ferda</div>
-                  <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
-                  <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount()} / {event.capacity}</div>
-
-                  <div className="col-md-12">
-                    <div className="">{event.description}</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-md-2">
-                <label><b>Kategorie</b></label>
-                <div className="col-md-12">
-                  <ul className="tag-cloud col-md-12">
-                    {event.tags.split(",").map((tag, index)=>
-                      <li className="col-md-12" key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
-                    )}
-                  </ul>
-                </div>
-              </div>
+    <div className="event-name-wrap">
+            {event.picture ?
+              <img className="" src={event.picture} alt="{name}"/> :
+              ''
+            }
+      <div className="event-name-overlay">
+            <div className="col-md-12 top-buffer">
+              <a className="btn btn-default pull-right event-back" href="/">Zpět na výpis</a>
             </div>
-            <div className="row second-row-detail-page">
-                {
-                  this.isEventCreatedByMe(event)
-                    ?
-                    <div className="col-md-7">
-                      <ListOfUsersForm eventId={event.id}/>
-                    </div>
-                    :
-                    <div className="col-md-2">
-                      <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
-                    </div>
-                }
+        <div className="event-name-inner">
 
-              {isLoggedIn &&
-              <div className={this.isEventCreatedByMe(event)?"col-md-5":"col-md-offset-1 col-md-8"}>
-                <EventCommentList eventComments={eventComments}/>
-                <div>
-                  <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
-                </div>
-              </div>}
-            </div>
+          <div className="col-xs-12 col-md-12">
+              <h1 className="pull-left h1-height">{event.name}</h1>
           </div>
-        }
+          <div className="row"></div>
+
+          <div className="col-xs-12 col-md-12">
+            <ul className="tag-cloud col-md-12">
+              {event.tags.split(",").map((tag, index)=>
+                <li className="float" key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
+              )}
+            </ul>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div className="row top-buffer"></div>
+
+
+
+
+    <div className="col-xs-12 col-md-3">
+      <div className="col-md-12">
+        Pořádá <b>Ferda</b>
+      </div>
+      <div className="col-md-12">
+        Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
+      </div>
+      <div className="col-md-12">
+        Počet míst <b>{this.getSignedUsersCount()} / {event.capacity}</b>
+      </div>
+      <div className="col-md-12">
+      </div>
+      <div className="col-md-12">
+        {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
+
+      </div>
+
+      {
+        this.isEventCreatedByMe(event)
+          ?
+          <div className="col-md-7">
+
+          </div>
+          :
+          <div className="col-md-2">
+            <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
+          </div>
+      }
+
+    </div>
+
+
+
+    <div className="col-xs-12 col-md-9">
+
+      <div className="event-description">{event.description}</div>
+          {
+            this.isEventCreatedByMe(event)
+              ?
+              <div className="col-md-12">
+                <ListOfUsersForm eventId={event.id}/>
+              </div>
+              :
+              <div>
+
+              </div>
+          }
+
+        <div className="row"></div>
+
+          {isLoggedIn &&
+          <div className={this.isEventCreatedByMe(event)?"col-md-12":"ol-md-12"}>
+            <EventCommentList eventComments={eventComments}/>
+            <div>
+              <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
+            </div>
+          </div>}
+
+      </div>
+
+  </div>
+        }
+</div>
     );
   }
 }

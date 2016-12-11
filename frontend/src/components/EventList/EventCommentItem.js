@@ -24,8 +24,8 @@ export class EventCommentItem extends Component {
               <a href="#"><img src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} className="img-circle" alt="" /></a>
           </div>
           <div className="media-body post_reply_comments">
-              <h3>{user.username}</h3>
-              <h4>{moment(created).format("DD MMMM YYYY    HH:mm")}</h4>
+              <span className="comment-name">{user.username}</span>
+              <span className="comment-time pull-right">{moment(created).format("HH:mm (DD. MMMM YYYY)")}</span>
               <p>{text}</p>
           </div>
       </div>

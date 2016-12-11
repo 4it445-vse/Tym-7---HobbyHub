@@ -8,7 +8,7 @@ export class EventCommentList extends Component {
     const {eventComments} = this.props;
     return (
       <div>
-        <h2 className="text-center no-margin-top">Komentáře</h2>
+      
         {!eventComments?
           ""
           :

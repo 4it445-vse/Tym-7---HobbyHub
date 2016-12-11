@@ -60,7 +60,7 @@ export class EventAddCommentRaw extends Component {
         <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit}
               role="form">
           <div className="row">
-            <div className="form-group col-md-12">
+            <div className="form-group comments-add col-md-12">
               <textarea name="message" id="message" required="required" className="form-control" rows="1" ref="message"></textarea>
               <button type="submit" className="btn pull-right btn-success btn-sm form-control add-comment-button">Přidat
                 komentář

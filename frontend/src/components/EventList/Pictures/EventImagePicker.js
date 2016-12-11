@@ -71,8 +71,8 @@ export class EventImagePicker extends Component {
       "not-selected "
 
       return (
-        <div key={image.id} className="image-picker-wrapper col-md-2">
-          <div className="image-picker-inner crop">
+        <div key={image.id} className="image-picker-wrapper col-md-2 no-margin img-wrap">
+          <div className="image-picker-inner choose-image">
             <img src={image.src} alt={image.name} onClick={()=>this.selectImage(image.src)}
                  className={classes}/>
           </div>
@@ -84,7 +84,7 @@ export class EventImagePicker extends Component {
     return (
       <div>
         <div className="row">
-          <h1>Vyberte jeden z obrázků</h1>
+          <h2 className="center-text">Vyberte jeden z obrázků</h2>
           <div className="event-pictures">
             {imageElements}
           </div>

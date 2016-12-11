@@ -67,12 +67,14 @@ export class EventUserAvailableActions extends Component {
             e.preventDefault();
             onChangeEventUserState("accepted")
           }}
+            className="user-state"
             href="">Přijmout</a>
           <a
             onClick={(e)=>{
             e.preventDefault();
             onChangeEventUserState("rejected")
           }}
+           className="user-state"
             href="">Zamítnout</a>
         </div>
       );
@@ -83,6 +85,7 @@ export class EventUserAvailableActions extends Component {
             e.preventDefault();
             onChangeEventUserState("rejected")
           }}
+          className="user-state"
           href="">Zamítnout</a>
       );
     } else if (status === "rejected") {
@@ -92,6 +95,7 @@ export class EventUserAvailableActions extends Component {
             e.preventDefault();
             onChangeEventUserState("accepted")
           }}
+          className="user-state"
           href="">Přijmout</a>
       )
     }
