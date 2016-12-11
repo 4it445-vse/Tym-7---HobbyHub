@@ -69,8 +69,18 @@ export class EventForm extends Component {
     });
   }
 
+  mapPropsToState(){
+    if(typeof this.props.event !== "undefined" && this.props.event !==null){
+      this.setState({
+        ...this.state,
+        event:this.props.event
+      })
+    }
+  }
+
   componentDidMount() {
     this.fetchTags();
+    this.mapPropsToState();
   }
 
   onInputChange(event) {
@@ -137,10 +147,12 @@ export class EventForm extends Component {
     )
   }
 
+
   render() {
-    const {event} = this.state;
+    const {event} = this.state
     const {actions, eventState} = this.props;
     const {save, remove, edit} = actions;
+    console.log(event.name);
 
     return (
       <div>
@@ -158,18 +170,14 @@ export class EventForm extends Component {
             <img className="event-image" src={event.picture} alt="Obrázek události"/> :
             <ImageNotFound width="100%" height="150" className="event-image"/>
           }
-          {save ?
-            <button
-              name="choose-image"
-              onClick={this.openModal}
-              className="btn btn-default btn-lg choose-image"
-              required="required">
-              <i className="fa fa-upload" aria-hidden="true"/>
-              Vyberte obrázek události
-            </button>
-            :
-            ''
-          }
+          <button
+            name="choose-image"
+            onClick={this.openModal}
+            className="btn btn-default btn-lg choose-image"
+            required="required">
+            <i className="fa fa-upload" aria-hidden="true"/>
+            Vyberte obrázek události
+          </button>
           <div ref="googleMap" id="google-map"/>
         </div>
 
@@ -186,7 +194,7 @@ export class EventForm extends Component {
                 name="name"
                 onChange={this.onInputChange}
                 className="form-control"
-                defaultValue={event.name}/>
+                value={event.name}/>
             </div>
             <div className="col-md-6">
               <label htmlFor="date">Datum</label>
@@ -204,7 +212,7 @@ export class EventForm extends Component {
                 onChange={this.onInputChange}
                 type="number"
                 className="form-control"
-                defaultValue={event.capacity}/>
+                value={event.capacity}/>
             </div>
             <div className="col-md-12">
               <label htmlFor="tags">Kategorie</label>
@@ -214,7 +222,7 @@ export class EventForm extends Component {
                 placeholder="Vyberte kategorie"
                 id="tags"
                 name="tags"
-                value={this.state.event.tags}
+                value={event.tags}
                 options={this.state.tag_options}
                 joinValues
                 onChange={this.handleSelectTagChange}
@@ -231,7 +239,7 @@ export class EventForm extends Component {
                 onChange={this.onInputChange}
                 required="required"
                 className="form-control" rows="8"
-                defaultValue={event.description}/>
+                value={event.description}/>
             </div>
 
             {save ?
