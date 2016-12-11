@@ -22,7 +22,6 @@ export class EventForm extends Component {
     this.openModal = this.openModal.bind(this);
     this.onGoogleMapChange = this.onGoogleMapChange.bind(this);
     this.onImageSelected = this.onImageSelected.bind(this);
-    this.state = this.getDefaultState();
   }
 
   handleSelectTagChange(value) {
@@ -69,18 +68,24 @@ export class EventForm extends Component {
     });
   }
 
-  mapPropsToState(){
+  setDefaultState(){
     if(typeof this.props.event !== "undefined" && this.props.event !==null){
+      const defaultState = this.getDefaultState();
       this.setState({
-        ...this.state,
+        ...defaultState,
         event:this.props.event
       })
+    }else{
+      this.state = this.getDefaultState();
     }
   }
 
   componentDidMount() {
     this.fetchTags();
-    this.mapPropsToState();
+  }
+
+  componentWillMount(){
+    this.setDefaultState();
   }
 
   onInputChange(event) {
@@ -152,7 +157,6 @@ export class EventForm extends Component {
     const {event} = this.state
     const {actions, eventState} = this.props;
     const {save, remove, edit} = actions;
-    console.log(event.name);
 
     return (
       <div>
@@ -229,6 +233,7 @@ export class EventForm extends Component {
               ></Select2>
             </div>
             <GoogleMapAutocomplete
+              defaultLocation={event.location}
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
             <div className="col-md-12">
@@ -254,7 +259,7 @@ export class EventForm extends Component {
             }
             {remove ?
               <div className="col-md-12">
-                <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required"
+                <button type="submit" name="cancel" className="btn btn-danger btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Smazat
                 </button>
@@ -264,7 +269,7 @@ export class EventForm extends Component {
             }
             {edit ?
               <div className="col-md-12">
-                <button type="button" name="edit" className="btn btn-danger btn-lg" required="required"
+                <button type="submit" name="edit" className="btn btn-danger btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Upravit
                 </button>

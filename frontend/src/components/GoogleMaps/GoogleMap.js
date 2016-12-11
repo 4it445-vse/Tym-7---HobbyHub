@@ -12,13 +12,18 @@ export class GoogleMapAutocomplete extends Component{
   constructor(props){
     super(props);
     this.pinMarker= this.pinMarker.bind(this)
-    this.state={
+  }
+
+  componentWillMount(){
+    const defaultLocation = (this.props.defaultLocation)?this.props.defaultLocation:"";
+    this.setState({
       renderedOnce:false,
       google:null,
       place:null,
       map:null,
-      marker:null
-    }
+      marker:null,
+      defaultLocation
+    })
   }
 
   loadMap(mapId) {
@@ -103,7 +108,8 @@ export class GoogleMapAutocomplete extends Component{
 
   render(){
     const {mapId} = this.props;
-    const {renderedOnce} = this.state;
+    const {renderedOnce, defaultLocation} = this.state;
+
     (renderedOnce===false)?
       this.loadMap(mapId):
       this.pinMarker();
@@ -114,8 +120,8 @@ export class GoogleMapAutocomplete extends Component{
           type="text"
           ref="autocomplete"
           id="google-maps-geocode"
-          required="required"
           className="form-control"
+          defaultValue={defaultLocation}
         />
       </div>
     )

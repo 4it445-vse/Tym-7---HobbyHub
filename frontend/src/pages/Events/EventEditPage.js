@@ -60,6 +60,7 @@ export class EventEditPageRaw extends Component {
       edit: true,
       remove: true
     }
+    console.log(this.state.event)
     return (
       <div className="container content-container">
         {
