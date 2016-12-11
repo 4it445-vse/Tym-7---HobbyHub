@@ -1,4 +1,4 @@
-import { takeEvery, delay } from 'redux-saga'
+import { takeEvery } from 'redux-saga'
 import { put } from 'redux-saga/effects'
 import api from '../../api.js';
 import {
@@ -60,7 +60,7 @@ export function* watchFetchEvent() {
   yield takeEvery(EVENT_FETCH,eventFetch)
 }
 export function* helloSaga() {
-  console.log('sagaInitiated')
+  yield console.log('sagaInitiated')
 }
 
 export default function* eventRootSaga() {

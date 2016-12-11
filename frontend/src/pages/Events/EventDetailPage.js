@@ -6,7 +6,6 @@ import api from '../../api.js';
 import moment from 'moment';
 import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
-import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
 import {getUserId,isLoggedIn} from '../../components/Login/reducers.js';
 import {connect} from 'react-redux'

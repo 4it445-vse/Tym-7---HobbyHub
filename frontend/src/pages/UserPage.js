@@ -27,7 +27,6 @@ export class UserPageRaw extends Component {
       return;
     }
 
-    const { username, email } = this.state.userData;
     const formData = new FormData(event.target);
     if (formData.get('password') !== formData.get('password_confirm')) {
       alert('Heslo nejsou stejná');
@@ -37,11 +36,15 @@ export class UserPageRaw extends Component {
       alert('Emaily nejsou stejné');
       return;
     }
-    var userData = {};
+    let userData = {};
+    const fields = ['username', 'email', 'password'];
+    for (let field in ['username', 'email', 'password']){
+      if(fields.hasOwnProperty(field) && formData.get(field)){
+        userData[field] = formData.get(field);
+      }
+    }
     ['username', 'email', 'password'].map(field => {
-          if (formData.get(field)) {
-            userData[field] = formData.get(field);
-          }
+
       }
     );
     if (lodash.isEmpty(userData)) {
@@ -57,8 +60,6 @@ export class UserPageRaw extends Component {
 
   loginSuccess() {
     alert('Data úspěšně uložena!');
-    const { loggedIn, userId } = this.props;
-    const { profileId } = this.props.params;
     browserHistory.push('/profile');
   }
 
@@ -89,7 +90,7 @@ export class UserPageRaw extends Component {
     const { profileId } = this.props.params;
     const { loggedUserId } = this.state;
     //reload data if user logged out or logged in
-    if (loggedIn && userId != loggedUserId) {
+    if (loggedIn && userId !== loggedUserId) {
       this.fetchUser(userId);
     }
 
@@ -141,8 +142,8 @@ export class UserPageRaw extends Component {
               </div>
               <div className="row"></div>
               {userId == profileId || profileId === undefined?
-                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email}></UserForm> :
-                  <UserProfile username={username} email={email}></UserProfile>
+                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email}/> :
+                  <UserProfile username={username} email={email} />
               }
             </div>
           </div>

@@ -67,7 +67,7 @@ export class EventEditPage extends Component {
   onInputChange(event) {
     const eventName = event.target.name;
     const eventValue = (event.target.type === "number") ?
-        parseInt(event.target.value) :
+        parseInt(event.target.value,10) :
         event.target.value
       ;
     const newState = {
