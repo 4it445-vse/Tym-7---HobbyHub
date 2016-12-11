@@ -10,6 +10,8 @@ import {GoogleMap} from '../../components/GoogleMaps/GoogleMap'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
 import {getUserId,isLoggedIn} from '../../components/Login/reducers.js';
 import {connect} from 'react-redux'
+import {Link} from 'react-router';
+import deepEqual from 'deep-equal';
 import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
 
 export class EventDetailPageRaw extends Component {
@@ -68,14 +70,20 @@ export class EventDetailPageRaw extends Component {
   fetchComments() {
     const {eventId} = this.props.params;
     api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"], "order": "created desc"}}})
-      .then((response)=> {
+      .then((response) => {
+        console.log(response);
         const eventComments = response.data;
-        this.setState({
-          ...this.state,
-          eventComments: eventComments
-        })
+        //This fixes console warning
+        if (deepEqual(this.state.eventComments, eventComments) === false) {
+          this.setState({
+            ...this.state,
+            eventComments: eventComments
+          })
+        }else{
+          console.log("no new comments")
+        }
       })
-      .catch((err)=> {
+      .catch((err) => {
         console.warn(err)
       })
   }
@@ -84,6 +92,8 @@ export class EventDetailPageRaw extends Component {
     const {event, eventComments} = this.state;
     const {isLoggedIn} = this.props;
     const coordinates = this.getCoordinates();
+    const linkToProfile = (event && event.user)? `profile/${event.user.id}`:``;
+
     return (
       <div className="container content-container">
 
@@ -115,7 +125,7 @@ export class EventDetailPageRaw extends Component {
 
               <div className="col-xs-12 col-md-5">
                 <div className="col-md-12">
-                  <div className="col-md-12"><b>Autor</b> Ferda</div>
+                  <div className="col-md-12"><b>Autor</b> <Link to={linkToProfile}>{event.user.username}</Link></div>
                   <div className="col-md-12"><b>Datum</b> {moment(event.date).format("DD MMMM YYYY")}</div>
                   <div className="col-md-12"><b>Kapacita</b> {this.getSignedUsersCount()} / {event.capacity}</div>
 

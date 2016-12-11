@@ -10,6 +10,7 @@
     "axios": "^0.14.0",
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
+    "deep-equal": "^1.0.1",
     "google-maps": "^3.2.1",
     "immutable": "^3.8.1",
     "moment": "^2.15.2",

@@ -29,7 +29,7 @@ export class TopNavigationRaw extends Component {
             </div>
             <div className="collapse navbar-collapse navbar-right">
               {!isLoggedIn && <Login/>}
-              {isLoggedIn && <Link className="navbar-brand" to="/">
+              {isLoggedIn && <Link className="navbar-brand" to="/profile">
                 <img className="navbar-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
               </Link>}
               {isLoggedIn &&
@@ -42,9 +42,9 @@ export class TopNavigationRaw extends Component {
                   <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <i className="fa fa-angle-down"></i></a>
                     <ul className="dropdown-menu">
-                      <li>
-                        <a href="blog-item.html">Nastavení</a>
-                      </li>
+                      {/*<li>*/}
+                        {/*<a href="blog-item.html">Nastavení</a>*/}
+                      {/*</li>*/}
                       <li>
                         <a onClick={logout} href="#">Odhlásit se</a>
                       </li>

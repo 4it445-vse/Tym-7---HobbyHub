@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
 import moment from 'moment';
 
 
@@ -15,19 +15,20 @@ export class EventCommentItem extends Component {
 
 
   render() {
-    const { eventComment } = this.props;
-    const { user, created, text, id } = eventComment;
+    const {eventComment} = this.props;
+    const {user, created, text, id} = eventComment;
+    const linkToProfile = `profile/${user.id}`;
 
     return (
       <div className="media comment_section">
-          <div className="pull-left post_comments">
-              <a href="#"><img src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} className="img-circle" alt="" /></a>
-          </div>
-          <div className="media-body post_reply_comments">
-              <h3>{user.username}</h3>
-              <h4>{moment(created).format("DD MMMM YYYY    HH:mm")}</h4>
-              <p>{text}</p>
-          </div>
+        <div className="pull-left post_comments">
+          <Link to={linkToProfile}> <img src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} className="img-circle" alt=""/></Link>
+        </div>
+        <div className="media-body post_reply_comments">
+          <h3>{user.username}</h3>
+          <h4>{moment(created).format("DD MMMM YYYY    HH:mm")}</h4>
+          <p>{text}</p>
+        </div>
       </div>
     );
   }
