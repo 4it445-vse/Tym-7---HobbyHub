@@ -43,7 +43,7 @@ export class EventEditPageRaw extends Component {
       })
       .catch(error => {
         console.warn(error)
-        browserHistory.push("/not-found");
+        // browserHistory.push("/not-found");
       })
   }
 

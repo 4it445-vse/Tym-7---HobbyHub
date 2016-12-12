@@ -16,14 +16,19 @@ export class GoogleMapAutocomplete extends Component{
 
   componentWillMount(){
     const defaultLocation = (this.props.defaultLocation)?this.props.defaultLocation:"";
+
     this.setState({
-      renderedOnce:false,
       google:null,
       place:null,
       map:null,
       marker:null,
       defaultLocation
     })
+  }
+
+  componentDidMount(){
+    const {mapId} = this.props;
+    this.loadMap(mapId)
   }
 
   loadMap(mapId) {
@@ -46,10 +51,6 @@ export class GoogleMapAutocomplete extends Component{
       });
       marker.setVisible(false);
 
-      self.setState({
-        renderedOnce:true,
-      })
-
       autocomplete.addListener('place_changed',()=>{
         const place = autocomplete.getPlace();
         if (!place.geometry) {
@@ -66,6 +67,8 @@ export class GoogleMapAutocomplete extends Component{
           map:map,
           marker:marker,
         })
+
+        self.pinMarker();
 
         const address=(place.address_components)?
           [
@@ -107,12 +110,8 @@ export class GoogleMapAutocomplete extends Component{
   }
 
   render(){
-    const {mapId} = this.props;
-    const {renderedOnce, defaultLocation} = this.state;
+    const {defaultLocation} = this.state;
 
-    (renderedOnce===false)?
-      this.loadMap(mapId):
-      this.pinMarker();
     return(
       <div className="col-md-12">
         <label htmlFor="tags">Lokace</label>
