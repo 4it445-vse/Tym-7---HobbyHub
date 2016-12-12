@@ -1,13 +1,12 @@
 'use strict';
 
-const removeDiacritics = require('../helpers/removeDiacritics')
+const removeDiacritics = require('../helpers/removeDiacritics');
 
 module.exports = function (Event) {
 
   Event.afterRemote("create", (context, remoteMethodOutput, next) => {
-    console.log("remoteMethodOutput", remoteMethodOutput)
     next();
-  })
+  });
 
   Event.filter = (dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, userId, cb) => {
     Event.find({
@@ -19,12 +18,11 @@ module.exports = function (Event) {
       },
       include: "users"
     }, (error, Events) => {
-      if (error) cb('sorry')
-      console.log(dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, userId)
+      if (error) cb('sorry');
       const EventsFiltered = Events
         .filter(event => {
           //FILTERING BY TAGS
-          const tagsTrimmed = tags.trim()
+          const tagsTrimmed = tags.trim();
           if(tagsTrimmed.length===0) return true;
           const tagsArray = tags.split(',');
           for (let tag of tagsArray) {
@@ -36,7 +34,7 @@ module.exports = function (Event) {
         })
         .filter(event => {
           //FILTERING BY NAME
-          const nameTrimmed = name.trim()
+          const nameTrimmed = name.trim();
           if(nameTrimmed.length===0) return true;
           const noSpecialCharsEventName = removeDiacritics(event.name);
           const noSpecialCharsSearchName = removeDiacritics(name);
@@ -46,24 +44,24 @@ module.exports = function (Event) {
           //FILTERING BY STATUS (I AM LOGGED IN)
           const checkboxStatusBool = Boolean(checkboxStatus);
           if(!userId || !checkboxStatusBool) return true;
-          for (let user of event.users){
-            if(user.id === userId){
-              return true; //I am logged to current event
-            }
+          const users = event.users();
+          for(var i = 0; i < users.length; i++) {
+            if(users[i].user_id === userId){
+                  return true; //I am logged to current event
+                }
           }
           return false; // No I am not logged into current event
         })
         .filter(event=>{
           // FILTERING BY FREE CAPACITY
           const checkboxCapacityBool = Boolean(checkboxCapacity);
-          if(checkboxCapacityBool===true) return true;
-          return event.users.length < event.user.capacity;
-        })
+          if(checkboxCapacityBool===false) return true;
+          return event.users.length < event.capacity;
+        });
 
-      console.log(EventsFiltered);
       cb(null, EventsFiltered);
     })
-  }
+  };
 
   Event.remoteMethod(
     'filter', {
@@ -79,7 +77,7 @@ module.exports = function (Event) {
         {arg: "checkboxCapacity", type: "any"},
         {arg: "name", type: "string"},
         {arg: "tags", type: "string"},
-        {arg: "userId", type: "number"},
+        {arg: "userId", type: "number"}
       ],
       returns: {
         arg: 'events',

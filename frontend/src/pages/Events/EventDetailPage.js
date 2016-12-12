@@ -18,10 +18,16 @@ export class EventDetailPageRaw extends Component {
   constructor(props) {
     super(props);
     moment.locale('cs');
-    this.state = {
-      event: null
-    };
+
     this.fetchComments = this.fetchComments.bind(this);
+    //set comments polling
+    const pollingId = setInterval(function() {
+      this.fetchComments();
+    }.bind(this), 5000);
+    this.state = {
+      event: null,
+      pollingId
+    };
   }
 
   fetchEventDetailData() {
@@ -40,11 +46,11 @@ export class EventDetailPageRaw extends Component {
   componentDidMount() {
     //fetch data
     this.fetchEventDetailData();
-    this.fetchComments()
-    //set comments polling
-    setInterval(function() {
-      this.fetchComments();
-    }.bind(this), 5000);
+    this.fetchComments();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.pollingId);
   }
 
   getCoordinates() {
