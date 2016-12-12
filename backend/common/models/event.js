@@ -9,25 +9,24 @@ module.exports = function (Event) {
     next();
   })
 
-  Event.filter = (dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, cb) => {
+  Event.filter = (dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, userId, cb) => {
     Event.find({
       where: {
         and: [
           {date: {gt: dateFrom}},
           {date: {lt: dateTo}}
         ]
-      }
+      },
+      include: "users"
     }, (error, Events) => {
       if (error) cb('sorry')
-      const nameTrimmed = name.trim()
-      const tagsTrimmed = tags.trim()
       const EventsFiltered = Events
         .filter(event => {
+          //FILTERING BY TAGS
+          const tagsTrimmed = tags.trim()
           if(tagsTrimmed.length===0) return true;
           const tagsArray = tags.split(',');
           for (let tag of tagsArray) {
-            console.log("TAGS",event.tags.indexOf(tag))
-            console.log("TAGS",event.tags, tag)
             if (event.tags.indexOf(tag) == -1) {
               return false; //skip
             }
@@ -35,12 +34,29 @@ module.exports = function (Event) {
           return true; //all tags are presented in Event
         })
         .filter(event => {
+          //FILTERING BY NAME
+          const nameTrimmed = name.trim()
           if(nameTrimmed.length===0) return true;
           const noSpecialCharsEventName = removeDiacritics(event.name);
           const noSpecialCharsSearchName = removeDiacritics(name);
-
-          console.log("SPECIAL CHARS",noSpecialCharsEventName,noSpecialCharsSearchName)
           return noSpecialCharsEventName.indexOf(noSpecialCharsSearchName) >= 0;
+        })
+        .filter(event=>{
+          //FILTERING BY STATUS (I AM LOGGED IN)
+          const checkboxStatusBool = Boolean(checkboxStatus);
+          if(!userId || !checkboxStatusBool) return true;
+          for (let user of event.users){
+            if(user.id === userId){
+              return true; //I am logged to current event
+            }
+          }
+          return false; // No I am not logged into current event
+        })
+        .filter(event=>{
+          // FILTERING BY FREE CAPACITY
+          const checkboxCapacityBool = Boolean(checkboxCapacity);
+          if(checkboxCapacityBool===false) return true;
+          return event.users.length < event.user.capacity;
         })
 
       console.log(EventsFiltered);
@@ -62,6 +78,7 @@ module.exports = function (Event) {
         {arg: "checkboxCapacity", type: "any"},
         {arg: "name", type: "string"},
         {arg: "tags", type: "string"},
+        {arg: "userId", type: "number"},
       ],
       returns: {
         arg: 'events',

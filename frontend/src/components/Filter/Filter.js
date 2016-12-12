@@ -5,9 +5,11 @@ import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
 import Select2 from 'react-select';
 import moment from 'moment';
 import api from '../../api.js';
+import {connect} from 'react-redux';
+import {isLoggedIn,getUserId} from '../Login/reducers';
 
 
-export class Filter extends Component {
+export class FilterRaw extends Component {
 
   constructor(props) {
     super(props)
@@ -55,24 +57,29 @@ export class Filter extends Component {
     const checkboxCapacity = formData.get('check-cap');
     const name = formData.get('name');
     const tags = formData.get('tags');
+    const userId = this.props.isLoggedIn ? this.props.currentUserId : 0;
     const filterData = {
       dateFrom,
       dateTo,
       checkboxStatus,
       checkboxCapacity,
       name,
-      tags
+      tags,
+      userId
     };
 
     console.log("filterData", filterData)
 
     api.post('events/filter', filterData)
       .then((response) => {
-        console.log('response', response);
+        console.log('response', response.data.events);
+        this.props.filteredEvents(response.data.events);
       })
   }
 
   render() {
+    const momentBeforeWeek = moment().subtract(7,'days');
+    const momentNextWeek = moment().add(7,'days');
     return (
       <form onSubmit={this.handleFilterSubmit}>
         <div className="col-md-12">
@@ -82,6 +89,7 @@ export class Filter extends Component {
             </div>
             <div className="col-md-10">
               <CustomDatePicker
+                startDate={momentBeforeWeek}
                 id="date-from"
                 name="date-from"
               />
@@ -93,35 +101,32 @@ export class Filter extends Component {
             </div>
             <div className="col-md-10">
               <CustomDatePicker
+                startDate={momentNextWeek}
                 id="date-to"
                 name="date-to"
               />
             </div>
           </div>
           <div className="col-xs-4 col-md-2">
-            <label className="box filter-label">&nbsp; Jsem přihlášen:</label>
-            <Checkbox name="check-stat"/>
+            <label className="box filter-label">&nbsp; Volná kapacita:</label>
+            <Checkbox name="check-cap" defaultChecked={1}/>
           </div>
-          <div className="col-xs-4 col-md-2">
-            <label className="box filter-label">&nbsp; Volná kapacita:</label><Checkbox name="check-cap"/>
-          </div>
+          {
+            this.props.isLoggedIn
+              ?
+              <div className="col-xs-4 col-md-2">
+                <label className="box filter-label">&nbsp; Jsem přihlášen:</label>
+                <Checkbox name="check-stat"/>
+              </div>
+              :
+              <div className="col-xs-4 col-md-2">
+              </div>
+          }
           <div className="col-xs-4 col-md-2">
             <button type="submit" name="submit" className="pull-right btn btn-default top-filter-buffer"
             >Filtrovat
             </button>
           </div>
-          {/*<div className="col-md-3">*/}
-          {/*<div className="col-md-3">*/}
-          {/*<label className="filter-label">Místo:</label>*/}
-          {/*</div>*/}
-          {/*<div className="col-md-9">*/}
-          {/*<input*/}
-          {/*id="place"*/}
-          {/*type="text"*/}
-          {/*className="form-control"*/}
-          {/*name="place"/>*/}
-          {/*</div>*/}
-          {/*</div>*/}
           <div className="col-md-3">
             <div className="col-md-3">
               <label className="filter-label">Název:</label>
@@ -159,3 +164,16 @@ export class Filter extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  const {login} = state;
+  return {
+    isLoggedIn: isLoggedIn(login),
+    currentUserId: getUserId(login)
+  };
+}
+
+export const Filter = connect(
+  mapStateToProps,
+  {}
+)(FilterRaw);
