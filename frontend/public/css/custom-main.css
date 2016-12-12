@@ -274,6 +274,11 @@ only screen and (min-device-pixel-ratio: 2) {
 .top-buffer {
    margin-top:20px;
  }
+
+ .top-filter-buffer {
+    margin-top:0px;
+  }
+
  .profile-rating {
    font-size: 3em;
    font-weight: bold;

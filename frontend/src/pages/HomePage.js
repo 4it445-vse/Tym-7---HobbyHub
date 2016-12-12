@@ -16,6 +16,7 @@ export class HomePageRaw extends Component {
       events: null,
       isLoading: 0
     };
+    this.filteredEvents = this.filteredEvents.bind(this);
   }
 
   fetchEvents() {
@@ -23,6 +24,10 @@ export class HomePageRaw extends Component {
       .then((response) => {
         this.setState({events: response.data});
       });
+  }
+
+  filteredEvents(events) {
+    this.setState({events});
   }
 
   componentDidMount() {
@@ -36,18 +41,25 @@ export class HomePageRaw extends Component {
     return (
       <div className="container content-container">
         <div className="center wow fadeInDown">
-            <div className="col-xs-8 col-md-8">
-              <h2 className="pull-left">Události</h2>
-            </div>
-          {isLoggedIn && <div className="col-xs-4 col-md-4">
-              <Link className="pull-right btn btn-default top-buffer" to="/events/add">Vytvořit událost</Link>
-            </div>}
-        </div>
-          <div className="row  filter">
-            <Filter/>
+          <div className="col-xs-8 col-md-8">
+            <h2 className="pull-left">Události</h2>
           </div>
+          {
+            isLoggedIn
+              ?
+              <div className="col-xs-4 col-md-4">
+                <Link className="pull-right btn btn-default top-buffer" to="/events/add">Vytvořit událost</Link>
+              </div>
+              :
+              ''
+          }
 
-          <div className="row first-header-row">
+        </div>
+        <div className="row  filter">
+          <Filter filteredEvents={this.filteredEvents}/>
+        </div>
+
+        <div className="row first-header-row">
 
 
           <div className="center wow fadeInDown">
