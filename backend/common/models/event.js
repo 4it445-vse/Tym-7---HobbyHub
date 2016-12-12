@@ -1,5 +1,7 @@
 'use strict';
 
+const removeDiacritics = require('../helpers/removeDiacritics')
+
 module.exports = function (Event) {
 
   Event.afterRemote("create", (context, remoteMethodOutput, next) => {
@@ -7,19 +9,43 @@ module.exports = function (Event) {
     next();
   })
 
-  Event.filter = (dateFrom, dateTo, checkboxStatus, checkboxCapacity, cb)=> {
+  Event.filter = (dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, cb) => {
     Event.find({
-      where:{
-        and:[
-          { date: {gt: dateFrom} },
-          { date: {lt: dateTo}}
+      where: {
+        and: [
+          {date: {gt: dateFrom}},
+          {date: {lt: dateTo}}
         ]
       }
-    }, (error, Event) =>{
-      console.log(error)
-      console.log(Event)
+    }, (error, Events) => {
+      if (error) cb('sorry')
+      const nameTrimmed = name.trim()
+      const tagsTrimmed = tags.trim()
+      const EventsFiltered = Events
+        .filter(event => {
+          if(tagsTrimmed.length===0) return true;
+          const tagsArray = tags.split(',');
+          for (let tag of tagsArray) {
+            console.log("TAGS",event.tags.indexOf(tag))
+            console.log("TAGS",event.tags, tag)
+            if (event.tags.indexOf(tag) == -1) {
+              return false; //skip
+            }
+          }
+          return true; //all tags are presented in Event
+        })
+        .filter(event => {
+          if(nameTrimmed.length===0) return true;
+          const noSpecialCharsEventName = removeDiacritics(event.name);
+          const noSpecialCharsSearchName = removeDiacritics(name);
+
+          console.log("SPECIAL CHARS",noSpecialCharsEventName,noSpecialCharsSearchName)
+          return noSpecialCharsEventName.indexOf(noSpecialCharsSearchName) >= 0;
+        })
+
+      console.log(EventsFiltered);
+      cb(null, EventsFiltered);
     })
-    cb(null,'joo filter')
   }
 
   Event.remoteMethod(
@@ -34,9 +60,11 @@ module.exports = function (Event) {
         {arg: "dateTo", type: "date"},
         {arg: "checkboxStatus", type: "any"},
         {arg: "checkboxCapacity", type: "any"},
+        {arg: "name", type: "string"},
+        {arg: "tags", type: "string"},
       ],
       returns: {
-        arg: 'status',
+        arg: 'events',
         type: 'string'
       }
     }
