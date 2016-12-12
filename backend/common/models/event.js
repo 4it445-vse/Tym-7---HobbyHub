@@ -56,7 +56,7 @@ module.exports = function (Event) {
           // FILTERING BY FREE CAPACITY
           const checkboxCapacityBool = Boolean(checkboxCapacity);
           if(checkboxCapacityBool===false) return true;
-          return event.users.length < event.capacity;
+          return event.users().length < event.capacity;
         });
 
       cb(null, EventsFiltered);
