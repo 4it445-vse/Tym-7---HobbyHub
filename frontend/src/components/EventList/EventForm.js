@@ -163,32 +163,22 @@ export class EventForm extends Component {
       <div>
         {this.createModal()}
 
-        <div className="col-md-3">
-          <a className="btn btn-default" href="/">Zpět na výpis</a>
-        </div>
-        <div className="col-md-9">
-          <h1 className="pull-left h1-height">{event.name}</h1>
+        <div className="row header-text">
+      <div className="col-md-9">
+        <h1 className="pull-left h1-height">Událost</h1>
+      </div>
+      <div className="col-md-3 top-buffer">
+        <a className="btn btn-default pull-right" href="/">Zpět na výpis</a>
+      </div>
+
         </div>
 
-        <div className="col-md-3">
-          {event.picture ?
-            <img className="event-image" src={event.picture} alt="Obrázek události"/> :
-            <ImageNotFound width="100%" height="150" className="event-image"/>
-          }
-          <button
-            name="choose-image"
-            onClick={this.openModal}
-            className="btn btn-default btn-lg choose-image"
-            required="required">
-            <i className="fa fa-upload" aria-hidden="true"/>
-            Vyberte obrázek události
-          </button>
-          <div ref="googleMap" id="google-map"/>
-        </div>
+
 
         <form onSubmit={this.onFormSubmit}>
 
-          <div className="col-md-9">
+        <div className="col-md-9 no-margin">
+
 
             <div className="col-md-12">
               <label htmlFor="name">Název</label>
@@ -247,11 +237,37 @@ export class EventForm extends Component {
                 className="form-control" rows="8"
                 value={event.description}/>
             </div>
+            </div>
+
+
+          <div className="col-md-3 no-margin">
+            <div className="col-sm-6 col-md-12">
+              <label htmlFor="description">Vybrat obrázek</label>
+                {save ?
+                  <button
+                    name="choose-image"
+                    onClick={this.openModal}
+                    className="btn btn-default btn-lg choose-image"
+                    required="required">
+                    {event.picture ?
+                      <img className="event-image" src={event.picture} alt="Obrázek události"/> :
+                      <ImageNotFound width="100%" height="150" className="event-image"/>
+                    }
+                  </button>
+                  :
+                  ''
+                }
+              </div>
+
+              <div className="col-sm-6 col-md-12">
+                <label htmlFor="description">Mapa</label>
+                    <div ref="googleMap" id="google-map" className="mapa" /></div>
+              </div>
 
             {save ?
               <div className="col-md-12">
-                <button type="submit" name="action" value="submit" className="pull-right btn btn-success btn-lg" required="required"
-                        disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
+              <button type="submit" name="submit" className="pull-left btn btn-success btn-lg" required="required"
+            disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Uložit
                 </button>
               </div>
@@ -285,7 +301,7 @@ export class EventForm extends Component {
                   <div>Událost se nepodařilo vytvořit</div> :
                   ''
             }
-          </div>
+    
         </form>
       </div>
     )
