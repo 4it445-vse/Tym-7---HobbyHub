@@ -54,8 +54,6 @@ export class ProfilePageRaw extends Component {
 
     loginSuccess() {
         alert('Data úspěšně uložena!');
-        const { loggedIn, userId } = this.props;
-        const { profileId } = this.props.params;
         browserHistory.push('/profile');
     }
 
@@ -81,9 +79,8 @@ export class ProfilePageRaw extends Component {
     }
 
     render() {
-        const { username, email, rating } = this.state.userData;
+        const { username, rating } = this.state.userData;
         const { loggedIn, userId } = this.props;
-        const { profileId } = this.props.params;
         const { loggedUserId } = this.state;
         //reload data if user logged out or logged in
         if (loggedIn && userId != loggedUserId) {

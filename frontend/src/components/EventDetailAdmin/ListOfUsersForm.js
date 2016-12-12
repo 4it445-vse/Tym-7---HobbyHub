@@ -16,7 +16,7 @@ export class ListOfUsersForm extends Component {
   fetchEventUsers() {
     const self = this;
     api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": ["user"]}}})
-      .then((response)=> {
+      .then((response) => {
         console.log(response.data);
         self.setState({
           ...self.state,
@@ -24,8 +24,8 @@ export class ListOfUsersForm extends Component {
           eventUsers: response.data
         })
       })
-      .catch(error=> {
-        console.warn("error",error)
+      .catch(error => {
+        console.warn("error", error)
         self.setState({
           ...self.state,
           error: error
@@ -39,23 +39,23 @@ export class ListOfUsersForm extends Component {
 
   onChangeEventUserState(data) {
     var self = this;
-    api.post('eventusers/changeStatus',data)
-      .then((response)=> {
+    api.post('eventusers/changeStatus', data)
+      .then((response) => {
         const listState = Immutable.fromJS(self.state.eventUsers)
         const updatedList = listState.update(
-          listState.findIndex((item)=>{
-            return item.get('id')===data.event_id
+          listState.findIndex((item) => {
+            return item.get('id') === data.event_id
           }),
-          (item)=>{
-            return item.set('status',data.new_event_status)
+          (item) => {
+            return item.set('status', data.new_event_status)
           }
         )
         self.setState({
-          eventUsers:updatedList.toJS(),
-          error:null
+          eventUsers: updatedList.toJS(),
+          error: null
         })
       })
-      .catch(error=> {
+      .catch(error => {
         self.setState({
           ...self.state,
           error: error
@@ -86,11 +86,11 @@ export class ListOfUsersForm extends Component {
                   </tr>
                   </thead>
                   <tbody>
-                  {eventUsers.map(eventUser=>
+                  {eventUsers.map(eventUser =>
                     <ListOfUsersRow
                       key={eventUser.id}
-                      onChangeEventUserState={(newEventUserState)=>{
-                        this.onChangeEventUserState({event_id:eventUser.id, new_event_status:newEventUserState});
+                      onChangeEventUserState={(newEventUserState) => {
+                        this.onChangeEventUserState({event_id: eventUser.id, new_event_status: newEventUserState});
                       }}
                       {...eventUser}
                     />

@@ -22,7 +22,6 @@ export class EventForm extends Component {
     this.openModal = this.openModal.bind(this);
     this.onGoogleMapChange = this.onGoogleMapChange.bind(this);
     this.onImageSelected = this.onImageSelected.bind(this);
-    this.state = this.getDefaultState();
   }
 
   handleSelectTagChange(value) {
@@ -69,8 +68,24 @@ export class EventForm extends Component {
     });
   }
 
+  setDefaultState(){
+    if(typeof this.props.event !== "undefined" && this.props.event !==null){
+      const defaultState = this.getDefaultState();
+      this.setState({
+        ...defaultState,
+        event:this.props.event
+      })
+    }else{
+      this.state = this.getDefaultState();
+    }
+  }
+
   componentDidMount() {
     this.fetchTags();
+  }
+
+  componentWillMount(){
+    this.setDefaultState();
   }
 
   onInputChange(event) {
@@ -92,6 +107,7 @@ export class EventForm extends Component {
     const { event } = this.state;
     const dt = new Date(formData.get('date'));
     event.date = moment(dt).toDate();
+    console.log(event.target,dt);
     this.props.onFormSubmit(event);
   }
 
@@ -137,10 +153,11 @@ export class EventForm extends Component {
     )
   }
 
+
   render() {
-    const {event} = this.state;
+    const {event} = this.state
     const {actions, eventState} = this.props;
-    const {save, remove} = actions;
+    const {save, remove, edit} = actions;
 
     return (
       <div>
@@ -158,18 +175,14 @@ export class EventForm extends Component {
             <img className="event-image" src={event.picture} alt="Obrázek události"/> :
             <ImageNotFound width="100%" height="150" className="event-image"/>
           }
-          {save ?
-            <button
-              name="choose-image"
-              onClick={this.openModal}
-              className="btn btn-default btn-lg choose-image"
-              required="required">
-              <i className="fa fa-upload" aria-hidden="true"/>
-              Vyberte obrázek události
-            </button>
-            :
-            ''
-          }
+          <button
+            name="choose-image"
+            onClick={this.openModal}
+            className="btn btn-default btn-lg choose-image"
+            required="required">
+            <i className="fa fa-upload" aria-hidden="true"/>
+            Vyberte obrázek události
+          </button>
           <div ref="googleMap" id="google-map"/>
         </div>
 
@@ -186,7 +199,7 @@ export class EventForm extends Component {
                 name="name"
                 onChange={this.onInputChange}
                 className="form-control"
-                defaultValue={event.name}/>
+                value={event.name}/>
             </div>
             <div className="col-md-6">
               <label htmlFor="date">Datum</label>
@@ -204,7 +217,7 @@ export class EventForm extends Component {
                 onChange={this.onInputChange}
                 type="number"
                 className="form-control"
-                defaultValue={event.capacity}/>
+                value={event.capacity}/>
             </div>
             <div className="col-md-12">
               <label htmlFor="tags">Kategorie</label>
@@ -214,13 +227,14 @@ export class EventForm extends Component {
                 placeholder="Vyberte kategorie"
                 id="tags"
                 name="tags"
-                value={this.state.event.tags}
+                value={event.tags}
                 options={this.state.tag_options}
                 joinValues
                 onChange={this.handleSelectTagChange}
               ></Select2>
             </div>
             <GoogleMapAutocomplete
+              defaultLocation={event.location}
               onChange={(location, address)=>this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
             <div className="col-md-12">
@@ -231,12 +245,12 @@ export class EventForm extends Component {
                 onChange={this.onInputChange}
                 required="required"
                 className="form-control" rows="8"
-                defaultValue={event.description}/>
+                value={event.description}/>
             </div>
 
             {save ?
               <div className="col-md-12">
-                <button type="submit" name="submit" className="pull-right btn btn-success btn-lg" required="required"
+                <button type="submit" name="action" value="submit" className="pull-right btn btn-success btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
                 >Uložit
                 </button>
@@ -244,17 +258,26 @@ export class EventForm extends Component {
               :
               ''
             }
-            {remove ?
+            {/*{remove ?*/}
+              {/*<div className="col-md-12">*/}
+                {/*<button type="submit" name="action" value="delete" className="btn btn-danger btn-lg" required="required"*/}
+                        {/*disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}*/}
+                {/*>Smazat*/}
+                {/*</button>*/}
+              {/*</div>*/}
+              {/*:*/}
+              {/*''*/}
+            {/*}*/}
+            {edit ?
               <div className="col-md-12">
-                <button type="button" name="cancel" className="btn btn-danger btn-lg" required="required"
+                <button type="submit" name="action" value="edit" className="btn btn-success btn-lg" required="required"
                         disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
-                >Smazat
+                >Upravit
                 </button>
               </div>
               :
               ''
             }
-
             {
               eventState === EVENT_STATES.SUCCESS ?
                 <div>Událost byla vytvořena</div> :

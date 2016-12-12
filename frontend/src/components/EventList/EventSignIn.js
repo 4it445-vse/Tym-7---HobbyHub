@@ -40,7 +40,7 @@ export class EventSignInRaw extends Component {
   }
 
   render() {
-    const {eventId, getUserId, isLoggedIn, isFull, eventState, isFetching} = this.props;
+    const {isLoggedIn, isFull, eventState, isFetching} = this.props;
 
     console.log("isFetching",isFetching)
     return (
