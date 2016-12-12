@@ -20,6 +20,7 @@ module.exports = function (Event) {
       include: "users"
     }, (error, Events) => {
       if (error) cb('sorry')
+      console.log(dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, userId)
       const EventsFiltered = Events
         .filter(event => {
           //FILTERING BY TAGS
@@ -55,7 +56,7 @@ module.exports = function (Event) {
         .filter(event=>{
           // FILTERING BY FREE CAPACITY
           const checkboxCapacityBool = Boolean(checkboxCapacity);
-          if(checkboxCapacityBool===false) return true;
+          if(checkboxCapacityBool===true) return true;
           return event.users.length < event.user.capacity;
         })
 

@@ -16,6 +16,7 @@ export class HomePageRaw extends Component {
       events: null,
       isLoading: 0
     };
+    this.filteredEvents = this.filteredEvents.bind(this);
   }
 
   fetchEvents() {
@@ -26,7 +27,7 @@ export class HomePageRaw extends Component {
   }
 
   filteredEvents(events) {
-    this.state({events});
+    this.setState({events});
   }
 
   componentDidMount() {
