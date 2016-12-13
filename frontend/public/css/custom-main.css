@@ -100,8 +100,7 @@ only screen and (min-device-pixel-ratio: 2) {
     width: 100%;
 }
 .choose-image{
-  padding: 0;
-overflow:hidden;
+
 
     width: 100%;
 }
@@ -698,4 +697,7 @@ ul.tag-cloud, ul.sidebar-gallery {
   background: none;
   border: 2px solid;
   color: rgba(255, 255, 255, 0.86);
+}
+.fa-upload {
+    margin-right: 1em;
 }

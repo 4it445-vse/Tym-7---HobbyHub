@@ -243,24 +243,28 @@ export class EventForm extends Component {
           <div className="col-md-3 no-margin">
             <div className="col-sm-6 col-md-12">
               <label htmlFor="description">Vybrat obrázek</label>
-                {save ?
-                  <button
-                    name="choose-image"
-                    onClick={this.openModal}
-                    className="btn btn-default btn-lg choose-image"
-                    required="required">
-                    {event.picture ?
-                      <img className="event-image" src={event.picture} alt="Obrázek události"/> :
-                      <ImageNotFound width="100%" height="150" className="event-image"/>
-                    }
-                  </button>
-                  :
-                  ''
-                }
+
+              {event.picture ?
+                <img className="event-image" src={event.picture} alt="Obrázek události"/> :
+                <ImageNotFound width="100%" height="150" className="event-image"/>
+              }
+              {save ?
+                <button
+                  name="choose-image"
+                  onClick={this.openModal}
+                  className="btn btn-default btn-lg choose-image top-buffer"
+                  required="required">
+                  <i className="fa fa-upload" aria-hidden="true"/>
+                  Vybrat obrázek
+                </button>
+                :
+                ''
+              }
+
               </div>
 
               <div className="col-sm-6 col-md-12">
-                <label htmlFor="description">Mapa</label>
+                <label className="top-buffer" htmlFor="description">Mapa</label>
                     <div ref="googleMap" id="google-map" className="mapa" /></div>
               </div>
 
@@ -301,7 +305,7 @@ export class EventForm extends Component {
                   <div>Událost se nepodařilo vytvořit</div> :
                   ''
             }
-    
+
         </form>
       </div>
     )
