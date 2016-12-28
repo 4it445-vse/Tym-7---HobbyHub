@@ -4,15 +4,26 @@ import moment from 'moment';
 import {EventCommentItem} from './EventCommentItem'
 
 export class EventCommentList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.isRemovable = this.isRemovable.bind(this);
+  }
+
+  isRemovable(commentUserId) {
+    const {authorId, userId} = this.props;
+    return (userId == commentUserId || userId == authorId);
+  }
+
   render() {
-    const {eventComments} = this.props;
+    const {eventComments, fetchComments, userId} = this.props;
     return (
       <div>
         {!eventComments?
           ""
           :
           eventComments.map(eventComment =>
-            <EventCommentItem eventComment={eventComment} key={eventComment.id}/>
+            <EventCommentItem eventComment={eventComment} key={eventComment.id} fetchComments={fetchComments} userId={userId} isRemovable={this.isRemovable(eventComment.user_id)}/>
           )
         }
       </div>

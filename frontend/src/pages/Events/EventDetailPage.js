@@ -97,7 +97,9 @@ export class EventDetailPageRaw extends Component {
     const {event, eventComments} = this.state;
     const {isLoggedIn} = this.props;
     const coordinates = this.getCoordinates();
-    const linkToProfile = (event && event.user)? `/profile/${event.user.id}`:``;
+    const authorId = event ? event.author_id : undefined;
+    const userId = this.props.getUserId;
+    const linkToProfile = (event && event.user)? `/profile/${authorId}`:``;
     const linkToEditEvent = (event)?  `/events/edit/${event.id}` : '';
 
     return (
@@ -193,7 +195,7 @@ export class EventDetailPageRaw extends Component {
 
                   {isLoggedIn &&
                   <div className={this.isEventCreatedByMe(event)?"col-md-12":"ol-md-12"}>
-                    <EventCommentList eventComments={eventComments}/>
+                    <EventCommentList eventComments={eventComments} fetchComments={this.fetchComments} userId={userId} authorId={authorId}/>
                     <div>
                       <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
                     </div>
