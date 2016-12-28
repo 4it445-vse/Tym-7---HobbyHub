@@ -76,7 +76,6 @@ export class EventDetailPageRaw extends Component {
     const {eventId} = this.props.params;
     api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"], "order": "created desc"}}})
       .then((response) => {
-        console.log(response);
         const eventComments = response.data;
         //This fixes console warning
         if (deepEqual(this.state.eventComments, eventComments) === false) {
@@ -85,7 +84,6 @@ export class EventDetailPageRaw extends Component {
             eventComments: eventComments
           })
         }else{
-          console.log("no new comments")
         }
       })
       .catch((err) => {
