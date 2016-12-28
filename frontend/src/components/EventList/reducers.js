@@ -11,8 +11,8 @@ export const eventReducer = (state={}, action = {}) => {
       const {eventUser} = action;
       return {
         ...state,
-        ...eventUser
-      }
+        fetchEventUser: eventUser
+      };
     case EVENT_USER_CHANGED_ERROR:
       const { error } = action;
       return {
@@ -23,9 +23,9 @@ export const eventReducer = (state={}, action = {}) => {
       const {fetchEventUser} = action;
       return {
         ...state,
-        ...fetchEventUser,
-        fetched: true,
-      }
+        fetchEventUser: fetchEventUser,
+        fetched: true
+      };
     default:
       return state;
   }
@@ -33,7 +33,7 @@ export const eventReducer = (state={}, action = {}) => {
 
 
 export const getEventState =(state)=>{
-  return state.status;
+  return state.fetchEventUser ? state.fetchEventUser.status : null;
 }
 
 export const isFetching = (state) =>{
