@@ -1,3 +1,4 @@
+import moment from 'moment';
 export const EVENT_SIGN_IN = 'EVENT_SIGN_IN';
 export const EVENT_SIGN_OUT = 'EVENT_SIGN_OUT';
 export const EVENT_FETCH = 'EVENT_FETCH';
@@ -26,8 +27,8 @@ export const eventSignIn = (eventId, userId) => {
     event_id: eventId,
     user_id: userId,
     status: "pending",
-    created: "2016-11-13T00:00:00.000Z",
-    resolved: "2016-11-13T00:00:00.000Z"
+    created: moment().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
+    resolved: moment().format('YYYY-MM-DD[T]HH:mm:ss[Z]')
   };
   return {
     type: EVENT_SIGN_IN,

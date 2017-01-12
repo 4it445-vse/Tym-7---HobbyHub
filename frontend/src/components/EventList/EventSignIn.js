@@ -41,8 +41,6 @@ export class EventSignInRaw extends Component {
 
   render() {
     const {isLoggedIn, isFull, eventState, isFetching} = this.props;
-
-    console.log("isFetching",isFetching)
     return (
       <div>
         {

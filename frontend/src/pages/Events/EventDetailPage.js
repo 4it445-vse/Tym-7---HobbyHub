@@ -62,21 +62,23 @@ export class EventDetailPageRaw extends Component {
     }
   }
 
-  getSignedUsersCount() {
-    return this.state.event.users.reduce((prev, user)=>{
+  getSignedUsersCount(users) {
+    if (!users || users === undefined) {
+      return 0;
+    }
+    return users.reduce((prev, user)=>{
       return user.status==="accepted" ? prev + 1 : prev;
     },0)
   }
 
-  isEventCreatedByMe(event) {
-    return (event && event.user && (event.user.id === this.props.getUserId))
+  isEventCreatedByMe(event, userId) {
+    return (event && 'user' in event && 'id' in event.user && (event.user.id === userId))
   }
 
   fetchComments() {
     const {eventId} = this.props.params;
     api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"], "order": "created desc"}}})
       .then((response) => {
-        console.log(response);
         const eventComments = response.data;
         //This fixes console warning
         if (deepEqual(this.state.eventComments, eventComments) === false) {
@@ -85,7 +87,6 @@ export class EventDetailPageRaw extends Component {
             eventComments: eventComments
           })
         }else{
-          console.log("no new comments")
         }
       })
       .catch((err) => {
@@ -95,9 +96,11 @@ export class EventDetailPageRaw extends Component {
 
   render() {
     const {event, eventComments} = this.state;
-    const {isLoggedIn} = this.props;
+    const {isLoggedIn, getUserId} = this.props;
     const coordinates = this.getCoordinates();
-    const linkToProfile = (event && event.user)? `/profile/${event.user.id}`:``;
+    const authorId = event ? event.author_id : undefined;
+    const userId = this.props.getUserId;
+    const linkToProfile = (event && event.user)? `/profile/${authorId}`:``;
     const linkToEditEvent = (event)?  `/events/edit/${event.id}` : '';
 
     return (
@@ -149,7 +152,7 @@ export class EventDetailPageRaw extends Component {
                 Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
               </div>
               <div className="col-md-12">
-                Počet míst <b>{this.getSignedUsersCount()} / {event.capacity}</b>
+                Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
               </div>
               <div className="col-md-12">
               </div>
@@ -159,14 +162,14 @@ export class EventDetailPageRaw extends Component {
               </div>
 
               {
-                this.isEventCreatedByMe(event)
+                this.isEventCreatedByMe(event, getUserId)
                   ?
                   <div className="col-md-7">
 
                   </div>
                   :
                   <div className="col-md-2">
-                    <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount()}/>
+                    <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
                   </div>
               }
 
@@ -178,7 +181,7 @@ export class EventDetailPageRaw extends Component {
 
               <div className="event-description">{event.description}</div>
                   {
-                    this.isEventCreatedByMe(event)
+                    this.isEventCreatedByMe(event, getUserId)
                       ?
                       <div className="col-md-12">
                         <ListOfUsersForm eventId={event.id}/>
@@ -192,8 +195,8 @@ export class EventDetailPageRaw extends Component {
                 <div className="row"></div>
 
                   {isLoggedIn &&
-                  <div className={this.isEventCreatedByMe(event)?"col-md-12":"ol-md-12"}>
-                    <EventCommentList eventComments={eventComments}/>
+                  <div className={this.isEventCreatedByMe(event, getUserId)?"col-md-12":"ol-md-12"}>
+                    <EventCommentList eventComments={eventComments} fetchComments={this.fetchComments} userId={userId} authorId={authorId}/>
                     <div>
                       <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
                     </div>
