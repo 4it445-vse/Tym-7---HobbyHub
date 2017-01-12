@@ -82,7 +82,8 @@ export class ListOfUsersForm extends Component {
                     <td>Uživatel</td>
                     <td>Email</td>
                     <td>Vytvořeno</td>
-                    <td colSpan="2"/>
+                    <td>Hodnocení</td>
+                    <td></td>
                   </tr>
                   </thead>
                   <tbody>

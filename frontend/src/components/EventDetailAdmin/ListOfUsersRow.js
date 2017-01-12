@@ -47,6 +47,10 @@ export class ListOfUsersRow extends Component {
           {moment(created).format("D.M.YYYY")}
         </td>
         <td>
+          <a href=""><img className="thumbs"src="/images/dislike.png" /></a>
+          <a href=""><img className="thumbs" src="/images/like.png" /></a>
+        </td>
+        <td>
           <EventUserAvailableActions status={status} onChangeEventUserState={onChangeEventUserState}/>
         </td>
       </tr>

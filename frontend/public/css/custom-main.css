@@ -701,3 +701,8 @@ ul.tag-cloud, ul.sidebar-gallery {
 .fa-upload {
     margin-right: 1em;
 }
+
+.thumbs {
+    width: 24px;
+    margin: 4px;
+}
