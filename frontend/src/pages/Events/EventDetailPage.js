@@ -12,6 +12,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import deepEqual from 'deep-equal';
 import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
+import {ListOfUsersFormPublic} from '../../components/EventDetailPublic/ListOfUsersFormPublic'
 
 export class EventDetailPageRaw extends Component {
 
@@ -145,18 +146,18 @@ export class EventDetailPageRaw extends Component {
 
 
             <div className="col-xs-12 col-md-3">
-              <div className="col-md-12">
+              <div className="col-md-12 no-margin">
                 Pořádá <b>Ferda</b>
               </div>
-              <div className="col-md-12">
+              <div className="col-md-12 no-margin">
                 Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
               </div>
-              <div className="col-md-12">
+              <div className="col-md-12 no-margin">
                 Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
               </div>
-              <div className="col-md-12">
+              <div className="col-md-12 no-margin">
               </div>
-              <div className="col-md-12">
+              <div className="col-md-12 no-margin">
                 {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
 
               </div>
@@ -164,18 +165,19 @@ export class EventDetailPageRaw extends Component {
               {
                 this.isEventCreatedByMe(event, getUserId)
                   ?
-                  <div className="col-md-7">
+                  <div className="col-md-12">
 
                   </div>
                   :
-                  <div className="col-md-2">
+                  <div className="col-md-12 no-margin top-buffer">
                     <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
                   </div>
               }
 
+              <div className="col-md-12 no-margin">
+                <ListOfUsersFormPublic eventId={event.id}/>
+              </div>
             </div>
-
-
 
             <div className="col-xs-12 col-md-9">
 
