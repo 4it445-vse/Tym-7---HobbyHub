@@ -300,6 +300,16 @@ cursor: pointer;
    font-size: 3em;
    font-weight: bold;
    line-height: 2em;
+   font-size: 3em;
+color: white;
+
+background: #333;
+width: 60px;
+height: 60px;
+display: block;
+text-align: center;
+line-height: 60px;
+border-radius: 100px;
   }
   .btn-success:focus {
       color: #fff;
@@ -705,4 +715,32 @@ ul.tag-cloud, ul.sidebar-gallery {
 .thumbs {
     width: 24px;
     margin: 4px;
+}
+.inline-rating {
+  background: #333;
+  padding: 0px 4px;
+  font-size: 0.8em;
+  color: white;
+  margin-left: 4px;
+  border-radius: 4px;
+}
+.inline-rating-comments {
+  background: #777;
+  padding: 0px 4px;
+  font-size: 0.8em;
+  color: white;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-weight: normal;
+}
+.public-line {
+
+  padding: 0px 4px;
+
+  color: #333;
+  border-radius: 4px;
+
+}
+.margin-left-10 {
+  margin-left: 10px;
 }

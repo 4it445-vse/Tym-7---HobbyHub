@@ -134,10 +134,7 @@ export class ProfilePageRaw extends Component {
                   </div>
                   <div className="row"></div>
                   <div className="col-md-12">
-                    <b>Hodnocení</b>
-                  </div>
-                  <div className="col-md-12">
-                    <span className="profile-rating">{rating}</span>
+                    <span className="profile-rating">4</span>
                   </div>
                 </div>
               </div>

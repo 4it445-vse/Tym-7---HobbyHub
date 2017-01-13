@@ -18,8 +18,8 @@ export class ListOfUsersRowPublic extends Component {
       <tr>
 
         <td>
-          <Link to={profileLink}>
-            {user.username}
+          <Link to={profileLink} className="public-line">
+            {user.username} <span className="inline-rating">4</span>
           </Link>
           <a href=""><img className="thumbs"src="/images/dislike.png" /></a>
           <a href=""><img className="thumbs" src="/images/like.png" /></a>

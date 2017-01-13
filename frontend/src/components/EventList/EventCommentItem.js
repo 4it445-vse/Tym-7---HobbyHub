@@ -37,9 +37,9 @@ export class EventCommentItem extends Component {
           <Link to={linkToProfile}> <img src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} className="img-circle" alt=""/></Link>
         </div>
         <div className="media-body post_reply_comments">
-        <span className="comment-name">{user.username}</span>
+        <span className="comment-name">{user.username}<span className="inline-rating-comments">4</span></span>
 
-          {isRemovable && <button onClick={this.handleRemove} type="button" className="btn btn-xs btn-danger pull-right">
+          {isRemovable && <button onClick={this.handleRemove} type="button" className="btn btn-xs btn-danger pull-right margin-left-10">
           <span className="glyphicon glyphicon-trash"></span>&nbsp;
           </button>}
 
