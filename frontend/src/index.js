@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { setAuthToken } from './api.js';
+import { setAuthToken, checkAuthToken } from './api.js';
 
 import { configureStore } from './store/configureStore.js';
 import { loadState, saveState } from './store/localState.js';
@@ -15,10 +15,12 @@ if (
     setAuthToken(persistedState.login.authData.id)
 }
 
-
 const store = configureStore(persistedState, saveState);
+checkAuthToken(store);
 
 ReactDOM.render(
     <App store={store} />,
     document.getElementById('root')
 );
+
+export default store;
