@@ -72,11 +72,8 @@ export class FilterRaw extends Component {
       showPast
     };
 
-    console.log("filterData", filterData)
-
     api.post('events/filter', filterData)
       .then((response) => {
-        console.log('response', response.data.events);
         this.props.filteredEvents(response.data.events);
       })
   }
