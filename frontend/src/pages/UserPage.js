@@ -16,7 +16,7 @@ export class UserPageRaw extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     const {userId} = this.props;
-    this.state = { userData:{}, loggedUserId: userId};
+    this.state = { userData:{}, loggedUserId: userId, fetched: false};
   }
 
   handleSubmit(event) {
@@ -78,8 +78,9 @@ export class UserPageRaw extends Component {
   fetchUser(requestedUserId) {
     const { userId } = this.props;
     api.get('appusers/'+requestedUserId)
-        .then(({ data }) => this.setState({userData: data, loggedUserId: userId}))
+        .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true}))
         .catch(error => {
+          this.setState({userData: null, loggedUserId: userId, fetched: true});
           console.log('there were some errors loading user profile');
         });
   }
@@ -88,7 +89,7 @@ export class UserPageRaw extends Component {
     const { username, email } = this.state.userData;
     const { loggedIn, userId } = this.props;
     const { profileId } = this.props.params;
-    const { loggedUserId } = this.state;
+    const { loggedUserId, fetched } = this.state;
     //reload data if user logged out or logged in
     if (loggedIn && userId !== loggedUserId) {
       this.fetchUser(userId);
@@ -111,7 +112,7 @@ export class UserPageRaw extends Component {
       );
     }
 
-    if (lodash.isEmpty(this.state.userData)) {
+    if (lodash.isEmpty(this.state.userData) && fetched) {
       return (
           <div className="container content-container">
             <div>
