@@ -78,7 +78,7 @@ export class EventDetailPageRaw extends Component {
 
   fetchComments() {
     const {eventId} = this.props.params;
-    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"], "order": "created desc"}}})
+    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": [{"user":"ratings"}], "order": "created desc"}}})
       .then((response) => {
         const eventComments = response.data;
         //This fixes console warning
@@ -173,10 +173,11 @@ export class EventDetailPageRaw extends Component {
                     <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
                   </div>
               }
-
+              {(isLoggedIn && !this.isEventCreatedByMe(event, getUserId)) &&
               <div className="col-md-12 no-margin">
-                <ListOfUsersFormPublic eventId={event.id} userId={userId}/>
+                <ListOfUsersFormPublic eventId={event.id} userId={userId} eventDate={event.date}/>
               </div>
+              }
             </div>
 
             <div className="col-xs-12 col-md-9">
@@ -186,7 +187,7 @@ export class EventDetailPageRaw extends Component {
                     this.isEventCreatedByMe(event, getUserId)
                       ?
                       <div className="col-md-12">
-                        <ListOfUsersForm eventId={event.id}/>
+                        <ListOfUsersForm eventId={event.id} userId={userId} eventDate={event.date}/>
                       </div>
                       :
                       <div>

@@ -7,6 +7,7 @@ export class ListOfUsersForm extends Component {
   constructor(props) {
     super(props);
     this.onChangeEventUserState = this.onChangeEventUserState.bind(this);
+    this.fetchEventUsers = this.fetchEventUsers.bind(this);
     this.state = {
       eventUsers: null,
       error: null
@@ -14,20 +15,18 @@ export class ListOfUsersForm extends Component {
   }
 
   fetchEventUsers() {
-    const self = this;
-    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": ["user"]}}})
+    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user":"ratings"}]}}})
       .then((response) => {
-        console.log(response.data);
-        self.setState({
-          ...self.state,
+        this.setState({
+          ...this.state,
           error: null,
           eventUsers: response.data
         })
       })
       .catch(error => {
         console.warn("error", error)
-        self.setState({
-          ...self.state,
+        this.setState({
+          ...this.state,
           error: error
         })
       })
@@ -65,6 +64,7 @@ export class ListOfUsersForm extends Component {
 
   render() {
     const {error, eventUsers} = this.state;
+    const {userId, eventDate} = this.props;
     return (
       <div>
         {
@@ -89,6 +89,9 @@ export class ListOfUsersForm extends Component {
                   <tbody>
                   {eventUsers.map(eventUser =>
                     <ListOfUsersRow
+                      eventDate={eventDate}
+                      fetchEventUsers={this.fetchEventUsers}
+                      userId={userId}
                       key={eventUser.id}
                       onChangeEventUserState={(newEventUserState) => {
                         this.onChangeEventUserState({event_id: eventUser.id, new_event_status: newEventUserState});

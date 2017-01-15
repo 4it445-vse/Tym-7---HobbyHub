@@ -7,6 +7,7 @@ export class ListOfUsersFormPublic extends Component {
   constructor(props) {
     super(props);
     this.onChangeEventUserState = this.onChangeEventUserState.bind(this);
+    this.fetchEventUsers = this.fetchEventUsers.bind(this);
     this.state = {
       eventUsers: null,
       error: null
@@ -14,22 +15,21 @@ export class ListOfUsersFormPublic extends Component {
   }
 
   fetchEventUsers() {
-    const self = this;
     api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user": "ratings"}]}}})
       .then((response) => {
-        self.setState({
-          ...self.state,
+        this.setState({
+          ...this.state,
           error: null,
           eventUsers: this.filterAcceptedEventUsers(response.data)
         })
       })
       .catch(error => {
         console.warn("error", error)
-        self.setState({
-          ...self.state,
+        this.setState({
+          ...this.state,
           error: error
         })
-      })
+      });
   }
 
   filterAcceptedEventUsers(eventUsers) {
@@ -68,14 +68,25 @@ export class ListOfUsersFormPublic extends Component {
       })
   }
 
+  participated(eventUsers, userId) {
+    var participated = false;
+    eventUsers.forEach(function (eventUser) {
+      if (eventUser.user_id === userId) {
+        participated = true;
+      }
+    });
+
+    return participated;
+  }
+
   render() {
     const {error, eventUsers} = this.state;
-    const {userId} = this.props;
+    const {userId, eventDate} = this.props;
     return (
       <div>
         {
           !eventUsers ?
-            <div>Načíám data</div>
+            <div>Načítám data</div>
             :
             error ?
               <div>Nastala chyba při načítání dat ze serveru</div>
@@ -91,6 +102,9 @@ export class ListOfUsersFormPublic extends Component {
                   <tbody>
                   {eventUsers.map(eventUser =>
                     <ListOfUsersRowPublic
+                      eventDate={eventDate}
+                      participated={this.participated(eventUsers, userId)}
+                      fetchEventUsers={this.fetchEventUsers}
                       userId={userId}
                       key={eventUser.id}
                       onChangeEventUserState={(newEventUserState) => {
