@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import api from '../../api.js';
-import {ListOfUsersRow} from './ListOfUsersRow';
+import {ListOfUsersRowPublic} from './ListOfUsersRowPublic';
 import Immutable from 'immutable';
 
-export class ListOfUsersForm extends Component {
+export class ListOfUsersFormPublic extends Component {
   constructor(props) {
     super(props);
     this.onChangeEventUserState = this.onChangeEventUserState.bind(this);
@@ -15,12 +15,12 @@ export class ListOfUsersForm extends Component {
   }
 
   fetchEventUsers() {
-    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user":"ratings"}]}}})
+    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user": "ratings"}]}}})
       .then((response) => {
         this.setState({
           ...this.state,
           error: null,
-          eventUsers: response.data
+          eventUsers: this.filterAcceptedEventUsers(response.data)
         })
       })
       .catch(error => {
@@ -29,7 +29,13 @@ export class ListOfUsersForm extends Component {
           ...this.state,
           error: error
         })
-      })
+      });
+  }
+
+  filterAcceptedEventUsers(eventUsers) {
+      return eventUsers.filter(function (user) {
+        return user.status ===  "accepted";
+      });
   }
 
   componentDidMount() {
@@ -62,6 +68,17 @@ export class ListOfUsersForm extends Component {
       })
   }
 
+  participated(eventUsers, userId) {
+    var participated = false;
+    eventUsers.forEach(function (eventUser) {
+      if (eventUser.user_id === userId) {
+        participated = true;
+      }
+    });
+
+    return participated;
+  }
+
   render() {
     const {error, eventUsers} = this.state;
     const {userId, eventDate} = this.props;
@@ -69,27 +86,24 @@ export class ListOfUsersForm extends Component {
       <div>
         {
           !eventUsers ?
-            <div>Načíám data</div>
+            <div>Načítám data</div>
             :
             error ?
               <div>Nastala chyba při načítání dat ze serveru</div>
               :
               <div>
-                <table className="text-center list-of-users-form table-striped table-bordered table-hover">
+
+                <table className=" list-of-users-form table-hover top-buffer">
                   <thead>
                   <tr>
-                    <td></td>
-                    <td>Uživatel</td>
-                    <td>Email</td>
-                    <td>Vytvořeno</td>
-                    <td>Hodnocení</td>
-                    <td></td>
+                    <td>Účastníci</td>
                   </tr>
                   </thead>
                   <tbody>
                   {eventUsers.map(eventUser =>
-                    <ListOfUsersRow
+                    <ListOfUsersRowPublic
                       eventDate={eventDate}
+                      participated={this.participated(eventUsers, userId)}
                       fetchEventUsers={this.fetchEventUsers}
                       userId={userId}
                       key={eventUser.id}

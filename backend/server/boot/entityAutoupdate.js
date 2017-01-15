@@ -55,6 +55,11 @@ module.exports = function(app) {
     if (!EventComment) { return; }
   });
 
+  app.dataSources.mysqlds.autoupdate('UserRating', function(err) {
+    const { UserRating } = app.models;
+    if (!UserRating) { return; }
+  });
+
   app.dataSources.mysqlds.autoupdate('Tag', function(err) {
     const { Tag } = app.models;
     if (!Tag) { return; }

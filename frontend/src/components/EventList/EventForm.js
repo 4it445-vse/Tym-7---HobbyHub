@@ -36,7 +36,7 @@ export class EventForm extends Component {
     return {
       event: {
         name: "",
-        date: "2016-10-29T00:00:00.000Z",
+        date: new Date(),
         created: moment().toDate(),
         capacity: "",
         tags: "jiné",
@@ -133,6 +133,7 @@ export class EventForm extends Component {
 
   openModal(event) {
     event.stopPropagation();
+    event.preventDefault();
     const newState = {
       ...this.state
     }
@@ -164,15 +165,16 @@ export class EventForm extends Component {
 
         <div className="row header-text">
       <div className="col-md-9">
-        <h1 className="pull-left h1-height">Událost</h1>
+        <h1 className="pull-left h1-height">{actions.edit? "Upravit událost" :"Událost"}</h1>
       </div>
-      <div className="col-md-3 top-buffer">
-        <a className="btn btn-default pull-right" href="/">Zpět na výpis</a>
-      </div>
-
+          {!actions.edit ?
+            <div className="col-md-3 top-buffer">
+              <a className="btn btn-default pull-right" href="/">Zpět na výpis</a>
+            </div>
+            :
+            null
+          }
         </div>
-
-
 
         <form onSubmit={this.onFormSubmit}>
 
@@ -193,6 +195,7 @@ export class EventForm extends Component {
             <div className="col-md-6">
               <label htmlFor="date">Datum</label>
               <CustomDatePicker
+                startDate={moment(event.date)}
                   id="date"
                   name="date"
                   />
@@ -247,12 +250,12 @@ export class EventForm extends Component {
                 <img className="event-image" src={event.picture} alt="Obrázek události"/> :
                 <ImageNotFound width="100%" height="150" className="event-image"/>
               }
-              {save ?
+              {save || edit ?
                 <button
                   name="choose-image"
                   onClick={this.openModal}
                   className="btn btn-default btn-lg choose-image top-buffer"
-                  required="required">
+                  >
                   <i className="fa fa-upload" aria-hidden="true"/>
                   Vybrat obrázek
                 </button>

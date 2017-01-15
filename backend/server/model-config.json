@@ -51,5 +51,9 @@
   "EventComment": {
     "dataSource": "mysqlds",
     "public": true
+  },
+  "UserRating": {
+    "dataSource": "mysqlds",
+    "public": true
   }
 }

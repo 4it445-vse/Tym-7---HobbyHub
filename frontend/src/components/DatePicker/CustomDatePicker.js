@@ -11,21 +11,23 @@ export class CustomDatePicker extends Component {
     }
 
     componentWillMount(){
-        if(this.props.startDate){
-            this.setState({
-                startDate: this.props.startDate
-            })
-        }else{
-            this.setState({
-                startDate: moment()
-            })
-        }
+      this.setState({
+        startDate: this.props.startDate
+      })
     }
 
     handleChange(date) {
-        this.setState({
+        console.log("handleChange",date);
+        if(date.isValid()===true){
+          this.setState({
             startDate: date
-        });
+          });
+        }else{
+          this.setState({
+            startDate: null
+          });
+        }
+
     }
 
     render() {
