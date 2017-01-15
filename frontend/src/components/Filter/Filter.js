@@ -6,7 +6,7 @@ import Select2 from 'react-select';
 import moment from 'moment';
 import api from '../../api.js';
 import {connect} from 'react-redux';
-import {isLoggedIn,getUserId} from '../Login/reducers';
+import {isLoggedIn,getUserId,getUserPreferedTags} from '../Login/reducers';
 
 
 export class FilterRaw extends Component {
@@ -16,9 +16,17 @@ export class FilterRaw extends Component {
     moment.locale('cs');
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
+
     this.state = {
       event: {}
     }
+
+  }
+
+  fetchUser(requestedUserId) {
+      const { userId } = this.props;
+      api.get('appusers/'+requestedUserId)
+          .then(({ data }) => this.setState({userData: data}));
   }
 
   handleSelectTagChange(value) {
@@ -46,10 +54,12 @@ export class FilterRaw extends Component {
 
   componentDidMount() {
     this.fetchTags();
+    this.fetchUser(this.props.currentUserId);
   }
 
   handleFilterSubmit(e) {
     e.preventDefault();
+
     const formData = new FormData(e.target);
     const dateTo = new Date(formData.get('date-to'));
     const dateFrom = new Date(formData.get('date-from'));
@@ -60,6 +70,15 @@ export class FilterRaw extends Component {
     const signedUserId = this.props.isLoggedIn && formData.get('check-signed') ? this.props.currentUserId : null;
     const showPast = formData.get('check-past');
     const authorId = this.props.isLoggedIn && formData.get('check-author') ? this.props.currentUserId : null;
+    const checkboxPrefered = formData.get('check-prefered');
+
+    if (this.props.isLoggedIn && checkboxPrefered) {
+      var preferedTags = this.state.userData.prefered_tags;
+    } else {
+      var preferedTags = null;
+    }
+
+
     const filterData = {
       dateFrom,
       dateTo,
@@ -69,7 +88,8 @@ export class FilterRaw extends Component {
       tags,
       signedUserId,
       authorId,
-      showPast
+      showPast,
+      preferedTags
     };
 
     api.post('events/filter', filterData)
@@ -160,6 +180,15 @@ export class FilterRaw extends Component {
 
             </div>
 
+            <div className="col-xs-4 col-md-3">
+              <div className="col-md-12">
+                <label className="box filter-label">Zobrazovat proběhlé akce:</label>
+                <Checkbox name="check-past" defaultChecked={1}/>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
             {
               this.props.isLoggedIn
                 ?
@@ -176,18 +205,16 @@ export class FilterRaw extends Component {
                       <Checkbox name="check-author"/>
                     </div>
                   </div>
+                  <div className="col-xs-4 col-md-3">
+                    <div className="col-md-12">
+                      <label className="box filter-label">Pouze mnou preferované:</label>
+                      <Checkbox name="check-prefered" defaultChecked={1}/>
+                    </div>
+                  </div>
                 </div>
                 :
                 <div></div>
             }
-
-            <div className="col-xs-4 col-md-3">
-              <div className="col-md-12">
-                <label className="box filter-label">Zobrazovat proběhlé akce:</label>
-                <Checkbox name="check-past" defaultChecked={1}/>
-              </div>
-            </div>
-
           </div>
 
           <div className="row">

@@ -15,8 +15,9 @@ export class UserPageRaw extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
     const {userId} = this.props;
-    this.state = { userData:{}, loggedUserId: userId, fetched: false};
+    this.state = { userData:{}, loggedUserId: userId, fetched: false };
   }
 
   handleSubmit(event) {
@@ -29,7 +30,7 @@ export class UserPageRaw extends Component {
 
     const formData = new FormData(event.target);
     if (formData.get('password') !== formData.get('password_confirm')) {
-      alert('Heslo nejsou stejná');
+      alert('Hesla nejsou stejná');
       return;
     }
     if (formData.get('email') !== formData.get('email_confirm')) {
@@ -38,8 +39,8 @@ export class UserPageRaw extends Component {
     }
     let userData = {};
     const fields = ['username', 'email', 'password'];
-    for (let field in ['username', 'email', 'password']){
-      if(fields.hasOwnProperty(field) && formData.get(field)){
+    for (let field in ['username', 'email', 'password', 'prefered_tags']) {
+      if (fields.hasOwnProperty(field) && formData.get(field)) {
         userData[field] = formData.get(field);
       }
     }
@@ -85,8 +86,16 @@ export class UserPageRaw extends Component {
         });
   }
 
+  handleSelectTagChange(value) {
+    const newState = {
+      ...this.state
+    }
+    newState.userData.prefered_tags=value;
+    this.setState(newState);
+  }
+
   render() {
-    const { username, email } = this.state.userData;
+    const { username, email, prefered_tags } = this.state.userData;
     const { loggedIn, userId } = this.props;
     const { profileId } = this.props.params;
     const { loggedUserId, fetched } = this.state;
@@ -143,7 +152,7 @@ export class UserPageRaw extends Component {
               </div>
               <div className="row"></div>
               {userId == profileId || profileId === undefined?
-                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email}/> :
+                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email} prefered_tags={prefered_tags} handleSelectTagChange={this.handleSelectTagChange}/> :
                   <UserProfile username={username} email={email} />
               }
             </div>
