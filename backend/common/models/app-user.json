@@ -44,6 +44,16 @@
       "type": "hasMany",
       "model": "Event",
       "foreignKey": "author_id"
+    },
+    "ratings": {
+      "type": "hasMany",
+      "model": "UserRating",
+      "foreignKey": "owner_id"
+    },
+    "evaluations": {
+      "type": "hasMany",
+      "model": "UserRating",
+      "foreignKey": "author_id"
     }
   },
   "acls": [

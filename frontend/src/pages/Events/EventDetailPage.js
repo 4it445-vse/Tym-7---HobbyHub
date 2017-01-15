@@ -14,6 +14,7 @@ import deepEqual from 'deep-equal';
 import {EventForm} from '../../components/EventList/EventForm';
 import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm';
 import Modal from 'react-modal';
+import {ListOfUsersFormPublic} from '../../components/EventDetailPublic/ListOfUsersFormPublic';
 
 export class EventDetailPageRaw extends Component {
 
@@ -128,7 +129,7 @@ export class EventDetailPageRaw extends Component {
       "params": {
         "filter": {
           "where": {"event_id": eventId},
-          "include": ["user"],
+          "include": [{"user":"ratings"}],
           "order": "created desc"
         }
       }
@@ -238,21 +239,29 @@ export class EventDetailPageRaw extends Component {
                         :
                         null
                       }
-
                     </div>
+                }
+                {(isLoggedIn && !this.isEventCreatedByMe(event, getUserId)) &&
+                <div className="col-md-12 no-margin">
+                  <ListOfUsersFormPublic eventId={event.id} userId={userId} eventDate={event.date}/>
+                </div>
                 }
               </div>
-              <div className="col-xs-12 col-md-9">
-                <div className="event-description">{event.description}</div>
-                {
-                  this.isEventCreatedByMe(event, getUserId)
-                    ?
-                    <div className="col-md-12">
-                      <ListOfUsersForm eventId={event.id}/>
-                    </div>
-                    :
-                    ""
-                }
+
+            <div className="col-xs-12 col-md-9">
+              <div className="event-description">{event.description}</div>
+                  {
+                    this.isEventCreatedByMe(event, getUserId)
+                      ?
+                      <div className="col-md-12">
+                        <ListOfUsersForm eventId={event.id} userId={userId} eventDate={event.date}/>
+                      </div>
+                      :
+                      <div>
+
+                      </div>
+                  }
+
                 <div className="row"></div>
                 {isLoggedIn &&
                 <div className={this.isEventCreatedByMe(event, getUserId) ? "col-md-12" : "ol-md-12"}>
