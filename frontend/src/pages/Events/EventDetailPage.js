@@ -231,8 +231,14 @@ export class EventDetailPageRaw extends Component {
                     </div>
                     :
                     <div className="col-md-2">
-                      <EventSignIn eventId={event.id}
-                                   isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
+                      {moment(event.date).add(1,'days').isAfter(moment())
+                        ?
+                        <EventSignIn eventId={event.id}
+                                     isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
+                        :
+                        null
+                      }
+
                     </div>
                 }
               </div>
