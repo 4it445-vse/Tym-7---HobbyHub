@@ -21,7 +21,7 @@ export class ListOfUsersFormPublic extends Component {
         self.setState({
           ...self.state,
           error: null,
-          eventUsers: response.data
+          eventUsers: this.filterAcceptedEventUsers(response.data)
         })
       })
       .catch(error => {
@@ -31,6 +31,12 @@ export class ListOfUsersFormPublic extends Component {
           error: error
         })
       })
+  }
+
+  filterAcceptedEventUsers(eventUsers) {
+      return eventUsers.filter(function (user) {
+        return user.status ===  "accepted";
+      });
   }
 
   componentDidMount() {
