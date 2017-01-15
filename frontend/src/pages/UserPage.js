@@ -80,7 +80,7 @@ export class UserPageRaw extends Component {
     api.get('appusers/'+requestedUserId)
         .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true}))
         .catch(error => {
-          this.setState({userData: null, loggedUserId: userId, fetched: true});
+          this.setState({userData: {}, loggedUserId: userId, fetched: true});
           console.log('there were some errors loading user profile');
         });
   }

@@ -26,10 +26,35 @@ export class EventCommentItem extends Component {
         })
   }
 
+  getRatingClass(rating) {
+    if (rating === 1) {
+      return 'inline-rating-comments rating-red';
+    } else if (rating === 5) {
+      return 'inline-rating-comments rating-green';
+    } else {
+      return 'inline-rating-comments';
+    }
+  }
+
+  calculateRating(user) {
+    const {ratings} = user;
+    if (ratings.length == 0) {
+      return 3;
+    }
+    var sum = 0;
+
+    ratings.forEach(function (rating) {
+      sum += rating.rating;
+    });
+
+    return Math.round(sum/ratings.length);
+  }
+
   render() {
     const {eventComment, isRemovable} = this.props;
     const {user, created, text} = eventComment;
     const linkToProfile = `profile/${user.id}`;
+    const rating = this.calculateRating(user);
 
     return (
       <div className="media comment_section">
@@ -37,9 +62,9 @@ export class EventCommentItem extends Component {
           <Link to={linkToProfile}> <img src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} className="img-circle" alt=""/></Link>
         </div>
         <div className="media-body post_reply_comments">
-        <span className="comment-name">{user.username}</span>
+        <span className="comment-name">{user.username}<span className={this.getRatingClass(rating)}>{rating}</span></span>
 
-          {isRemovable && <button onClick={this.handleRemove} type="button" className="btn btn-xs btn-danger pull-right">
+          {isRemovable && <button onClick={this.handleRemove} type="button" className="btn btn-xs btn-danger pull-right margin-left-10">
           <span className="glyphicon glyphicon-trash"></span>&nbsp;
           </button>}
 

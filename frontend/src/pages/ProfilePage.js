@@ -71,18 +71,45 @@ export class ProfilePageRaw extends Component {
 
     fetchUser(requestedUserId) {
         const { userId } = this.props;
-        api.get('appusers/'+requestedUserId)
+        api.get('appusers/'+requestedUserId, {"params": {"filter": {"include": "ratings"}}})
             .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true}))
             .catch(error => {
-                this.setState({userData: null, loggedUserId: userId, fetched: true});
+                this.setState({userData: {}, loggedUserId: userId, fetched: true});
                 console.log('there were some errors loading user profile');
             });
     }
 
+    getRatingClass(rating) {
+        if (rating === 1) {
+            return 'profile-rating rating-red';
+        } else if (rating === 5) {
+            return 'profile-rating rating-green';
+        } else {
+            return 'profile-rating';
+        }
+    }
+
+    calculateRating(user) {
+        console.log('user data:', user);
+        const {ratings} = user;
+        if (ratings === undefined || ratings.length == 0) {
+            return 3;
+        }
+        var sum = 0;
+
+        ratings.forEach(function (rating) {
+            sum += rating.rating;
+        });
+
+        return Math.round(sum/ratings.length);
+    }
+
     render() {
-        const { username, rating } = this.state.userData;
+        const { username } = this.state.userData;
         const { loggedIn, userId } = this.props;
         const { loggedUserId, fetched } = this.state;
+        const rating = this.calculateRating(this.state.userData);
+
         //reload data if user logged out or logged in
         if (loggedIn && userId != loggedUserId) {
             this.fetchUser(userId);
@@ -135,10 +162,7 @@ export class ProfilePageRaw extends Component {
                   </div>
                   <div className="row"></div>
                   <div className="col-md-12">
-                    <b>Hodnocení</b>
-                  </div>
-                  <div className="col-md-12">
-                    <span className="profile-rating">{rating}</span>
+                    <span className={this.getRatingClass(rating)}>{rating}</span>
                   </div>
                 </div>
               </div>
