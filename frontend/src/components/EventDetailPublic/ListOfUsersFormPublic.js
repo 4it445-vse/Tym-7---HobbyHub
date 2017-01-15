@@ -15,9 +15,8 @@ export class ListOfUsersFormPublic extends Component {
 
   fetchEventUsers() {
     const self = this;
-    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": ["user"]}}})
+    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user": "ratings"}]}}})
       .then((response) => {
-        console.log(response.data);
         self.setState({
           ...self.state,
           error: null,
@@ -71,6 +70,7 @@ export class ListOfUsersFormPublic extends Component {
 
   render() {
     const {error, eventUsers} = this.state;
+    const {userId} = this.props;
     return (
       <div>
         {
@@ -91,6 +91,7 @@ export class ListOfUsersFormPublic extends Component {
                   <tbody>
                   {eventUsers.map(eventUser =>
                     <ListOfUsersRowPublic
+                      userId={userId}
                       key={eventUser.id}
                       onChangeEventUserState={(newEventUserState) => {
                         this.onChangeEventUserState({event_id: eventUser.id, new_event_status: newEventUserState});

@@ -175,7 +175,7 @@ export class EventDetailPageRaw extends Component {
               }
 
               <div className="col-md-12 no-margin">
-                <ListOfUsersFormPublic eventId={event.id}/>
+                <ListOfUsersFormPublic eventId={event.id} userId={userId}/>
               </div>
             </div>
 

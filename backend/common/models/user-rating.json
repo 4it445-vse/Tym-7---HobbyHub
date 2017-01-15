@@ -1,0 +1,42 @@
+{
+  "name": "UserRating",
+  "plural": "ratings",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "rating": {
+      "type": "number",
+      "required": true
+    },
+    "owner_id": {
+      "type": {
+        "required": true
+      }
+    },
+    "author_id": {
+      "type": {
+        "required": true
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "rated": {
+      "type": "belongsTo",
+      "model": "AppUser",
+      "foreignKey": "owner_id",
+      "required": true
+    },
+    "evaluating": {
+      "type": "belongsTo",
+      "model": "AppUser",
+      "foreignKey": "author_id",
+      "required": true
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
