@@ -7,11 +7,13 @@ import moment from 'moment';
 import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
-import {getUserId,isLoggedIn} from '../../components/Login/reducers.js';
+import {getUserId, isLoggedIn} from '../../components/Login/reducers.js';
 import {connect} from 'react-redux'
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import deepEqual from 'deep-equal';
-import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
+import {EventForm} from '../../components/EventList/EventForm';
+import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm';
+import Modal from 'react-modal';
 
 export class EventDetailPageRaw extends Component {
 
@@ -21,12 +23,16 @@ export class EventDetailPageRaw extends Component {
 
     this.fetchComments = this.fetchComments.bind(this);
     this.removeEvent = this.removeEvent.bind(this);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.showEdit = this.showEdit.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     //set comments polling
-    const pollingId = setInterval(function() {
+    const pollingId = setInterval(function () {
       this.fetchComments();
     }.bind(this), 5000);
     this.state = {
       event: null,
+      openEditModal: false,
       pollingId
     };
   }
@@ -35,24 +41,24 @@ export class EventDetailPageRaw extends Component {
     const {eventId} = this.props.params;
     const self = this;
     api('events/' + eventId, {"params": {"filter": {"include": ["users", "user"]}}})
-      .then((response)=> {
+      .then((response) => {
         self.setState({
           event: response.data
         })
-      }).catch((e)=> {
+      }).catch((e) => {
       console.warn(eventId, e);
     })
   }
 
-  removeEvent(e){
+  removeEvent(e) {
     e.preventDefault();
     const confirm = window.confirm('Opravdu chcete odstranit událost?');
-    if(confirm === true){
+    if (confirm === true) {
       api.delete(`events/${this.props.params.eventId}`)
-        .then((response)=>{
+        .then((response) => {
           browserHistory.push("/");
         })
-        .catch((e)=>{
+        .catch((e) => {
           console.warn(e);
         })
     }
@@ -81,9 +87,35 @@ export class EventDetailPageRaw extends Component {
     if (!users || users === undefined) {
       return 0;
     }
-    return users.reduce((prev, user)=>{
-      return user.status==="accepted" ? prev + 1 : prev;
-    },0)
+    return users.reduce((prev, user) => {
+      return user.status === "accepted" ? prev + 1 : prev;
+    }, 0)
+  }
+
+
+  showEdit(e) {
+    e.preventDefault();
+    this.setState({
+      ...this.state,
+      openEditModal: true
+    })
+  }
+
+  onFormSubmit(event) {
+    const eventPut = {...event};
+    delete eventPut.id;
+    delete eventPut.user;
+    api.put(`events/${event.id}`, eventPut)
+      .then(response => {
+        console.log("response", response);
+        this.setState({
+          ...this.state,
+          openEditModal:false
+        });
+      }).catch(error => {
+      console.warn(error);
+    });
+    console.log("onFormSubmit", event);
   }
 
   isEventCreatedByMe(event, userId) {
@@ -92,7 +124,15 @@ export class EventDetailPageRaw extends Component {
 
   fetchComments() {
     const {eventId} = this.props.params;
-    api('eventcomments', {"params": {"filter": {"where": {"event_id": eventId}, "include": ["user"], "order": "created desc"}}})
+    api('eventcomments', {
+      "params": {
+        "filter": {
+          "where": {"event_id": eventId},
+          "include": ["user"],
+          "order": "created desc"
+        }
+      }
+    })
       .then((response) => {
         const eventComments = response.data;
         //This fixes console warning
@@ -101,12 +141,19 @@ export class EventDetailPageRaw extends Component {
             ...this.state,
             eventComments: eventComments
           })
-        }else{
+        } else {
         }
       })
       .catch((err) => {
         console.warn(err)
       })
+  }
+
+  closeModal() {
+    this.setState({
+      ...this.state,
+      openEditModal:false
+    })
   }
 
   render() {
@@ -115,123 +162,129 @@ export class EventDetailPageRaw extends Component {
     const coordinates = this.getCoordinates();
     const authorId = event ? event.author_id : undefined;
     const userId = this.props.getUserId;
-    const linkToProfile = (event && event.user)? `/profile/${authorId}`:``;
-    const linkToEditEvent = (event)?  `/events/edit/${event.id}` : '';
+    const linkToProfile = (event && event.user) ? `/profile/${authorId}` : ``;
+    const linkToEditEvent = (event) ? `/events/edit/${event.id}` : '';
 
     return (
       <div className="container content-container">
-
         {event === null ?
           <h1>Načítám...</h1> :
-
           <div>
 
 
-            <div className="event-name-wrap">
-                    {event.picture ?
-                      <img className="" src={event.picture} alt="{name}"/> :
-                      ''
-                    }
-              <div className="event-name-overlay">
-                    <div className="col-md-12 top-buffer">
-                      <a className="btn btn-default pull-right event-back" href="/">Zpět na výpis</a>
-                    </div>
-                <div className="event-name-inner">
-
-                  <div className="col-xs-12 col-md-12">
-                      <h1 className="pull-left h1-height">{event.name}</h1>
+            <div>
+              <div className="event-name-wrap">
+                {event.picture ?
+                  <img className="" src={event.picture} alt="{name}"/> :
+                  ''
+                }
+                <div className="event-name-overlay">
+                  <div className="col-md-12 top-buffer">
+                    <a className="btn btn-default pull-right event-back" href="/">Zpět na výpis</a>
                   </div>
-                  <div className="row"></div>
-
-                  <div className="col-xs-12 col-md-12">
-                    <ul className="tag-cloud col-md-12">
-                      {event.tags.split(",").map((tag, index)=>
-                        <li className="float" key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
-                      )}
-                      {this.isEventCreatedByMe(event,getUserId)
-                        ?
-                        <li className="float-right">
-                          <a href="" className="btn btn-xs btn-primary btn-warning" onClick={this.removeEvent}>
-                            <i className="fa fa-trash-o fa-lg"></i> Odstranit
-                          </a>
-                        </li>
-                        :
-                        ""
-                      }
-                    </ul>
+                  <div className="event-name-inner">
+                    <div className="col-xs-12 col-md-12">
+                      <h1 className="pull-left h1-height">{event.name}</h1>
+                    </div>
+                    <div className="row"></div>
+                    <div className="col-xs-12 col-md-12">
+                      <ul className="tag-cloud col-md-12">
+                        {event.tags.split(",").map((tag, index) =>
+                          <li className="float" key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a>
+                          </li>
+                        )}
+                        {this.isEventCreatedByMe(event, getUserId)
+                          ?
+                          <li className="float-right">
+                            <a href="" className="btn btn-xs btn-primary"
+                               onClick={this.showEdit}>
+                              <i className="fa fa-pencil-square-o fa-lg"></i> Upravit
+                            </a>
+                            <a href="" className="btn btn-xs btn-primary btn-warning" onClick={this.removeEvent}>
+                              <i className="fa fa-trash-o fa-lg"></i> Odstranit
+                            </a>
+                          </li>
+                          :
+                          ""
+                        }
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+              <div className="row top-buffer"></div>
+              <div className="col-xs-12 col-md-3">
+                <div className="col-md-12">
+                  Pořádá <b>Ferda</b>
+                </div>
+                <div className="col-md-12">
+                  Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
+                </div>
+                <div className="col-md-12">
+                  Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
+                </div>
+                {
+                  this.isEventCreatedByMe(event, getUserId)
+                    ?
+                    <div className="col-md-7">
 
-            <div className="row top-buffer"></div>
-
-
-
-
-            <div className="col-xs-12 col-md-3">
-              <div className="col-md-12">
-                Pořádá <b>Ferda</b>
-              </div>
-              <div className="col-md-12">
-                Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
-              </div>
-              <div className="col-md-12">
-                Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
-              </div>
-              <div className="col-md-12">
-              </div>
-              <div className="col-md-12">
-                {/*<GoogleMap coordinates={coordinates}/> <EventAddComment eventId={event.id}/>*/}
-
-              </div>
-
-              {
-                this.isEventCreatedByMe(event, getUserId)
-                  ?
-                  <div className="col-md-7">
-
-                  </div>
-                  :
-                  <div className="col-md-2">
-                    <EventSignIn eventId={event.id} isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
-                  </div>
-              }
-
-            </div>
-
-
-
-            <div className="col-xs-12 col-md-9">
-
-              <div className="event-description">{event.description}</div>
-                  {
-                    this.isEventCreatedByMe(event, getUserId)
-                      ?
-                      <div className="col-md-12">
-                        <ListOfUsersForm eventId={event.id}/>
-                      </div>
-                      :
-                      <div>
-
-                      </div>
-                  }
-
-                <div className="row"></div>
-
-                  {isLoggedIn &&
-                  <div className={this.isEventCreatedByMe(event, getUserId)?"col-md-12":"ol-md-12"}>
-                    <EventCommentList eventComments={eventComments} fetchComments={this.fetchComments} userId={userId} authorId={authorId}/>
-                    <div>
-                      <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
                     </div>
-                  </div>}
-
-              </div>
-
-          </div>
+                    :
+                    <div className="col-md-2">
+                      <EventSignIn eventId={event.id}
+                                   isFull={event.capacity <= this.getSignedUsersCount(this.state.event.users)}/>
+                    </div>
                 }
-        </div>
+              </div>
+              <div className="col-xs-12 col-md-9">
+                <div className="event-description">{event.description}</div>
+                {
+                  this.isEventCreatedByMe(event, getUserId)
+                    ?
+                    <div className="col-md-12">
+                      <ListOfUsersForm eventId={event.id}/>
+                    </div>
+                    :
+                    ""
+                }
+                <div className="row"></div>
+                {isLoggedIn &&
+                <div className={this.isEventCreatedByMe(event, getUserId) ? "col-md-12" : "ol-md-12"}>
+                  <EventCommentList eventComments={eventComments} fetchComments={this.fetchComments} userId={userId}
+                                    authorId={authorId}/>
+                  <div>
+                    <EventAddComment eventId={event.id} fetchComments={this.fetchComments}/>
+                  </div>
+                </div>}
+              </div>
+            </div>
+
+            {
+              this.state.openEditModal === true ?
+
+                <Modal
+                  isOpen={this.state.openEditModal}
+                  contentLabel="Úprava události"
+                  onRequestClose={this.closeModal}
+                >
+                  <div className="container content-container">
+                    <i onClick={this.closeModal} className="fa fa-times text-danger close-modal"/>
+                    <EventForm
+                      actions={{
+                        edit: true,
+                        remove: true
+                      }}
+                      onFormSubmit={this.onFormSubmit}
+                      eventState=""
+                      event={event}/>
+                  </div>
+                </Modal>
+                :
+                null
+            }
+          </div>
+        }
+      </div>
     );
   }
 }

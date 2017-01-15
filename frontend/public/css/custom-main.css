@@ -708,3 +708,10 @@ ul.tag-cloud, ul.sidebar-gallery {
 a.btn-warning:hover{
     background: #c52d2f !important;
 }
+
+.close-modal{
+    position: absolute;
+    right: 25px;
+    font-size: 36px;
+    cursor: pointer;
+}
