@@ -53,11 +53,13 @@ export class FilterRaw extends Component {
     const formData = new FormData(e.target);
     const dateTo = new Date(formData.get('date-to'));
     const dateFrom = new Date(formData.get('date-from'));
-    const checkboxStatus = formData.get('check-stat');
+    const checkboxStatus = formData.get('check-signed');
     const checkboxCapacity = formData.get('check-cap');
     const name = formData.get('name');
     const tags = formData.get('tags');
-    const userId = this.props.isLoggedIn ? this.props.currentUserId : 0;
+    const signedUserId = this.props.isLoggedIn && formData.get('check-signed') ? this.props.currentUserId : null;
+    const showPast = formData.get('check-past');
+    const authorId = this.props.isLoggedIn && formData.get('check-author') ? this.props.currentUserId : null;
     const filterData = {
       dateFrom,
       dateTo,
@@ -65,14 +67,13 @@ export class FilterRaw extends Component {
       checkboxCapacity,
       name,
       tags,
-      userId
+      signedUserId,
+      authorId,
+      showPast
     };
-
-    console.log("filterData", filterData)
 
     api.post('events/filter', filterData)
       .then((response) => {
-        console.log('response', response.data.events);
         this.props.filteredEvents(response.data.events);
       })
   }
@@ -83,81 +84,137 @@ export class FilterRaw extends Component {
     return (
       <form onSubmit={this.handleFilterSubmit}>
         <div className="col-md-12">
-          <div className="col-md-3">
-            <div className="col-md-2">
-              <label className="filter-label">Od:</label>
-            </div>
-            <div className="col-md-10">
-              <CustomDatePicker
-                startDate={momentBeforeWeek}
-                id="date-from"
-                name="date-from"
-              />
-            </div>
-          </div>
-          <div className="col-md-3">
-            <div className="col-md-2">
-              <label className="filter-label">Do:</label>
-            </div>
-            <div className="col-md-10">
-              <CustomDatePicker
-                startDate={momentNextWeek}
-                id="date-to"
-                name="date-to"
-              />
-            </div>
-          </div>
-          <div className="col-xs-4 col-md-2">
-            <label className="box filter-label">&nbsp; Volná kapacita:</label>
-            <Checkbox name="check-cap" defaultChecked={1}/>
-          </div>
-          {
-            this.props.isLoggedIn
-              ?
-              <div className="col-xs-4 col-md-2">
-                <label className="box filter-label">&nbsp; Jsem přihlášen:</label>
-                <Checkbox name="check-stat"/>
-              </div>
-              :
-              <div className="col-xs-4 col-md-2">
-              </div>
-          }
-          <div className="col-xs-4 col-md-2">
-            <button type="submit" name="submit" className="pull-right btn btn-default top-filter-buffer"
-            >Filtrovat
-            </button>
-          </div>
-          <div className="col-md-3">
+
+          <div className="row">
+
             <div className="col-md-3">
-              <label className="filter-label">Název:</label>
+              <div className="col-md-3">
+                <label className="filter-label">Název:</label>
+              </div>
+              <div className="col-md-9">
+                <input
+                  id="name"
+                  type="text"
+                  className="form-control"
+                  name="name"/>
+              </div>
             </div>
-            <div className="col-md-9">
-              <input
-                id="name"
-                type="text"
-                className="form-control"
-                name="name"/>
+
+            <div className="col-md-6">
+              <div className="col-md-3">
+                <label className="filter-label" htmlFor="tags">Kategorie:</label>
+              </div>
+              <div className="col-md-9">
+                <Select2
+                  multi
+                  simpleValue
+                  placeholder="Vyberte kategorie"
+                  id="tags"
+                  name="tags"
+                  options={this.state.tag_options}
+                  value={this.state.event.tags}
+                  joinValues
+                  onChange={this.handleSelectTagChange}
+                ></Select2>
+              </div>
             </div>
-          </div>
-          <div className="col-md-8">
-            <div className="col-md-3">
-              <label className="filter-label" htmlFor="tags">Kategorie:</label>
-            </div>
-            <div className="col-md-9">
-              <Select2
-                multi
-                simpleValue
-                placeholder="Vyberte kategorie"
-                id="tags"
-                name="tags"
-                options={this.state.tag_options}
-                value={this.state.event.tags}
-                joinValues
-                onChange={this.handleSelectTagChange}
-              ></Select2>
-            </div>
+
           </div>
 
+          <div className="row">
+
+            <div className="col-md-3">
+              <div className="col-md-3">
+                <label className="filter-label">Od:</label>
+              </div>
+              <div className="col-md-9">
+                <CustomDatePicker
+                  startDate={momentBeforeWeek}
+                  id="date-from"
+                  name="date-from"
+                />
+              </div>
+            </div>
+
+            <div className="col-md-3">
+              <div className="col-md-3">
+                <label className="filter-label">Do:</label>
+              </div>
+              <div className="col-md-9">
+                <CustomDatePicker
+                  startDate={momentNextWeek}
+                  id="date-to"
+                  name="date-to"
+                />
+              </div>
+            </div>
+
+          </div>
+
+          <div className="row">
+            <div className="col-xs-4 col-md-3">
+              <div className="col-md-12">
+                <label className="box filter-label">Volná kapacita:</label>
+                <Checkbox name="check-cap" defaultChecked={1}/>
+              </div>
+
+            </div>
+
+            {
+              this.props.isLoggedIn
+                ?
+                <div>
+                  <div className="col-xs-4 col-md-3">
+                    <div className="col-md-12">
+                      <label className="box filter-label">Jsem přihlášen:</label>
+                      <Checkbox name="check-signed"/>
+                    </div>
+                  </div>
+                  <div className="col-xs-4 col-md-3">
+                    <div className="col-md-12">
+                      <label className="box filter-label">Jsem autorem:</label>
+                      <Checkbox name="check-author"/>
+                    </div>
+                  </div>
+                </div>
+                :
+                <div></div>
+            }
+
+            <div className="col-xs-4 col-md-3">
+              <div className="col-md-12">
+                <label className="box filter-label">Zobrazovat proběhlé akce:</label>
+                <Checkbox name="check-past" defaultChecked={1}/>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="row">
+
+            <div className="col-xs-4 col-md-2">
+              <div className="col-md-12">
+                <button type="submit" name="submit" className="btn btn-default top-filter-buffer"
+                >Filtrovat
+                </button>
+              </div>
+
+            </div>
+
+            <div className="col-xs-4 col-md-1"></div>
+
+            <div className="col-xs-4 col-md-2">
+              <div className="col-md-12">
+                <button type="submit" name="submit" className="btn btn-default top-filter-buffer"
+                >Reset
+                </button>
+              </div>
+
+            </div>
+
+            <div className="col-xs-4 col-md-10"></div>
+
+          </div>
 
         </div>
       </form>
