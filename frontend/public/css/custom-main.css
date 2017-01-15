@@ -723,6 +723,12 @@ ul.tag-cloud, ul.sidebar-gallery {
   margin-left: 4px;
   border-radius: 4px;
 }
+.rating-red {
+  background: #c52d2f !important;
+}
+.rating-green {
+  background: #5cb85f !important;
+}
 .inline-rating-comments {
   background: #777;
   padding: 0px 4px;
