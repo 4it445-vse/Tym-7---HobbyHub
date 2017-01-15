@@ -9,7 +9,7 @@ import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
 import {getUserId,isLoggedIn} from '../../components/Login/reducers.js';
 import {connect} from 'react-redux'
-import {Link} from 'react-router';
+import { browserHistory } from 'react-router';
 import deepEqual from 'deep-equal';
 import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm'
 
@@ -20,6 +20,7 @@ export class EventDetailPageRaw extends Component {
     moment.locale('cs');
 
     this.fetchComments = this.fetchComments.bind(this);
+    this.removeEvent = this.removeEvent.bind(this);
     //set comments polling
     const pollingId = setInterval(function() {
       this.fetchComments();
@@ -41,6 +42,20 @@ export class EventDetailPageRaw extends Component {
       }).catch((e)=> {
       console.warn(eventId, e);
     })
+  }
+
+  removeEvent(e){
+    e.preventDefault();
+    const confirm = window.confirm('Opravdu chcete odstranit událost?');
+    if(confirm === true){
+      api.delete(`events/${this.props.params.eventId}`)
+        .then((response)=>{
+          browserHistory.push("/");
+        })
+        .catch((e)=>{
+          console.warn(e);
+        })
+    }
   }
 
   componentDidMount() {
@@ -133,6 +148,16 @@ export class EventDetailPageRaw extends Component {
                       {event.tags.split(",").map((tag, index)=>
                         <li className="float" key={index}><a className="btn btn-xs btn-primary" href="#">{tag}</a></li>
                       )}
+                      {this.isEventCreatedByMe(event,getUserId)
+                        ?
+                        <li className="float-right">
+                          <a href="" className="btn btn-xs btn-primary btn-warning" onClick={this.removeEvent}>
+                            <i className="fa fa-trash-o fa-lg"></i> Odstranit
+                          </a>
+                        </li>
+                        :
+                        ""
+                      }
                     </ul>
                   </div>
                 </div>

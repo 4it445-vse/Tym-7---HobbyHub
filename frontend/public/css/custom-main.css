@@ -701,3 +701,10 @@ ul.tag-cloud, ul.sidebar-gallery {
 .fa-upload {
     margin-right: 1em;
 }
+.float-right{
+    float: right;
+}
+
+a.btn-warning:hover{
+    background: #c52d2f !important;
+}
