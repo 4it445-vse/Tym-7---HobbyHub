@@ -11,21 +11,23 @@ export class CustomDatePicker extends Component {
     }
 
     componentWillMount(){
-        if(this.props.startDate){
-            this.setState({
-                startDate: this.props.startDate
-            })
-        }else{
-            this.setState({
-                startDate: moment()
-            })
-        }
+      this.setState({
+        startDate: this.props.startDate
+      })
     }
 
     handleChange(date) {
-        this.setState({
+        console.log("handleChange",date);
+        if(date.isValid()===true){
+          this.setState({
             startDate: date
-        });
+          });
+        }else{
+          this.setState({
+            startDate: null
+          });
+        }
+
     }
 
     render() {
@@ -36,7 +38,7 @@ export class CustomDatePicker extends Component {
             name={name}
             selected={this.state.startDate}
             onChange={this.handleChange}
-            dateFormat="YYYY/MM/DD"
+            dateFormat="DD.MM.YYYY"
             className="form-control"
             />;
     }

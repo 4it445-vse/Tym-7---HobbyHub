@@ -51,8 +51,15 @@ export class FilterRaw extends Component {
   handleFilterSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const dateTo = new Date(formData.get('date-to'));
-    const dateFrom = new Date(formData.get('date-from'));
+
+    const dateTo = (moment(formData.get('date-to')).isValid() === false)
+      ? moment().add(1,'years').format()
+      : new Date(formData.get('date-to'));
+
+    const dateFrom = (moment(formData.get('date-from')).isValid() === false)
+      ? moment().subtract(1,'years').format()
+      : new Date(formData.get('date-from'));
+
     const checkboxStatus = formData.get('check-stat');
     const checkboxCapacity = formData.get('check-cap');
     const name = formData.get('name');
@@ -89,7 +96,7 @@ export class FilterRaw extends Component {
             </div>
             <div className="col-md-10">
               <CustomDatePicker
-                startDate={momentBeforeWeek}
+                startDate={null}
                 id="date-from"
                 name="date-from"
               />
@@ -101,7 +108,7 @@ export class FilterRaw extends Component {
             </div>
             <div className="col-md-10">
               <CustomDatePicker
-                startDate={momentNextWeek}
+                startDate={null}
                 id="date-to"
                 name="date-to"
               />
