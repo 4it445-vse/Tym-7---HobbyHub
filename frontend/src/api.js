@@ -15,7 +15,7 @@ api.interceptors.response.use((response) => {
   if (error.response.status === 401 && isLoggedIn(login)) {
     store.dispatch(logout());
   }
-  return Promise.resolve({ error });
+  throw error;
 });
 
 export function getCancelTokenSource() {

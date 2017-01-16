@@ -11,50 +11,8 @@ import { Link } from 'react-router';
 export class ProfilePageRaw extends Component {
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this);
         const {userId} = this.props;
         this.state = { userData:{}, loggedUserId: userId, fetched: false};
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        const { loggedIn, userId } = this.props;
-        if (!loggedIn) {
-            console.log('you cannot edit profile if you are not logged in');
-            return;
-        }
-
-        const { username, email } = this.state.userData;
-        const formData = new FormData(event.target);
-        if (formData.get('password') !== formData.get('password_confirm')) {
-            alert('Heslo nejsou stejná');
-            return;
-        }
-        if (formData.get('email') !== formData.get('email_confirm')) {
-            alert('Emaily nejsou stejné');
-            return;
-        }
-        var userData = {};
-        ['username', 'email', 'password'].map(field => {
-                if (formData.get(field)) {
-                    userData[field] = formData.get(field);
-                }
-            }
-        );
-        if (lodash.isEmpty(userData)) {
-            alert('Není vyplněno nic k aktualizaci.');
-            return;
-        }
-        api.patch('appusers/'+userId, userData)
-            .then(({ data }) => this.loginSuccess())
-            .catch(error => {
-                console.log('could not save profile data');
-            });
-    }
-
-    loginSuccess() {
-        alert('Data úspěšně uložena!');
-        browserHistory.push('/profile');
     }
 
     componentDidMount() {

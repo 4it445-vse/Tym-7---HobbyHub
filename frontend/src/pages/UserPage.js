@@ -16,50 +16,76 @@ export class UserPageRaw extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     const {userId} = this.props;
-    this.state = { userData:{}, loggedUserId: userId, fetched: false};
+    this.state = { userData:{}, loggedUserId: userId, fetched: false, formErrors: {}};
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const { loggedIn, userId } = this.props;
     if (!loggedIn) {
-      console.log('you cannot edit profile if you are not logged in');
+      console.log('You cannot edit profile if you are not logged in');
       return;
     }
 
     const formData = new FormData(event.target);
+    var formErrors = {};
     if (formData.get('password') !== formData.get('password_confirm')) {
-      alert('Heslo nejsou stejná');
-      return;
+      formErrors.pwError = "Hesla nejsou stejná";
     }
     if (formData.get('email') !== formData.get('email_confirm')) {
-      alert('Emaily nejsou stejné');
-      return;
+      formErrors.emailError = "Emaily nejsou stejné";
     }
-    let userData = {};
-    const fields = ['username', 'email', 'password'];
-    for (let field in ['username', 'email', 'password']){
-      if(fields.hasOwnProperty(field) && formData.get(field)){
-        userData[field] = formData.get(field);
-      }
+    if (!lodash.isEmpty(formErrors)) {
+      this.setState({
+            ...this.state,
+            formErrors
+    });
+    return;
     }
+    var userData = {};
     ['username', 'email', 'password'].map(field => {
-
-      }
+          if (formData.get(field)) {
+            userData[field] = formData.get(field);
+          }
+        }
     );
     if (lodash.isEmpty(userData)) {
-      alert('Není vyplněno nic k aktualizaci.');
+      this.setState({
+            ...this.state,
+            formErrors: {formError: "Nelze odeslat prázdný formulář"}
+      });
       return;
     }
     api.patch('appusers/'+userId, userData)
-        .then(({ data }) => this.loginSuccess())
+        .then(({ data }) => this.saveSuccess())
         .catch(error => {
-          console.log('could not save profile data');
+          const {email, username} = error.response.data.error.details.messages;
+          var formErrors = {};
+          if (username) {
+            formErrors.usernameError = "Uživatelské jméno je zabrané";
+          }
+          if (email) {
+            if (error.response.data.error.details.codes.email == "uniqueness") {
+              formErrors.emailError = "Email je zabraný";
+            } else {
+              formErrors.emailError = "Email není validní";
+            }
+          }
+          if (!lodash.isEmpty(formErrors)) {
+            this.setState({
+                  ...this.state,
+                formErrors
+            });
+            return;
+          }
         });
   }
 
-  loginSuccess() {
-    alert('Data úspěšně uložena!');
+  saveSuccess() {
+    this.setState({
+        ...this.state,
+        formErrors: {formSuccess: "Data byla úspěšně uložena"}
+    });
     browserHistory.push('/profile');
   }
 
@@ -78,9 +104,9 @@ export class UserPageRaw extends Component {
   fetchUser(requestedUserId) {
     const { userId } = this.props;
     api.get('appusers/'+requestedUserId)
-        .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true}))
+        .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true, formNotifications: this.state.formNotifications}))
         .catch(error => {
-          this.setState({userData: {}, loggedUserId: userId, fetched: true});
+          this.setState({userData: {}, loggedUserId: userId, fetched: true, formNotifications: this.state.formNotifications});
           console.log('there were some errors loading user profile');
         });
   }
@@ -143,7 +169,7 @@ export class UserPageRaw extends Component {
               </div>
               <div className="row"></div>
               {userId == profileId || profileId === undefined?
-                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email}/> :
+                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email} formErrors={this.state.formErrors}/> :
                   <UserProfile username={username} email={email} />
               }
             </div>
