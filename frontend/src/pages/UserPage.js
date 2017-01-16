@@ -17,50 +17,79 @@ export class UserPageRaw extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
     const {userId} = this.props;
-    this.state = { userData:{}, loggedUserId: userId, fetched: false };
+    this.state = { userData:{}, loggedUserId: userId, fetched: false, formErrors: {}};
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const { loggedIn, userId } = this.props;
     if (!loggedIn) {
+      console.log('You cannot edit profile if you are not logged in');
       return;
     }
 
     const formData = new FormData(event.target);
-
+    var formErrors = {};
     if (formData.get('password') !== formData.get('password_confirm')) {
-      alert('Hesla nejsou stejná');
-      return;
+      formErrors.pwError = "Hesla nejsou stejná";
     }
     if (formData.get('email') !== formData.get('email_confirm')) {
-      alert('Emaily nejsou stejné');
-      return;
+      formErrors.emailError = "Emaily nejsou stejné";
+    }
+    if (!lodash.isEmpty(formErrors)) {
+      this.setState({
+            ...this.state,
+            formErrors
+    });
+    return;
     }
     var userData = {};
-
     ['username', 'email', 'password', 'prefered_tags'].map(field => {
-        if (formData.get(field)) {
+          if (formData.get(field)) {
             userData[field] = formData.get(field);
+          }
         }
-      }
     );
 
     userData.prefered_tags = this.state.userData.prefered_tags;
 
     if (lodash.isEmpty(userData)) {
-      alert('Není vyplněno nic k aktualizaci.');
+      this.setState({
+            ...this.state,
+            formErrors: {formError: "Nelze odeslat prázdný formulář"}
+      });
       return;
     }
     api.patch('appusers/'+userId, userData)
-        .then(({ data }) => this.loginSuccess())
+        .then(({ data }) => this.saveSuccess())
         .catch(error => {
-          console.log('could not save profile data');
+          const {email, username} = error.response.data.error.details.messages;
+          var formErrors = {};
+          if (username) {
+            formErrors.usernameError = "Uživatelské jméno je zabrané";
+          }
+          if (email) {
+            if (error.response.data.error.details.codes.email == "uniqueness") {
+              formErrors.emailError = "Email je zabraný";
+            } else {
+              formErrors.emailError = "Email není validní";
+            }
+          }
+          if (!lodash.isEmpty(formErrors)) {
+            this.setState({
+                  ...this.state,
+                formErrors
+            });
+            return;
+          }
         });
   }
 
-  loginSuccess() {
-    alert('Data úspěšně uložena!');
+  saveSuccess() {
+    this.setState({
+        ...this.state,
+        formErrors: {formSuccess: "Data byla úspěšně uložena"}
+    });
     browserHistory.push('/profile');
   }
 
@@ -79,9 +108,9 @@ export class UserPageRaw extends Component {
   fetchUser(requestedUserId) {
     const { userId } = this.props;
     api.get('appusers/'+requestedUserId)
-        .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true}))
+        .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true, formNotifications: this.state.formNotifications}))
         .catch(error => {
-          this.setState({userData: {}, loggedUserId: userId, fetched: true});
+          this.setState({userData: {}, loggedUserId: userId, fetched: true, formNotifications: this.state.formNotifications});
           console.log('there were some errors loading user profile');
         });
   }
@@ -152,7 +181,10 @@ export class UserPageRaw extends Component {
               </div>
               <div className="row"></div>
               {userId == profileId || profileId === undefined?
-                  <UserForm handleSubmit={this.handleSubmit} username={username} email={email} prefered_tags={prefered_tags} handleSelectTagChange={this.handleSelectTagChange}/> :
+                  <UserForm
+                      handleSubmit={this.handleSubmit} username={username} email={email}
+                      prefered_tags={prefered_tags} handleSelectTagChange={this.handleSelectTagChange}
+                      formErrors={this.state.formErrors}/> :
                   <UserProfile username={username} email={email} />
               }
             </div>
