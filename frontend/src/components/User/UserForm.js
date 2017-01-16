@@ -44,8 +44,8 @@ export class UserForm extends Component {
                 <div className="col-md-6"><b>E-mail znovu</b><input name="email_confirm" type="text" className="form-control" placeholder={email}></input></div>
                 <div className="col-md-6"><b>Heslo</b><input name="password" type="password" className="form-control" placeholder="*****"></input></div>
                 <div className="col-md-6"><b>Heslo znovu</b><input name="password_confirm" type="password" className="form-control" placeholder="*****"></input></div>
-                <hr />
                 <div className="col-md-6">
+                <b>Preferované kategorie</b>
                   <Select2
                     multi
                     simpleValue
