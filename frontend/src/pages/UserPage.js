@@ -24,11 +24,11 @@ export class UserPageRaw extends Component {
     event.preventDefault();
     const { loggedIn, userId } = this.props;
     if (!loggedIn) {
-      console.log('you cannot edit profile if you are not logged in');
       return;
     }
 
     const formData = new FormData(event.target);
+
     if (formData.get('password') !== formData.get('password_confirm')) {
       alert('Hesla nejsou stejná');
       return;
@@ -37,17 +37,17 @@ export class UserPageRaw extends Component {
       alert('Emaily nejsou stejné');
       return;
     }
-    let userData = {};
-    const fields = ['username', 'email', 'password'];
-    for (let field in ['username', 'email', 'password', 'prefered_tags']) {
-      if (fields.hasOwnProperty(field) && formData.get(field)) {
-        userData[field] = formData.get(field);
-      }
-    }
-    ['username', 'email', 'password'].map(field => {
+    var userData = {};
 
+    ['username', 'email', 'password', 'prefered_tags'].map(field => {
+        if (formData.get(field)) {
+            userData[field] = formData.get(field);
+        }
       }
     );
+
+    userData.prefered_tags = this.state.userData.prefered_tags;
+
     if (lodash.isEmpty(userData)) {
       alert('Není vyplněno nic k aktualizaci.');
       return;

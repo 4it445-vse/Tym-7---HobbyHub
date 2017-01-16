@@ -62,6 +62,9 @@ module.exports = function (Event) {
         .filter(event => {
           //FILTERING BY PREFERED TAGS
           // event matches if it contains ANY of the selected tags
+          if (!preferedTags) { // if no prefered tags are set, all events are accepted
+            return true;
+          }
           const preferedTagsTrimmed = preferedTags.trim();
           if (preferedTagsTrimmed.length===0) return true; // not filtering by preference
           const preferedTagsArray = preferedTags.split(',');

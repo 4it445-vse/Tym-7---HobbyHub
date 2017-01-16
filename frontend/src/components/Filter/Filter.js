@@ -20,7 +20,6 @@ export class FilterRaw extends Component {
     this.state = {
       event: {}
     }
-
   }
 
   fetchUser(requestedUserId) {
@@ -83,7 +82,6 @@ export class FilterRaw extends Component {
     } else {
       var preferedTags = null;
     }
-
 
     const filterData = {
       dateFrom,
@@ -179,7 +177,7 @@ export class FilterRaw extends Component {
             <div className="col-xs-4 col-md-3">
               <div className="col-md-12">
                 <label className="box filter-label">Volná kapacita:</label>
-                <Checkbox name="check-cap" defaultChecked={1}/>
+                <Checkbox name="check-cap"/>
               </div>
 
             </div>
@@ -212,7 +210,7 @@ export class FilterRaw extends Component {
                   <div className="col-xs-4 col-md-3">
                     <div className="col-md-12">
                       <label className="box filter-label">Pouze mnou preferované:</label>
-                      <Checkbox name="check-prefered" defaultChecked={1}/>
+                      <Checkbox name="check-prefered"/>
                     </div>
                   </div>
                 </div>
