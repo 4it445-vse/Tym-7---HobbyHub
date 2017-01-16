@@ -154,7 +154,6 @@ export class EventForm extends Component {
     )
   }
 
-
   render() {
     const {event} = this.state
     const {actions, eventState} = this.props;

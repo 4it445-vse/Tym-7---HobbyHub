@@ -9,14 +9,24 @@ module.exports = function (Event) {
     next();
   });
 
-  Event.filter = (dateFrom, dateTo, checkboxStatus, checkboxCapacity, name, tags, signedUserId, showPast, authorId, cb) => {
-    
+  Event.filter = (
+    dateFrom,
+    dateTo,
+    checkboxStatus,
+    checkboxCapacity,
+    name,
+    tags,
+    signedUserId,
+    showPast,
+    authorId,
+    preferedTags,
+    cb) => {
+
     var searchArray = {};
     searchArray['include'] = ['users', 'user'];
 
     if (!Boolean(showPast) || dateFrom || dateTo) {
       searchArray['where'] = {and: []};
-
     }
 
     if (!Boolean(showPast)) {
@@ -38,8 +48,9 @@ module.exports = function (Event) {
       const EventsFiltered = Events
         .filter(event => {
           //FILTERING BY TAGS
+          // event matches if it contains ALL selected tags
           const tagsTrimmed = tags.trim();
-          if(tagsTrimmed.length===0) return true;
+          if (tagsTrimmed.length===0) return true;
           const tagsArray = tags.split(',');
           for (let tag of tagsArray) {
             if (event.tags.indexOf(tag) == -1) {
@@ -47,6 +58,23 @@ module.exports = function (Event) {
             }
           }
           return true; //all tags are presented in Event
+        })
+        .filter(event => {
+          //FILTERING BY PREFERED TAGS
+          // event matches if it contains ANY of the selected tags
+          if (!preferedTags) { // if no prefered tags are set, all events are accepted
+            return true;
+          }
+          const preferedTagsTrimmed = preferedTags.trim();
+          if (preferedTagsTrimmed.length===0) return true; // not filtering by preference
+          const preferedTagsArray = preferedTags.split(',');
+
+          for (let preferedTag of preferedTagsArray) {
+            if (event.tags.indexOf(preferedTag) != -1) {
+              return true; // a prefered tag found on event
+            }
+          }
+          return false; // no prefered tag is present on event
         })
         .filter(event => {
           // filter by authorId
@@ -59,7 +87,7 @@ module.exports = function (Event) {
         .filter(event => {
           //FILTERING BY NAME
           const nameTrimmed = name.trim();
-          if(nameTrimmed.length===0) return true;
+          if (nameTrimmed.length===0) return true;
           const noSpecialCharsEventName = removeDiacritics(event.name);
           const noSpecialCharsSearchName = removeDiacritics(name);
           return noSpecialCharsEventName.indexOf(noSpecialCharsSearchName) >= 0;
@@ -67,10 +95,10 @@ module.exports = function (Event) {
         .filter(event=>{
           //FILTERING BY STATUS (I AM LOGGED IN)
           const checkboxStatusBool = Boolean(checkboxStatus);
-          if(!signedUserId || !checkboxStatusBool) return true;
+          if (!signedUserId || !checkboxStatusBool) return true;
           const users = event.users();
           for(var i = 0; i < users.length; i++) {
-            if(users[i].user_id === signedUserId){
+            if (users[i].user_id === signedUserId){
                   return true; //I am logged to current event
                 }
           }
@@ -79,7 +107,7 @@ module.exports = function (Event) {
         .filter(event=>{
           // FILTERING BY FREE CAPACITY
           const checkboxCapacityBool = Boolean(checkboxCapacity);
-          if(checkboxCapacityBool===false) return true;
+          if (checkboxCapacityBool===false) return true;
           return event.users().length < event.capacity;
         });
 
@@ -103,7 +131,8 @@ module.exports = function (Event) {
         {arg: "tags", type: "string"},
         {arg: "signedUserId", type: "any"},
         {arg: "showPast", type: "any"},
-        {arg: "authorId", type: "any"}
+        {arg: "authorId", type: "any"},
+        {arg: 'preferedTags', type: "any"}
       ],
       returns: {
         arg: 'events',
