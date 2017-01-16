@@ -15,6 +15,7 @@ import {EventForm} from '../../components/EventList/EventForm';
 import {ListOfUsersForm} from '../../components/EventDetailAdmin/ListOfUsersForm';
 import Modal from 'react-modal';
 import {ListOfUsersFormPublic} from '../../components/EventDetailPublic/ListOfUsersFormPublic';
+import { Link } from 'react-router';
 
 export class EventDetailPageRaw extends Component {
 
