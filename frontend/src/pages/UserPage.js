@@ -11,6 +11,9 @@ import { UserForm } from '../components/User/UserForm.js';
 import { UserProfile } from '../components/User/UserProfile.js';
 import { browserHistory } from 'react-router';
 
+/**
+This page displays other user profile
+*/
 export class UserPageRaw extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +23,9 @@ export class UserPageRaw extends Component {
     this.state = { userData:{}, loggedUserId: userId, fetched: false, formErrors: {}};
   }
 
+  /**
+  Called on form submit. Serves to send api PATCH to update current user.
+  */
   handleSubmit(event) {
     event.preventDefault();
     const { loggedIn, userId } = this.props;
@@ -85,6 +91,9 @@ export class UserPageRaw extends Component {
         });
   }
 
+  /**
+  Called on handleSubmit() success. Informs user of succes.
+  */
   saveSuccess() {
     this.setState({
         ...this.state,
@@ -105,6 +114,10 @@ export class UserPageRaw extends Component {
     }
   }
 
+  /**
+  Loads user from api by id.
+  @requestedUserId int
+  */
   fetchUser(requestedUserId) {
     const { userId } = this.props;
     api.get('appusers/'+requestedUserId)
@@ -115,6 +128,10 @@ export class UserPageRaw extends Component {
         });
   }
 
+  /**
+  Called when change in prefered tags is made. Updates value to state.
+  @value string
+  */
   handleSelectTagChange(value) {
     const newState = {
       ...this.state

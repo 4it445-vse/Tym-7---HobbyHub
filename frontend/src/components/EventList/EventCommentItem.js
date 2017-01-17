@@ -15,6 +15,9 @@ export class EventCommentItem extends Component {
     }
   }
 
+  /**
+  Function called when removing comment from event.
+  */
   handleRemove(event) {
     const {eventComment, fetchComments, userId} = this.props;
     const {id} = eventComment;
@@ -26,6 +29,10 @@ export class EventCommentItem extends Component {
         })
   }
 
+  /**
+  Returns css class to be set to element based on rating.
+  @rating int
+  */
   getRatingClass(rating) {
     if (rating === 1) {
       return 'inline-rating-comments rating-red';
@@ -36,6 +43,9 @@ export class EventCommentItem extends Component {
     }
   }
 
+  /**
+  Calculates average rating on given user.
+  */
   calculateRating(user) {
     const {ratings} = user;
     if (ratings.length == 0) {

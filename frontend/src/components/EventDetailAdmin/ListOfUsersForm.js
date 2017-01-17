@@ -14,6 +14,9 @@ export class ListOfUsersForm extends Component {
     }
   }
 
+  /**
+  Loads all users signed to currently viewed Event.
+  */
   fetchEventUsers() {
     api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user":"ratings"}]}}})
       .then((response) => {
@@ -36,6 +39,10 @@ export class ListOfUsersForm extends Component {
     this.fetchEventUsers();
   }
 
+  /**
+  Performs change of status of User on Event possibly accepting him, refusing him or
+  kicking previously accepted User from Event.
+  */
   onChangeEventUserState(data) {
     var self = this;
     api.post('eventusers/changeStatus', data)

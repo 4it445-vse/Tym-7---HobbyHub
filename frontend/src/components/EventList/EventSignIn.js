@@ -21,6 +21,9 @@ export class EventSignInRaw extends Component {
     fetchEvent(getUserId, eventId)
   }
 
+  /**
+  Returns button for signing to event.
+  */
   renderLoginToEventButton(){
     const {eventId, getUserId} = this.props;
     return(
@@ -30,6 +33,9 @@ export class EventSignInRaw extends Component {
     )
   }
 
+  /**
+  Returns button for signout of event.
+  */
   renderLogoutToEventButton(){
     const {eventId, getUserId} = this.props;
     return (

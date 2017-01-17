@@ -13,6 +13,9 @@ export class EventListItem extends Component {
     }
   }
 
+  /**
+  Returns status of EventUser entity.
+  */
   getSignedStatus() {
     const {userId, event} = this.props;
     for (var key in event.users) {
@@ -26,6 +29,9 @@ export class EventListItem extends Component {
     return '';
   }
 
+  /**
+  Returns count of EventUsers with accepted status.
+  */
   getSignedUsersCount(event) {
     return event.users.reduce((prev, user)=>{
       return user.status==="accepted" ? prev + 1 : prev;
@@ -53,7 +59,7 @@ export class EventListItem extends Component {
   </div>
               </div>
           </div>
-          
+
         </Link></div>
 
 

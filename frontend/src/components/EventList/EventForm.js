@@ -24,6 +24,9 @@ export class EventForm extends Component {
     this.onImageSelected = this.onImageSelected.bind(this);
   }
 
+  /**
+  Called when selecting tags from select2. Saves tags to state.
+  */
   handleSelectTagChange(value) {
     const newState = {
       ...this.state
@@ -40,9 +43,9 @@ export class EventForm extends Component {
         created: moment().toDate(),
         capacity: "",
         tags: "jiné",
-        latitude: "50.0755",
-        longitude: "14.4378004",
-        location: "Praha, Česká republika",
+        latitude: "",
+        longitude: "",
+        location: "",
         description: "",
         picture:""
       },
@@ -53,6 +56,9 @@ export class EventForm extends Component {
     }
   }
 
+  /**
+  Loads tags from api and saves them to state.
+  */
   fetchTags() {
     api('tags')
       .then((response) => {
@@ -88,6 +94,9 @@ export class EventForm extends Component {
     this.setDefaultState();
   }
 
+  /**
+  Function called on change of input value
+  */
   onInputChange(event) {
     const eventName = event.target.name;
     const eventValue = (event.target.type === "number") ?
@@ -101,6 +110,9 @@ export class EventForm extends Component {
     this.setState(newState);
   }
 
+  /**
+  Function called when removing comment from event.
+  */
   onFormSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -111,6 +123,10 @@ export class EventForm extends Component {
     this.props.onFormSubmit(event);
   }
 
+  /**
+  Function called when changing location by googleMaps plugin.
+  Sets updated location to state.
+  */
   onGoogleMapChange(location, address) {
     const newState = {
       ...this.state
@@ -121,6 +137,9 @@ export class EventForm extends Component {
     this.setState(newState)
   }
 
+  /**
+  Saves selected image to state.
+  */
   onImageSelected(src){
     const newState = {
       ...this.state
@@ -130,7 +149,9 @@ export class EventForm extends Component {
     this.setState(newState);
   }
 
-
+  /**
+  Opens modal window for image selection.
+  */
   openModal(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -141,6 +162,9 @@ export class EventForm extends Component {
     this.setState(newState);
   }
 
+  /**
+  Modal window factory.
+  */
   createModal(){
     return (
       <div>
@@ -280,16 +304,7 @@ export class EventForm extends Component {
               :
               ''
             }
-            {/*{remove ?*/}
-              {/*<div className="col-md-12">*/}
-                {/*<button type="submit" name="action" value="delete" className="btn btn-danger btn-lg" required="required"*/}
-                        {/*disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}*/}
-                {/*>Smazat*/}
-                {/*</button>*/}
-              {/*</div>*/}
-              {/*:*/}
-              {/*''*/}
-            {/*}*/}
+
             {edit ?
               <div className="col-md-12">
                 <button type="submit" name="action" value="edit" className="btn btn-success btn-lg" required="required"

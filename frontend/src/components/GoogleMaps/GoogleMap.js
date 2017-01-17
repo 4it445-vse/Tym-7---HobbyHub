@@ -31,6 +31,9 @@ export class GoogleMapAutocomplete extends Component{
     this.loadMap(mapId)
   }
 
+  /**
+  Loads googlemaps map.
+  */
   loadMap(mapId) {
     const {onChange} = this.props;
     var self= this;
@@ -84,6 +87,9 @@ export class GoogleMapAutocomplete extends Component{
     });
   }
 
+  /**
+  Positions googleMap pin.
+  */
   pinMarker(){
     const {google,place,map,marker} = this.state;
     if(!google||!place||!map||!marker){

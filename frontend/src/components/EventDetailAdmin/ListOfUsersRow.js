@@ -11,6 +11,9 @@ export class ListOfUsersRow extends Component {
     super(props);
   }
 
+  /**
+    Returns true if user of given id can rate another user, based on date of Event.
+  */
   canUserRate(userId, user, eventDate) {
     var d1 = new Date();
     var d2 = new Date(eventDate);
@@ -28,6 +31,9 @@ export class ListOfUsersRow extends Component {
     return result;
   }
 
+  /**
+    Calls api post method when user (authorId) rates another user (ownerId).
+  */
   sendRating(rating, ownerId, authorId) {
     api.post('ratings', {
       "rating": rating,
@@ -42,7 +48,6 @@ export class ListOfUsersRow extends Component {
   render() {
     const {status, created, user, onChangeEventUserState, userId, eventDate} = this.props;
     const profileLink = "/profile/"+user.id;
-    console.log(this.props)
     return (
       <tr>
         <td className="text-center">
@@ -99,7 +104,7 @@ export class EventUserAvailableActions extends Component {
 
   render() {
     const {status, onChangeEventUserState} = this.props
-    console.log(status)
+
     if (status === "pending") {
       return (
         <div>

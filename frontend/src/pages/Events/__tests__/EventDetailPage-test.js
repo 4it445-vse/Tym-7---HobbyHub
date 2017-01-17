@@ -2,6 +2,9 @@ import React from 'react';
 import {EventDetailPageRaw} from '../EventDetailPage.js';
 import {shallow} from 'enzyme';
 
+/**
+Tests function getSignedUsersCount.
+*/
 test ('get number of signed users to event', () => {
     const component = shallow(
         <EventDetailPageRaw />
@@ -14,6 +17,9 @@ test ('get number of signed users to event', () => {
     expect(component.instance().getSignedUsersCount(undefined)).toBe(0);
 });
 
+/**
+isEventCreatedByMe
+*/
 test ('is event created by logged in user?', () => {
     const component = shallow(
         <EventDetailPageRaw />

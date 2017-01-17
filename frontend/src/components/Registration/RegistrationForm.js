@@ -13,7 +13,9 @@ export class RegistrationFormRaw extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
+    /**
+    On registration form submittion, calls api post to create new user.
+    */
     handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
