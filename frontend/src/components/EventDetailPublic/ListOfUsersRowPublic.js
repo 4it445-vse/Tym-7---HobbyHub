@@ -2,7 +2,6 @@
  * Created by honza on 01/12/16.
  */
 import React, {Component} from 'react';
-import moment from 'moment';
 import { Link } from 'react-router';
 import api from '../../api.js';
 
@@ -17,13 +16,13 @@ export class ListOfUsersRowPublic extends Component {
   if he is signed to same Event and Event happened in past.
   */
   canUserRate(userId, user, participated, eventDate) {
-    var d1 = new Date();
-    var d2 = new Date(eventDate);
+    const d1 = new Date();
+    const d2 = new Date(eventDate);
     if (!userId || user.id === userId || !participated || d2 > d1) {
       return false;
     }
     const {ratings} = user;
-    var result = true;
+    let result = true;
     ratings.forEach(function (rating) {
       if (rating.author_id === userId) {
         result = false;
@@ -52,10 +51,10 @@ export class ListOfUsersRowPublic extends Component {
   */
   calculateRating(user) {
     const {ratings} = user;
-    if (ratings.length == 0) {
+    if (ratings.length === 0) {
       return 3;
     }
-    var sum = 0;
+    let sum = 0;
 
     ratings.forEach(function (rating) {
         sum += rating.rating;
@@ -72,14 +71,14 @@ export class ListOfUsersRowPublic extends Component {
       "rating": rating,
       "owner_id": ownerId,
       "author_id": authorId
-    }).then((response) => {
+    }).then(() => {
         const {fetchEventUsers} = this.props;
         fetchEventUsers();
     });
   }
 
   render() {
-    const {status, created, user, onChangeEventUserState, userId, participated, eventDate} = this.props;
+    const {user, userId, participated, eventDate} = this.props;
     const profileLink = "/profile/"+user.id;
     const rating = this.calculateRating(user);
     return (
@@ -93,11 +92,11 @@ export class ListOfUsersRowPublic extends Component {
             <a onClick={(e)=>{
               e.preventDefault();
               this.sendRating(1, user.id, userId)
-            }} href=""><img className="thumbs" src="/images/dislike.png" /></a>
+            }} href=""><img alt="dislike" className="thumbs" src="/images/dislike.png" /></a>
             <a onClick={(e)=>{
               e.preventDefault();
               this.sendRating(5, user.id, userId)
-            }} href=""><img className="thumbs" src="/images/like.png" /></a>
+            }} href=""><img alt="like" className="thumbs" src="/images/like.png" /></a>
           </span>}
         </td>
 

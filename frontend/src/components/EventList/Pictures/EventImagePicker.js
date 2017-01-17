@@ -18,8 +18,8 @@ export class EventImagePicker extends Component {
   }
 
   /**
-  Loads images for events
-  */
+   Loads images for events
+   */
   getImages() {
     return [
       {
@@ -56,11 +56,11 @@ export class EventImagePicker extends Component {
   }
 
   /**
-  Called when selecting avatare image of event from modal window.
-  */
+   Called when selecting avatare image of event from modal window.
+   */
   selectImage(imgSrc) {
     const {onImageSelected} = this.props;
-    if(typeof onImageSelected==="function"){
+    if (typeof onImageSelected === "function") {
       onImageSelected(imgSrc);
     }
   }
@@ -69,18 +69,18 @@ export class EventImagePicker extends Component {
     const images = this.getImages();
     const {selectedImage} = this.state;
 
-    const imageElements = images.map((image)=> {
+    const imageElements = images.map((image) => {
       const classes = (selectedImage.id === image.id)
         ?
-      "selected"
+        "selected"
         :
-      "not-selected "
+        "not-selected "
 
       return (
         <div key={image.id} className="image-picker-wrapper col-md-2 no-margin img-wrap">
-    <div className="image-picker-inner choose-image">
+          <div className="image-picker-inner choose-image">
 
-            <img src={image.src} alt={image.name} onClick={()=>this.selectImage(image.src)}
+            <img src={image.src} alt={image.name} onClick={() => this.selectImage(image.src)}
                  className={classes}/>
           </div>
         </div>
@@ -91,8 +91,8 @@ export class EventImagePicker extends Component {
     return (
       <div>
         <div className="row">
-        <h2 className="center-text">Vyberte jeden z obrázků</h2>
-  <div className="event-pictures">
+          <h2 className="center-text">Vyberte jeden z obrázků</h2>
+          <div className="event-pictures">
             {imageElements}
           </div>
         </div>

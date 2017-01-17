@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import Checkbox from 'rc-checkbox';
-import {DatePickerCustom} from './DatePicker'
 import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
 import Select2 from 'react-select';
 import moment from 'moment';
 import api from '../../api.js';
 import {connect} from 'react-redux';
-import {isLoggedIn,getUserId,getUserPreferedTags} from '../Login/reducers';
+import {isLoggedIn,getUserId} from '../Login/reducers';
 
 
 export class FilterRaw extends Component {
@@ -26,7 +25,6 @@ export class FilterRaw extends Component {
   Loads user by id and saves him to state.
   */
   fetchUser(requestedUserId) {
-      const { userId } = this.props;
       api.get('appusers/'+requestedUserId)
           .then(({ data }) => this.setState({userData: data}));
   }
@@ -89,12 +87,6 @@ export class FilterRaw extends Component {
     const authorId = this.props.isLoggedIn && formData.get('check-author') ? this.props.currentUserId : null;
     const checkboxPrefered = formData.get('check-prefered');
 
-    if (this.props.isLoggedIn && checkboxPrefered) {
-      var preferedTags = this.state.userData.prefered_tags;
-    } else {
-      var preferedTags = null;
-    }
-
     const filterData = {
       dateFrom,
       dateTo,
@@ -105,7 +97,7 @@ export class FilterRaw extends Component {
       signedUserId,
       authorId,
       showPast,
-      preferedTags
+      preferedTags: (this.props.isLoggedIn && checkboxPrefered) ? this.state.userData.prefered_tags : null
     };
 
     api.post('events/filter', filterData)

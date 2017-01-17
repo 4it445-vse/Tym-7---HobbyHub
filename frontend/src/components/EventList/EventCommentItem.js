@@ -18,13 +18,13 @@ export class EventCommentItem extends Component {
   /**
   Function called when removing comment from event.
   */
-  handleRemove(event) {
+  handleRemove() {
     const {eventComment, fetchComments, userId} = this.props;
     const {id} = eventComment;
     api.post('eventcomments/delete', {"user_id": userId, "comment_id": id})
-        .then((response)=> {
+        .then(()=> {
           fetchComments();
-        }).catch((e)=> {
+        }).catch(()=> {
           console.log('error occurred during comment removal');
         })
   }
@@ -48,10 +48,10 @@ export class EventCommentItem extends Component {
   */
   calculateRating(user) {
     const {ratings} = user;
-    if (ratings.length == 0) {
+    if (ratings.length === 0) {
       return 3;
     }
-    var sum = 0;
+    let sum = 0;
 
     ratings.forEach(function (rating) {
       sum += rating.rating;

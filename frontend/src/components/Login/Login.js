@@ -39,7 +39,7 @@ export class LoginRaw extends Component {
     }
 
     render() {
-        const { loginError, hasLoginError } = this.props;
+        const { hasLoginError } = this.props;
         const errorMsg = 'Chybně zadané heslo nebo uživatelské jméno';
         return (
             <Navbar.Form pullLeft>

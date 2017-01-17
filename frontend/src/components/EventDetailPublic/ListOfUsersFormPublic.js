@@ -53,10 +53,10 @@ export class ListOfUsersFormPublic extends Component {
   kicking previously accepted User from Event.
   */
   onChangeEventUserState(data) {
-    var self = this;
+    const self = this;
     api.post('eventusers/changeStatus', data)
-      .then((response) => {
-        const listState = Immutable.fromJS(self.state.eventUsers)
+      .then(() => {
+        const listState = Immutable.fromJS(self.state.eventUsers);
         const updatedList = listState.update(
           listState.findIndex((item) => {
             return item.get('id') === data.event_id
@@ -82,7 +82,7 @@ export class ListOfUsersFormPublic extends Component {
   Returns true if given array of eventUsers contains given userId. False if not.
   */
   participated(eventUsers, userId) {
-    var participated = false;
+    let participated = false;
     eventUsers.forEach(function (eventUser) {
       if (eventUser.user_id === userId) {
         participated = true;

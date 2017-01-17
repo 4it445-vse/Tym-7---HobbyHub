@@ -20,8 +20,8 @@ export class HomePageRaw extends Component {
   }
 
   /**
-  Loads events from api to be displayed on default homepage. Sets these events to state.
-  */
+   Loads events from api to be displayed on default homepage. Sets these events to state.
+   */
   fetchEvents() {
     api('events', {"params": {"filter": {"include": "users"}}})
       .then((response) => {
@@ -30,8 +30,8 @@ export class HomePageRaw extends Component {
   }
 
   /**
-  Sets given events to state. Used when events are loaded by filter.
-  */
+   Sets given events to state. Used when events are loaded by filter.
+   */
   filteredEvents(events) {
     this.setState({events});
   }
@@ -50,52 +50,37 @@ export class HomePageRaw extends Component {
         <div className="row  filter">
           <Filter filteredEvents={this.filteredEvents}/>
         </div>
-
-
-                            {!isLoggedIn &&
-
-                          <h2 className="not-logged">Pro vytváření událostí se musíte přihásit. Pokud ještě nemáte účet, <Link to="/registration">zaregistrujte se</Link>.</h2>
-
-                            }
-
-
-
+        {!isLoggedIn &&
+        <h2 className="not-logged">Pro vytváření událostí se musíte přihásit. Pokud ještě nemáte účet, <Link
+          to="/registration">zaregistrujte se</Link>.</h2>
+        }
         <div className="row first-header-row">
-
-
-        <div className="center wow fadeInDown">
-  <section id="portfolio">
-    <div className="row">
-      <div className="portfolio-items">
-
-
-
-
-
-
-                {isLoggedIn &&
+          <div className="center wow fadeInDown">
+            <section id="portfolio">
+              <div className="row">
+                <div className="portfolio-items">
+                  {isLoggedIn &&
                   <div className="col-xs-12 col-sm-6 col-md-3">
                     <div className="portfolio-item apps col-md-12"><Link to="/events/add">
-                        <div className="recent-work-wrap create-new-event">
-                          <img src={'/' + process.env.PUBLIC_URL + 'images/trophy.svg'} alt=""/>
-                          <h3>Vyvořit událost</h3>
-                        </div>
-                      </Link></div>
-                  </div>
-                }
-                {events === null ?
-                  <div>Načítání...</div> :
-                      <div>
-                        <EventList events={events} userId={userId}/>
+                      <div className="recent-work-wrap create-new-event">
+                        <img src={'/' + process.env.PUBLIC_URL + 'images/trophy.svg'} alt=""/>
+                        <h3>Vyvořit událost</h3>
                       </div>
-                }
+                    </Link></div>
+                  </div>
+                  }
+                  {events === null ?
+                    <div>Načítání...</div> :
+                    <div>
+                      <EventList events={events} userId={userId}/>
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
-          </section>
-        </div>
-
+            </section>
           </div>
         </div>
+      </div>
 
     );
   }

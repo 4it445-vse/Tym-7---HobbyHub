@@ -63,7 +63,7 @@ export class EventDetailPageRaw extends Component {
     const confirm = window.confirm('Opravdu chcete odstranit událost?');
     if (confirm === true) {
       api.delete(`events/${this.props.params.eventId}`)
-        .then((response) => {
+        .then(() => {
           browserHistory.push("/");
         })
         .catch((e) => {
@@ -125,7 +125,7 @@ export class EventDetailPageRaw extends Component {
     delete eventPut.id;
     delete eventPut.user;
     api.put(`events/${event.id}`, eventPut)
-      .then(response => {
+      .then(() => {
         this.setState({
           ...this.state,
           openEditModal:false
@@ -185,11 +185,9 @@ export class EventDetailPageRaw extends Component {
   render() {
     const {event, eventComments} = this.state;
     const {isLoggedIn, getUserId} = this.props;
-    const coordinates = this.getCoordinates();
     const authorId = event ? event.author_id : undefined;
     const userId = this.props.getUserId;
     const linkToProfile = (event && event.user) ? `/profile/${authorId}` : ``;
-    const linkToEditEvent = (event) ? `/events/edit/${event.id}` : '';
 
     return (
       <div className="container content-container">

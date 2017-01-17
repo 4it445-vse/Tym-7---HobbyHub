@@ -39,9 +39,9 @@ export class RegistrationFormRaw extends Component {
             <form onSubmit={this.handleSubmit}>
                 <div>
                     {[['username', 'Uživatelské jméno'], ['email', 'Email'], ['password', 'Heslo']].map(([key, label]) => {
-                        var errorMsg = false;
+                        let errorMsg = false;
                         if (hasRegistrationError) {
-                            for (var errorKey in registrationErrors) {
+                            for (let errorKey in registrationErrors) {
                                 if (!registrationErrors.hasOwnProperty(errorKey)) continue;
                                 if (errorKey === key) {
                                     errorMsg = registrationErrors[errorKey];

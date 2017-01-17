@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+import React, {Component} from 'react';
+import {Link} from 'react-router';
 import moment from 'moment';
 
 
@@ -14,11 +14,11 @@ export class EventListItem extends Component {
   }
 
   /**
-  Returns status of EventUser entity.
-  */
+   Returns status of EventUser entity.
+   */
   getSignedStatus() {
     const {userId, event} = this.props;
-    for (var key in event.users) {
+    for (let key in event.users) {
       if (event.users[key].user_id === userId && event.users[key].status === 'accepted') {
         return 'Přihlášen';
       } else if (event.users[key].user_id === userId) {
@@ -30,39 +30,35 @@ export class EventListItem extends Component {
   }
 
   /**
-  Returns count of EventUsers with accepted status.
-  */
+   Returns count of EventUsers with accepted status.
+   */
   getSignedUsersCount(event) {
-    return event.users.reduce((prev, user)=>{
-      return user.status==="accepted" ? prev + 1 : prev;
-    },0)
+    return event.users.reduce((prev, user) => {
+      return user.status === "accepted" ? prev + 1 : prev;
+    }, 0)
   }
 
   render() {
-    const { event } = this.props;
-    const { tags, date, name, capacity, picture, id } = event;
-    const status = this.getSignedStatus();
+    const {event} = this.props;
+    const {name, capacity, id} = event;
     return (
       <div className="col-xs-12 col-sm-6 col-md-3">
-
-
-      <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/"+id}>
+        <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/" + id}>
           <div className="recent-work-wrap">
-            {event.picture?
-              <img src={event.picture} alt="{name}"/>:
+            {event.picture ?
+              <img src={event.picture} alt="{name}"/> :
               <img src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>
             }
-              <div className="overlay">
-                  <div className="recent-work-inner">
-                      <h3><Link to={"/events/detail/"+id}>{name}</Link></h3>
-                      <p className="pull-left">{moment(event.date).format("DD MMMM YYYY")}</p><p className="pull-right">{this.getSignedUsersCount(event)}/{capacity}</p>
-  </div>
+            <div className="overlay">
+              <div className="recent-work-inner">
+                <h3><Link to={"/events/detail/" + id}>{name}</Link></h3>
+                <p className="pull-left">{moment(event.date).format("DD MMMM YYYY")}</p><p
+                className="pull-right">{this.getSignedUsersCount(event)}/{capacity}</p>
               </div>
+            </div>
           </div>
-
-        </Link></div>
-
-
+        </Link>
+        </div>
       </div>
     );
   }

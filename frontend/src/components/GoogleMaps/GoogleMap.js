@@ -1,44 +1,43 @@
 /**
  * Created by Honza on 12.11.2016.
  */
-import React,{Component} from 'react'
-// import {createClient} from "@google/maps"
+import React, {Component} from 'react'
 import GoogleMapsLoader from 'google-maps';
 
-GoogleMapsLoader.KEY="AIzaSyDk13sfxrUQWV4MMTEdH8-HB5It0G3LyR8"
-GoogleMapsLoader.LIBRARIES=['geometry', 'places']
+GoogleMapsLoader.KEY = "AIzaSyDk13sfxrUQWV4MMTEdH8-HB5It0G3LyR8";
+GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
 
-export class GoogleMapAutocomplete extends Component{
-  constructor(props){
+export class GoogleMapAutocomplete extends Component {
+  constructor(props) {
     super(props);
-    this.pinMarker= this.pinMarker.bind(this)
+    this.pinMarker = this.pinMarker.bind(this)
   }
 
-  componentWillMount(){
-    const defaultLocation = (this.props.defaultLocation)?this.props.defaultLocation:"";
+  componentWillMount() {
+    const defaultLocation = (this.props.defaultLocation) ? this.props.defaultLocation : "";
 
     this.setState({
-      google:null,
-      place:null,
-      map:null,
-      marker:null,
+      google: null,
+      place: null,
+      map: null,
+      marker: null,
       defaultLocation
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const {mapId} = this.props;
     this.loadMap(mapId)
   }
 
   /**
-  Loads googlemaps map.
-  */
+   Loads googlemaps map.
+   */
   loadMap(mapId) {
     const {onChange} = this.props;
-    var self= this;
+    let self = this;
 
-    GoogleMapsLoader.load(function(google) {
+    GoogleMapsLoader.load(function (google) {
       const map = new google.maps.Map(document.getElementById(mapId), {
         center: {lat: 49.4788977, lng: 15.2988225},
         zoom: 7
@@ -54,7 +53,7 @@ export class GoogleMapAutocomplete extends Component{
       });
       marker.setVisible(false);
 
-      autocomplete.addListener('place_changed',()=>{
+      autocomplete.addListener('place_changed', () => {
         const place = autocomplete.getPlace();
         if (!place.geometry) {
           // User entered the name of a Place that was not suggested and
@@ -64,35 +63,35 @@ export class GoogleMapAutocomplete extends Component{
         }
 
         self.setState({
-          renderedOnce:true,
-          google:google,
-          place:place,
-          map:map,
-          marker:marker,
+          renderedOnce: true,
+          google: google,
+          place: place,
+          map: map,
+          marker: marker,
         })
 
         self.pinMarker();
 
-        const address=(place.address_components)?
+        const address = (place.address_components) ?
           [
-            (place.address_components[0] && place.address_components[0].short_name || ''),
-            (place.address_components[1] && place.address_components[1].short_name || ''),
-            (place.address_components[2] && place.address_components[2].short_name || '')
-          ].join(' '):
+            ((place.address_components[0] && place.address_components[0].short_name) || ''),
+            ((place.address_components[1] && place.address_components[1].short_name) || ''),
+            ((place.address_components[2] && place.address_components[2].short_name) || '')
+          ].join(' ') :
           '';
 
 
-        onChange(place.geometry.location,address)
+        onChange(place.geometry.location, address)
       })
     });
   }
 
   /**
-  Positions googleMap pin.
-  */
-  pinMarker(){
-    const {google,place,map,marker} = this.state;
-    if(!google||!place||!map||!marker){
+   Positions googleMap pin.
+   */
+  pinMarker() {
+    const {google, place, map, marker} = this.state;
+    if (!google || !place || !map || !marker) {
       return
     }
 
@@ -115,10 +114,10 @@ export class GoogleMapAutocomplete extends Component{
     marker.setVisible(true);
   }
 
-  render(){
+  render() {
     const {defaultLocation} = this.state;
 
-    return(
+    return (
       <div className="col-md-12">
         <label htmlFor="tags">Lokace</label>
         <input
@@ -133,18 +132,18 @@ export class GoogleMapAutocomplete extends Component{
   }
 }
 
-export class GoogleMap extends Component{
+export class GoogleMap extends Component {
 
-  loadMap(coordinates){
-    GoogleMapsLoader.load(function(google) {
-      var myLatLng = {lat:parseFloat(coordinates.latitude), lng: parseFloat(coordinates.longitude)};
+  loadMap(coordinates) {
+    GoogleMapsLoader.load(function (google) {
+      let myLatLng = {lat: parseFloat(coordinates.latitude), lng: parseFloat(coordinates.longitude)};
 
       const map = new google.maps.Map(document.getElementById('google-map'), {
         zoom: 17,
         center: myLatLng
       });
 
-      const marker = new google.maps.Marker({
+      new google.maps.Marker({
         position: myLatLng,
         map: map,
         title: 'Hello World!'
@@ -152,10 +151,10 @@ export class GoogleMap extends Component{
     });
   }
 
-  render(){
+  render() {
     const {coordinates} = this.props;
     this.loadMap(coordinates)
-    return(
+    return (
       <div id="google-map"/>
     )
   }

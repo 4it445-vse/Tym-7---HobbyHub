@@ -5,7 +5,6 @@ import EVENT_STATES from './EventHelper';
 import {GoogleMapAutocomplete} from '../GoogleMaps/GoogleMap';
 import Modal from 'react-modal'
 import {EventImagePicker} from './Pictures/EventImagePicker'
-import {browserHistory} from 'react-router'
 import Select2 from 'react-select';
 import 'react-select/dist/react-select.css';
 import api from '../../api.js';
@@ -25,15 +24,15 @@ export class EventForm extends Component {
   }
 
   /**
-  Called when selecting tags from select2. Saves tags to state.
-  */
+   Called when selecting tags from select2. Saves tags to state.
+   */
   handleSelectTagChange(value) {
     const newState = {
       ...this.state
     }
-    newState.event.tags=value;
+    newState.event.tags = value;
     this.setState(newState);
-	}
+  }
 
   getDefaultState() {
     return {
@@ -47,7 +46,7 @@ export class EventForm extends Component {
         longitude: "",
         location: "",
         description: "",
-        picture:""
+        picture: ""
       },
       modal: {
         isOpen: false
@@ -57,31 +56,31 @@ export class EventForm extends Component {
   }
 
   /**
-  Loads tags from api and saves them to state.
-  */
+   Loads tags from api and saves them to state.
+   */
   fetchTags() {
     api('tags')
       .then((response) => {
-        return response.data.map(function(tag) {
+        return response.data.map(function (tag) {
           return {value: tag.name, label: tag.name};
         })
-    }).then((tagArray) => {
+      }).then((tagArray) => {
       const newState = {
         ...this.state
       }
-      newState.tag_options=tagArray;
+      newState.tag_options = tagArray;
       this.setState(newState);
     });
   }
 
-  setDefaultState(){
-    if(typeof this.props.event !== "undefined" && this.props.event !==null){
+  setDefaultState() {
+    if (typeof this.props.event !== "undefined" && this.props.event !== null) {
       const defaultState = this.getDefaultState();
       this.setState({
         ...defaultState,
-        event:this.props.event
+        event: this.props.event
       })
-    }else{
+    } else {
       this.state = this.getDefaultState();
     }
   }
@@ -90,17 +89,17 @@ export class EventForm extends Component {
     this.fetchTags();
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.setDefaultState();
   }
 
   /**
-  Function called on change of input value
-  */
+   Function called on change of input value
+   */
   onInputChange(event) {
     const eventName = event.target.name;
     const eventValue = (event.target.type === "number") ?
-        parseInt(event.target.value) :
+        parseInt(event.target.value,10) :
         event.target.value
       ;
     const newState = {
@@ -111,22 +110,22 @@ export class EventForm extends Component {
   }
 
   /**
-  Function called when removing comment from event.
-  */
+   Function called when removing comment from event.
+   */
   onFormSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const { event } = this.state;
+    const {event} = this.state;
     const dt = new Date(formData.get('date'));
     event.date = moment(dt).toDate();
-    console.log(event.target,dt);
+    console.log(event.target, dt);
     this.props.onFormSubmit(event);
   }
 
   /**
-  Function called when changing location by googleMaps plugin.
-  Sets updated location to state.
-  */
+   Function called when changing location by googleMaps plugin.
+   Sets updated location to state.
+   */
   onGoogleMapChange(location, address) {
     const newState = {
       ...this.state
@@ -138,20 +137,20 @@ export class EventForm extends Component {
   }
 
   /**
-  Saves selected image to state.
-  */
-  onImageSelected(src){
+   Saves selected image to state.
+   */
+  onImageSelected(src) {
     const newState = {
       ...this.state
     }
-    newState.modal.isOpen=false;
-    newState.event.picture=src;
+    newState.modal.isOpen = false;
+    newState.event.picture = src;
     this.setState(newState);
   }
 
   /**
-  Opens modal window for image selection.
-  */
+   Opens modal window for image selection.
+   */
   openModal(event) {
     event.stopPropagation();
     event.preventDefault();
@@ -163,9 +162,9 @@ export class EventForm extends Component {
   }
 
   /**
-  Modal window factory.
-  */
-  createModal(){
+   Modal window factory.
+   */
+  createModal() {
     return (
       <div>
         <Modal
@@ -181,16 +180,16 @@ export class EventForm extends Component {
   render() {
     const {event} = this.state
     const {actions, eventState} = this.props;
-    const {save, remove, edit} = actions;
+    const {save, edit} = actions;
 
     return (
       <div>
         {this.createModal()}
 
         <div className="row header-text">
-      <div className="col-md-9">
-        <h1 className="pull-left h1-height">{actions.edit? "Upravit událost" :"Událost"}</h1>
-      </div>
+          <div className="col-md-9">
+            <h1 className="pull-left h1-height">{actions.edit ? "Upravit událost" : "Událost"}</h1>
+          </div>
           {!actions.edit ?
             <div className="col-md-3 top-buffer">
               <a className="btn btn-default pull-right" href="/">Zpět na výpis</a>
@@ -202,7 +201,7 @@ export class EventForm extends Component {
 
         <form onSubmit={this.onFormSubmit}>
 
-        <div className="col-md-9 no-margin">
+          <div className="col-md-9 no-margin">
 
 
             <div className="col-md-12">
@@ -220,9 +219,9 @@ export class EventForm extends Component {
               <label htmlFor="date">Datum</label>
               <CustomDatePicker
                 startDate={moment(event.date)}
-                  id="date"
-                  name="date"
-                  />
+                id="date"
+                name="date"
+              />
             </div>
             <div className="col-md-6">
               <label htmlFor="capacity">Kapacita</label>
@@ -251,7 +250,7 @@ export class EventForm extends Component {
             </div>
             <GoogleMapAutocomplete
               defaultLocation={event.location}
-              onChange={(location, address)=>this.onGoogleMapChange(location, address)}
+              onChange={(location, address) => this.onGoogleMapChange(location, address)}
               mapId="google-map"/>
             <div className="col-md-12">
               <label htmlFor="description">Popis</label>
@@ -263,7 +262,7 @@ export class EventForm extends Component {
                 className="form-control" rows="8"
                 value={event.description}/>
             </div>
-            </div>
+          </div>
 
 
           <div className="col-md-3 no-margin">
@@ -279,7 +278,7 @@ export class EventForm extends Component {
                   name="choose-image"
                   onClick={this.openModal}
                   className="btn btn-default btn-lg choose-image top-buffer"
-                  >
+                >
                   <i className="fa fa-upload" aria-hidden="true"/>
                   Vybrat obrázek
                 </button>
@@ -287,41 +286,42 @@ export class EventForm extends Component {
                 ''
               }
 
-              </div>
+            </div>
 
-              <div className="col-sm-6 col-md-12">
-                <label className="top-buffer" htmlFor="description">Mapa</label>
-                    <div ref="googleMap" id="google-map" className="mapa" /></div>
-              </div>
+            <div className="col-sm-6 col-md-12">
+              <label className="top-buffer" htmlFor="description">Mapa</label>
+              <div ref="googleMap" id="google-map" className="mapa"/>
+            </div>
+          </div>
 
-            {save ?
-              <div className="col-md-12">
+          {save ?
+            <div className="col-md-12">
               <button type="submit" name="submit" className="pull-left btn btn-success btn-lg" required="required"
-            disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
-                >Uložit
-                </button>
-              </div>
-              :
-              ''
-            }
+                      disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
+              >Uložit
+              </button>
+            </div>
+            :
+            ''
+          }
 
-            {edit ?
-              <div className="col-md-12">
-                <button type="submit" name="action" value="edit" className="btn btn-success btn-lg" required="required"
-                        disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
-                >Upravit
-                </button>
-              </div>
-              :
-              ''
-            }
-            {
-              eventState === EVENT_STATES.SUCCESS ?
-                <div>Událost byla vytvořena</div> :
-                (eventState === EVENT_STATES.ERROR) ?
-                  <div>Událost se nepodařilo vytvořit</div> :
-                  ''
-            }
+          {edit ?
+            <div className="col-md-12">
+              <button type="submit" name="action" value="edit" className="btn btn-success btn-lg" required="required"
+                      disabled={eventState === EVENT_STATES.WAITING ? 'disabled' : false}
+              >Upravit
+              </button>
+            </div>
+            :
+            ''
+          }
+          {
+            eventState === EVENT_STATES.SUCCESS ?
+              <div>Událost byla vytvořena</div> :
+              (eventState === EVENT_STATES.ERROR) ?
+                <div>Událost se nepodařilo vytvořit</div> :
+                ''
+          }
 
         </form>
       </div>

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import moment from 'moment';
 import {EventCommentItem} from './EventCommentItem'
 
 export class EventCommentList extends Component {
@@ -15,7 +13,7 @@ export class EventCommentList extends Component {
   */
   isRemovable(commentUserId) {
     const {authorId, userId} = this.props;
-    return (userId == commentUserId || userId == authorId);
+    return (userId === commentUserId || userId === authorId);
   }
 
   render() {

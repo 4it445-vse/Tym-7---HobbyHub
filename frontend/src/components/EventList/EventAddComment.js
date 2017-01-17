@@ -12,7 +12,6 @@ export class EventAddCommentRaw extends Component {
 
   constructor(props) {
     super(props);
-    const {eventId} = this.props;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.commentSuccess = this.commentSuccess.bind(this);
     this.state = {
@@ -36,7 +35,7 @@ export class EventAddCommentRaw extends Component {
 
 
     api.post('eventcomments', eventCommentData)
-      .then(({data}) => {this.commentSuccess();})
+      .then(this.commentSuccess)
       .catch(error => {
         this.commentError(error);
       });
@@ -60,7 +59,6 @@ export class EventAddCommentRaw extends Component {
   }
 
   render() {
-    const {eventId, getUserId} = this.props;
     return (
       <div>
         <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit}
