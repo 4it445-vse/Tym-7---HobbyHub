@@ -8,6 +8,9 @@ import { loadState, saveState } from './store/localState.js';
 
 const persistedState = loadState();
 
+/**
+Checks if user is logged in and saves him state
+*/
 if (
     persistedState && persistedState.login &&
     persistedState.login.authData && persistedState.login.authData.id

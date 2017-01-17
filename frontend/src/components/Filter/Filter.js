@@ -22,12 +22,18 @@ export class FilterRaw extends Component {
     }
   }
 
+  /**
+  Loads user by id and saves him to state.
+  */
   fetchUser(requestedUserId) {
       const { userId } = this.props;
       api.get('appusers/'+requestedUserId)
           .then(({ data }) => this.setState({userData: data}));
   }
 
+  /**
+  Called when selecting tags from select2. Saves tags to state.
+  */
   handleSelectTagChange(value) {
     const newState = {
       ...this.state
@@ -36,6 +42,9 @@ export class FilterRaw extends Component {
     this.setState(newState);
   }
 
+  /**
+  Loads tags from api and saves them to state.
+  */
   fetchTags() {
     api('tags')
       .then((response) => {
@@ -56,6 +65,9 @@ export class FilterRaw extends Component {
     this.fetchUser(this.props.currentUserId);
   }
 
+  /**
+  On filter submittion, calls api post to load events by filter params.
+  */
   handleFilterSubmit(e) {
     e.preventDefault();
 

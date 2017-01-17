@@ -21,6 +21,9 @@ export class EventAddCommentRaw extends Component {
     }
   }
 
+  /**
+  Calls api post method to create new comment on Event.
+  */
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -32,7 +35,6 @@ export class EventAddCommentRaw extends Component {
     };
 
 
-    console.log('FORMDATA', eventCommentData);
     api.post('eventcomments', eventCommentData)
       .then(({data}) => {this.commentSuccess();})
       .catch(error => {
@@ -40,15 +42,19 @@ export class EventAddCommentRaw extends Component {
       });
   }
 
+  /**
+  Called when comment is added successfully
+  */
   commentSuccess() {
     const {fetchComments} = this.props;
     const {message} = this.refs;
     message.value = "";
     fetchComments();
-
-    console.log('com succ');
   }
 
+  /**
+  Called on event comment failure.
+  */
   commentError() {
     console.log('com err');
   }

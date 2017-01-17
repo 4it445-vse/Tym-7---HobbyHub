@@ -10,6 +10,9 @@ export class EventCommentList extends Component {
     this.isRemovable = this.isRemovable.bind(this);
   }
 
+  /**
+  Returns true if EventComment is removable by current user.
+  */
   isRemovable(commentUserId) {
     const {authorId, userId} = this.props;
     return (userId == commentUserId || userId == authorId);

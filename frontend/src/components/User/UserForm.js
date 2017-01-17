@@ -15,6 +15,9 @@ export class UserForm extends Component {
 
     }
 
+    /**
+    Loads tags to state to show as options when setting prefered tags on user profile.
+    */
     fetchTags() {
       api('tags')
         .then((response) => {

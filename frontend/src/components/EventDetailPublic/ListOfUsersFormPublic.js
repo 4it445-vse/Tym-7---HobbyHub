@@ -14,6 +14,9 @@ export class ListOfUsersFormPublic extends Component {
     }
   }
 
+  /**
+  Loads all users signed to currently viewed Event.
+  */
   fetchEventUsers() {
     api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user": "ratings"}]}}})
       .then((response) => {
@@ -32,6 +35,9 @@ export class ListOfUsersFormPublic extends Component {
       });
   }
 
+  /**
+  Filters EventUser association entities and returns only those who are accepted.
+  */
   filterAcceptedEventUsers(eventUsers) {
       return eventUsers.filter(function (user) {
         return user.status ===  "accepted";
@@ -42,6 +48,10 @@ export class ListOfUsersFormPublic extends Component {
     this.fetchEventUsers();
   }
 
+  /**
+  Performs change of status of User on Event possibly accepting him, refusing him or
+  kicking previously accepted User from Event.
+  */
   onChangeEventUserState(data) {
     var self = this;
     api.post('eventusers/changeStatus', data)
@@ -68,6 +78,9 @@ export class ListOfUsersFormPublic extends Component {
       })
   }
 
+  /**
+  Returns true if given array of eventUsers contains given userId. False if not.
+  */
   participated(eventUsers, userId) {
     var participated = false;
     eventUsers.forEach(function (eventUser) {

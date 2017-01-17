@@ -3,6 +3,9 @@ import {eventSignIn, eventSignOut} from '../actions.js';
 import {EVENT_SIGN_IN, EVENT_SIGN_OUT} from '../actions.js';
 import moment from 'moment';
 
+/**
+Tests function eventSignIn
+*/
 test('event sign in action', () => {
     expect(eventSignIn(1, 1)).toEqual({
         type: EVENT_SIGN_IN,
@@ -16,6 +19,9 @@ test('event sign in action', () => {
     });
 });
 
+/**
+Tests function eventSignOut
+*/
 test('event sign out action', () => {
     expect(eventSignOut(1, 1)).toEqual({
         type: EVENT_SIGN_OUT,

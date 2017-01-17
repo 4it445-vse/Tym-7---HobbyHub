@@ -39,6 +39,9 @@ export class EventDetailPageRaw extends Component {
     };
   }
 
+  /**
+  Loads details of currently viewed Event from api. These details are saved in state.
+  */
   fetchEventDetailData() {
     const {eventId} = this.props.params;
     const self = this;
@@ -52,6 +55,9 @@ export class EventDetailPageRaw extends Component {
     })
   }
 
+  /**
+  Deletes currently viewed Event by api delete request.
+  */
   removeEvent(e) {
     e.preventDefault();
     const confirm = window.confirm('Opravdu chcete odstranit událost?');
@@ -76,6 +82,9 @@ export class EventDetailPageRaw extends Component {
     clearInterval(this.state.pollingId);
   }
 
+  /**
+  Returns array of latitude and longitude of currently viewed Event.
+  */
   getCoordinates() {
     if (this.state.event) {
       return {
@@ -85,6 +94,9 @@ export class EventDetailPageRaw extends Component {
     }
   }
 
+  /**
+  Returns count (int) of Users signed to currently viewed event, that are in "accepted" state.
+  */
   getSignedUsersCount(users) {
     if (!users || users === undefined) {
       return 0;
@@ -94,7 +106,9 @@ export class EventDetailPageRaw extends Component {
     }, 0)
   }
 
-
+  /**
+  This function launches modal window for event editation.
+  */
   showEdit(e) {
     e.preventDefault();
     this.setState({
@@ -103,13 +117,15 @@ export class EventDetailPageRaw extends Component {
     })
   }
 
+  /**
+  This function is called on event form submit. Calls api.put to update current event.
+  */
   onFormSubmit(event) {
     const eventPut = {...event};
     delete eventPut.id;
     delete eventPut.user;
     api.put(`events/${event.id}`, eventPut)
       .then(response => {
-        console.log("response", response);
         this.setState({
           ...this.state,
           openEditModal:false
@@ -117,13 +133,18 @@ export class EventDetailPageRaw extends Component {
       }).catch(error => {
       console.warn(error);
     });
-    console.log("onFormSubmit", event);
   }
 
+  /**
+  Returns true if given event was created by given user, false otherwise.
+  */
   isEventCreatedByMe(event, userId) {
     return (event && 'user' in event && 'id' in event.user && (event.user.id === userId))
   }
 
+  /**
+  Loads comments on current event and stores them in state.
+  */
   fetchComments() {
     const {eventId} = this.props.params;
     api('eventcomments', {
@@ -151,6 +172,9 @@ export class EventDetailPageRaw extends Component {
       })
   }
 
+  /**
+  Closes modal window for event editation.
+  */
   closeModal() {
     this.setState({
       ...this.state,
@@ -248,7 +272,7 @@ export class EventDetailPageRaw extends Component {
                 </div>
                 }
               </div>
-              
+
             <div className="col-xs-12 col-md-9">
               <div className="event-description">{event.description}</div>
                   {

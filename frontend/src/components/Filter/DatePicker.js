@@ -13,6 +13,9 @@ export class DatePickerCustom extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  /**
+  Updates state when value in datepicker changes.
+  */
   handleChange(date) {
     this.setState({
       startDate: date

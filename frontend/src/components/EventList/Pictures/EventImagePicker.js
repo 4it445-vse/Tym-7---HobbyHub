@@ -17,6 +17,9 @@ export class EventImagePicker extends Component {
     }
   }
 
+  /**
+  Loads images for events
+  */
   getImages() {
     return [
       {
@@ -52,6 +55,9 @@ export class EventImagePicker extends Component {
     ]
   }
 
+  /**
+  Called when selecting avatare image of event from modal window.
+  */
   selectImage(imgSrc) {
     const {onImageSelected} = this.props;
     if(typeof onImageSelected==="function"){

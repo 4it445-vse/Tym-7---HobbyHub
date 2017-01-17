@@ -18,6 +18,9 @@ module.exports = function (Eventuser) {
     });
   }
 
+  /**
+    Adds remote methods for EventUser association entity.
+  */
   Eventuser.remoteMethod(
     'signOut', {
       http: {

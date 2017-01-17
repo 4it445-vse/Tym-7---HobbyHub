@@ -21,6 +21,9 @@ export class EventAddPageRaw extends Component {
     }
   }
 
+  /**
+  Called when submitting event form for new Event. Calls api post method to save new event.
+  */
   onFormSubmit(event) {
     const newState = {...this.state};
     const userId = this.props.getUserId

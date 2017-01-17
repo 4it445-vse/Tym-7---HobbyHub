@@ -27,6 +27,10 @@ export class ProfilePageRaw extends Component {
         }
     }
 
+    /**
+    Loads user from api by id.
+    @requestedUserId int
+    */
     fetchUser(requestedUserId) {
         const { userId } = this.props;
         api.get('appusers/'+requestedUserId, {"params": {"filter": {"include": "ratings"}}})
@@ -37,6 +41,10 @@ export class ProfilePageRaw extends Component {
             });
     }
 
+    /**
+    Returns css class to be set to element based on rating.
+    @rating int
+    */
     getRatingClass(rating) {
         if (rating === 1) {
             return 'profile-rating rating-red';
@@ -47,8 +55,11 @@ export class ProfilePageRaw extends Component {
         }
     }
 
+    /**
+    Calculates average rating of given user.
+    @rating int
+    */
     calculateRating(user) {
-        console.log('user data:', user);
         const {ratings} = user;
         if (ratings === undefined || ratings.length == 0) {
             return 3;

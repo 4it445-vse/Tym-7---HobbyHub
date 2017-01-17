@@ -13,6 +13,9 @@ import {EventAddPage} from "./pages/Events/EventAddPage"
 import {GenericNotFoundPage} from "./pages/GenericNotFoundPage"
 import {Registration} from "./pages/Registration.js"
 
+/**
+Creates application route hierarchy infrastructure
+*/
 export function createRoutes() {
   return (
     <Route path="/" component={AppPage}>

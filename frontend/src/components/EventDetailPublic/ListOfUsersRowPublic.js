@@ -12,6 +12,10 @@ export class ListOfUsersRowPublic extends Component {
     this.sendRating = this.sendRating.bind(this);
   }
 
+  /**
+  Returns true if given User (userId) can rate other User (user). He can rate him
+  if he is signed to same Event and Event happened in past.
+  */
   canUserRate(userId, user, participated, eventDate) {
     var d1 = new Date();
     var d2 = new Date(eventDate);
@@ -29,6 +33,10 @@ export class ListOfUsersRowPublic extends Component {
     return result;
   }
 
+  /**
+  Returns css class to be set to element based on rating.
+  @rating int
+  */
   getRatingClass(rating) {
     if (rating === 1) {
       return 'inline-rating rating-red';
@@ -39,6 +47,9 @@ export class ListOfUsersRowPublic extends Component {
     }
   }
 
+  /**
+  Calculates average rating on given user.
+  */
   calculateRating(user) {
     const {ratings} = user;
     if (ratings.length == 0) {
@@ -53,6 +64,9 @@ export class ListOfUsersRowPublic extends Component {
     return Math.round(sum/ratings.length);
   }
 
+  /**
+    Calls api post method when user (authorId) rates another user (ownerId).
+  */
   sendRating(rating, ownerId, authorId) {
     api.post('ratings', {
       "rating": rating,

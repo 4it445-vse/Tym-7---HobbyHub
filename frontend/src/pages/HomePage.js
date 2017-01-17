@@ -19,6 +19,9 @@ export class HomePageRaw extends Component {
     this.filteredEvents = this.filteredEvents.bind(this);
   }
 
+  /**
+  Loads events from api to be displayed on default homepage. Sets these events to state.
+  */
   fetchEvents() {
     api('events', {"params": {"filter": {"include": "users"}}})
       .then((response) => {
@@ -26,6 +29,9 @@ export class HomePageRaw extends Component {
       });
   }
 
+  /**
+  Sets given events to state. Used when events are loaded by filter.
+  */
   filteredEvents(events) {
     this.setState({events});
   }
@@ -90,7 +96,7 @@ export class HomePageRaw extends Component {
 
           </div>
         </div>
-    
+
     );
   }
 }

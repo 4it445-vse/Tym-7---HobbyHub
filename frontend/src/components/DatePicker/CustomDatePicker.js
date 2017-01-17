@@ -16,8 +16,10 @@ export class CustomDatePicker extends Component {
       })
     }
 
+    /**
+    Updates state when value in datepicker changes.
+    */
     handleChange(date) {
-        console.log("handleChange",date);
         if(date.isValid()===true){
           this.setState({
             startDate: date

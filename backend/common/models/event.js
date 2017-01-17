@@ -9,6 +9,10 @@ module.exports = function (Event) {
     next();
   });
 
+
+  /**
+  This method serves for more complex filtering of events.
+  */
   Event.filter = (
     dateFrom,
     dateTo,
@@ -115,6 +119,9 @@ module.exports = function (Event) {
     })
   };
 
+  /**
+    Adds remote methods for Event entity.
+  */
   Event.remoteMethod(
     'filter', {
       http: {
