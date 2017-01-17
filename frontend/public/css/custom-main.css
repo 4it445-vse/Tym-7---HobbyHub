@@ -309,6 +309,7 @@ cursor: pointer;
    text-align: center;
    line-height: 60px;
    border-radius: 100px;
+   margin: 0px 10px 10px 0px;
   }
   .btn-success:focus {
       color: #fff;

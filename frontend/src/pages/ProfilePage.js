@@ -7,6 +7,7 @@ import { UserForm } from '../components/User/UserForm.js';
 import { UserProfile } from '../components/User/UserProfile.js';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
+import moment from 'moment';
 
 export class ProfilePageRaw extends Component {
     constructor(props) {
@@ -67,6 +68,9 @@ export class ProfilePageRaw extends Component {
         const { loggedIn, userId } = this.props;
         const { loggedUserId, fetched } = this.state;
         const rating = this.calculateRating(this.state.userData);
+        const {eventDate} = this.props;
+        const linkToEvent = (event) ? `/events/detail/${event.id}` : '';
+        console.log(this.props)
 
         //reload data if user logged out or logged in
         if (loggedIn && userId != loggedUserId) {
@@ -123,8 +127,31 @@ export class ProfilePageRaw extends Component {
                     <span className={this.getRatingClass(rating)}>{rating}</span>
                   </div>
                 </div>
-              </div>
+            <div className="col-md-8">
+            <b>Poslední aktivita:</b>
+              <table className="text-center list-of-users-form table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                  <td>Událost</td>
+                  <td>Datum konání</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>
+                <Link to={linkToEvent}>
+                Event
+                </Link>
+                </td>
+                <td>
+                <b>25.5.2017</b>
+                </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
+            </div>
+          </div>
           </div>
         );
     }
