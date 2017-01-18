@@ -757,3 +757,8 @@ a.btn-warning:hover{
 .margin-left-10 {
   margin-left: 10px;
 }
+
+.eventListName {
+  font-size: 24px;
+  color: #fff;
+}

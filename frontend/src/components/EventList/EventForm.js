@@ -118,7 +118,6 @@ export class EventForm extends Component {
     const {event} = this.state;
     const dt = new Date(formData.get('date'));
     event.date = moment(dt).toDate();
-    console.log(event.target, dt);
     this.props.onFormSubmit(event);
   }
 

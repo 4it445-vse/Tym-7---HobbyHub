@@ -51,7 +51,7 @@ export class EventListItem extends Component {
             }
             <div className="overlay">
               <div className="recent-work-inner">
-                <h3><Link to={"/events/detail/" + id}>{name}</Link></h3>
+                <h3 className="eventListName">{name}</h3>
                 <p className="pull-left">{moment(event.date).format("DD MMMM YYYY")}</p><p
                 className="pull-right">{this.getSignedUsersCount(event)}/{capacity}</p>
               </div>

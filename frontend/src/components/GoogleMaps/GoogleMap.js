@@ -143,11 +143,9 @@ export class GoogleMap extends Component {
 
   componentDidMount() {
     const {coordinates, title, elementId} = this.props;
-    const self = this;
     GoogleMapsLoader.load(function (google) {
       let myLatLng = {lat: parseFloat(coordinates.latitude), lng: parseFloat(coordinates.longitude)};
 
-      console.log(document.getElementById(elementId),elementId, self.props);
       const map = new google.maps.Map(document.getElementById(elementId), {
         zoom: 15,
         center: myLatLng,
