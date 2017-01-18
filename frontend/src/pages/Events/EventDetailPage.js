@@ -8,6 +8,7 @@ import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
 import {getUserId, isLoggedIn} from '../../components/Login/reducers.js';
+import {GoogleMap} from '../../components/GoogleMaps/GoogleMap';
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router';
 import deepEqual from 'deep-equal';
@@ -247,6 +248,16 @@ export class EventDetailPageRaw extends Component {
                 <div className="col-md-12">
                   Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
                 </div>
+                <div className="col-md-12">
+                  <GoogleMap
+                    coordinates={{
+                      latitude: event.latitude,
+                      longitude: event.longitude
+                    }}
+                    title={event.name}
+                    elementId='google-map-detail'
+                  />
+                </div>
                 {
                   this.isEventCreatedByMe(event, getUserId)
                     ?
@@ -280,9 +291,7 @@ export class EventDetailPageRaw extends Component {
                         <ListOfUsersForm eventId={event.id} userId={userId} eventDate={event.date}/>
                       </div>
                       :
-                      <div>
-
-                      </div>
+                      null
                   }
 
                 <div className="row"></div>

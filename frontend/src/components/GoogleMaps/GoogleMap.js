@@ -40,7 +40,14 @@ export class GoogleMapAutocomplete extends Component {
     GoogleMapsLoader.load(function (google) {
       const map = new google.maps.Map(document.getElementById(mapId), {
         center: {lat: 49.4788977, lng: 15.2988225},
+        disableDefaultUI: true,
         zoom: 7
+      });
+
+      google.maps.event.addDomListener(document.getElementById('google-maps-geocode'), 'keydown', function(e) {
+        if (e.keyCode === 13) {
+          e.preventDefault();
+        }
       });
 
       const autocomplete = new google.maps.places.Autocomplete(document.getElementById('google-maps-geocode'));
@@ -134,28 +141,33 @@ export class GoogleMapAutocomplete extends Component {
 
 export class GoogleMap extends Component {
 
-  loadMap(coordinates) {
+  componentDidMount() {
+    const {coordinates, title, elementId} = this.props;
+    const self = this;
     GoogleMapsLoader.load(function (google) {
       let myLatLng = {lat: parseFloat(coordinates.latitude), lng: parseFloat(coordinates.longitude)};
 
-      const map = new google.maps.Map(document.getElementById('google-map'), {
-        zoom: 17,
-        center: myLatLng
+      console.log(document.getElementById(elementId),elementId, self.props);
+      const map = new google.maps.Map(document.getElementById(elementId), {
+        zoom: 15,
+        center: myLatLng,
+        disableDefaultUI: true
       });
 
       new google.maps.Marker({
         position: myLatLng,
         map: map,
-        title: 'Hello World!'
+        title: title,
       });
     });
   }
 
   render() {
-    const {coordinates} = this.props;
-    this.loadMap(coordinates)
-    return (
-      <div id="google-map"/>
+    if(document.getElementById(this.props.elementId)) this.componentDidMount();
+    return(
+      <div id={this.props.elementId} className="mapa" data-jo={this.props.coordinates.latitude}>
+
+      </div>
     )
   }
 }
