@@ -240,7 +240,7 @@ export class EventDetailPageRaw extends Component {
               <div className="row top-buffer"></div>
               <div className="col-xs-12 col-md-3">
                 <div className="col-md-12">
-                  Pořádá <b><Link to={linkToProfile}>{event.user.username}</Link></b>
+                  Pořádá <b><Link to={linkToProfile}>{event.user ? event.user.username : 'Anonymous'}</Link></b>
                 </div>
                 <div className="col-md-12">
                   Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
