@@ -239,13 +239,13 @@ export class EventDetailPageRaw extends Component {
               </div>
               <div className="row top-buffer"></div>
               <div className="col-xs-12 col-md-3">
-                <div className="col-md-12">
+                <div className="col-md-12 no-margin">
                   Pořádá <b><Link to={linkToProfile}>{event.user ? event.user.username : 'Anonymous'}</Link></b>
                 </div>
-                <div className="col-md-12">
+                <div className="col-md-12 no-margin">
                   Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
                 </div>
-                <div className="col-md-12">
+                <div className="col-md-12 no-margin">
                   Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
                 </div>
                 <div className="col-md-12">
@@ -261,11 +261,11 @@ export class EventDetailPageRaw extends Component {
                 {
                   this.isEventCreatedByMe(event, getUserId)
                     ?
-                    <div className="col-md-7">
+                    <div className="col-md-12">
 
                     </div>
                     :
-                    <div className="col-md-2">
+                    <div className="col-md-12  no-margin top-buffer">
                       {moment(event.date).add(1,'days').isAfter(moment())
                         ?
                         <EventSignIn eventId={event.id}
