@@ -113,11 +113,11 @@ export class FilterRaw extends Component {
 
           <div className="row">
 
-            <div className="col-md-4 no-margin">
-              <div className="col-md-2">
-                <label className="filter-label">Název</label>
+            <div className="col-md-3">
+              <div className="col-md-3">
+                <label className="filter-label">Název:</label>
               </div>
-              <div className="col-md-10 no-margin">
+              <div className="col-md-9">
                 <input
                   id="name"
                   type="text"
@@ -126,11 +126,11 @@ export class FilterRaw extends Component {
               </div>
             </div>
 
-            <div className="col-md-4 no-margin">
+            <div className="col-md-6">
               <div className="col-md-3">
-                <label className="filter-label" htmlFor="tags">Kategorie</label>
+                <label className="filter-label" htmlFor="tags">Kategorie:</label>
               </div>
-              <div className="col-md-9 no-margin">
+              <div className="col-md-9">
                 <Select2
                   multi
                   simpleValue
@@ -145,15 +145,15 @@ export class FilterRaw extends Component {
               </div>
 
             </div>
+          </div>
 
+          <div className="row">
 
-
-
-            <div className="col-md-2 no-margin">
+            <div className="col-md-3">
               <div className="col-md-3">
-                <label className="filter-label">Od</label>
+                <label className="filter-label">Od:</label>
               </div>
-              <div className="col-md-8 no-margin">
+              <div className="col-md-9">
                 <CustomDatePicker
                   startDate={null}
                   id="date-from"
@@ -162,11 +162,11 @@ export class FilterRaw extends Component {
               </div>
             </div>
 
-            <div className="col-md-2 no-margin">
+            <div className="col-md-3">
               <div className="col-md-3">
-                <label className="filter-label">Do</label>
+                <label className="filter-label">Do:</label>
               </div>
-              <div className="col-md-8 no-margin">
+              <div className="col-md-9">
                 <CustomDatePicker
                   startDate={null}
                   id="date-to"
@@ -174,45 +174,45 @@ export class FilterRaw extends Component {
                 />
               </div>
             </div>
+
           </div>
 
-
           <div className="row">
-            <div className="col-xs-4 col-md-2">
-              <div className="col-md-12 no-margin">
+            <div className="col-xs-4 col-md-3">
+              <div className="col-md-12">
                 <label className="box filter-label">Volná kapacita:</label>
                 <Checkbox name="check-cap"/>
               </div>
 
             </div>
 
-            <div className="col-xs-4 col-md-2 no-margin">
-              <div className="col-md-12 no-margin">
-                <label className="box filter-label">Uplynulé</label>
+            <div className="col-xs-4 col-md-3">
+              <div className="col-md-12">
+                <label className="box filter-label">Zobrazovat proběhlé akce:</label>
                 <Checkbox name="check-past" defaultChecked={1}/>
               </div>
             </div>
+          </div>
 
-
-
+          <div className="row">
             {
               this.props.isLoggedIn
                 ?
                 <div>
-                  <div className="col-xs-4 col-md-2 no-margin">
-                    <div className="col-md-12 no-margin">
-                      <label className="box filter-label">Jsem přihlášen</label>
+                  <div className="col-xs-4 col-md-3">
+                    <div className="col-md-12">
+                      <label className="box filter-label">Jsem přihlášen:</label>
                       <Checkbox name="check-signed"/>
                     </div>
                   </div>
-                  <div className="col-xs-4 col-md-2 no-margin">
-                    <div className="col-md-12 no-margin">
-                      <label className="box filter-label">Jsem autorem</label>
+                  <div className="col-xs-4 col-md-3">
+                    <div className="col-md-12">
+                      <label className="box filter-label">Jsem autorem:</label>
                       <Checkbox name="check-author"/>
                     </div>
                   </div>
-                  <div className="col-xs-4 col-md-2 no-margin">
-                    <div className="col-md-12 no-margin">
+                  <div className="col-xs-4 col-md-3">
+                    <div className="col-md-12">
                       <label className="box filter-label">Pouze mnou preferované:</label>
                       <Checkbox name="check-prefered"/>
                     </div>
@@ -223,7 +223,7 @@ export class FilterRaw extends Component {
             }
 
 
-            <div className="col-xs-4 col-md-2">
+            <div className="col-xs-4 col-md-2 col-md-offset-10">
 
                 <button type="submit" name="submit" className="btn btn-default top-filter-buffer pull"
                 >Zrušit
