@@ -11,7 +11,7 @@ import {isLoggedIn,getUserId} from '../Login/reducers';
 export class FilterRaw extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     moment.locale('cs');
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
@@ -25,8 +25,10 @@ export class FilterRaw extends Component {
   Loads user by id and saves him to state.
   */
   fetchUser(requestedUserId) {
+    if (requestedUserId) {
       api.get('appusers/'+requestedUserId)
           .then(({ data }) => this.setState({userData: data}));
+    }
   }
 
   /**
