@@ -162,11 +162,11 @@ export class FilterRaw extends Component {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col-md-6">
               <div className="col-md-3">
                 <label className="filter-label">Do:</label>
               </div>
-              <div className="col-md-9">
+              <div className="col-md-4">
                 <CustomDatePicker
                   startDate={null}
                   id="date-to"
