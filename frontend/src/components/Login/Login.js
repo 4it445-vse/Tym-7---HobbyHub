@@ -12,6 +12,9 @@ export class LoginRaw extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    /**
+    Performs login verification on api.
+    */
     handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -26,6 +29,9 @@ export class LoginRaw extends Component {
             });
     }
 
+    /**
+    Called on succesful login.
+    */
     loginSuccess(data) {
         const {addLogin} = this.props;
         //demo data for event adding
@@ -33,7 +39,7 @@ export class LoginRaw extends Component {
     }
 
     render() {
-        const { loginError, hasLoginError } = this.props;
+        const { hasLoginError } = this.props;
         const errorMsg = 'Chybně zadané heslo nebo uživatelské jméno';
         return (
             <Navbar.Form pullLeft>

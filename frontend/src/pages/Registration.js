@@ -11,7 +11,7 @@ export class RegistrationRaw extends Component {
             <div className="container content-container regcover">
               <div className="col-md-3"></div>
                 <div className="col-md-6">
-                <div className="white-bg">
+                <div className="white-bg reg-form">
                     <h1>Registrace</h1>
 
                     {registrationSuccessful ? <h2>Úspěšně jste se zaregistrovali!</h2> : <RegistrationForm></RegistrationForm>}

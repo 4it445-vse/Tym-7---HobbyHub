@@ -27,18 +27,15 @@ export const registrationReducer = (state = { error: null, success: null }, acti
 };
 
 export function isRegistrationSuccess(state) {
-    const { success } = state;
-    return success;
+    return state.success;
 }
 
 export function getRegistrationError(state) {
-    const { error }  = state;
-    return error;
+    return  state.error;
 }
 
 export function hasRegistrationError(state) {
-    const { error }  = state;
-    return !!error;
+    return !!state.error;
 }
 
 export default registrationReducer;

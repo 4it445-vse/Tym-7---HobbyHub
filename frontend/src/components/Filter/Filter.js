@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import Checkbox from 'rc-checkbox';
-import {DatePickerCustom} from './DatePicker'
 import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
 import Select2 from 'react-select';
 import moment from 'moment';
 import api from '../../api.js';
 import {connect} from 'react-redux';
-import {isLoggedIn,getUserId,getUserPreferedTags} from '../Login/reducers';
+import {isLoggedIn,getUserId} from '../Login/reducers';
 
 
 export class FilterRaw extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     moment.locale('cs');
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
@@ -22,12 +21,19 @@ export class FilterRaw extends Component {
     }
   }
 
+  /**
+  Loads user by id and saves him to state.
+  */
   fetchUser(requestedUserId) {
-      const { userId } = this.props;
+    if (requestedUserId) {
       api.get('appusers/'+requestedUserId)
           .then(({ data }) => this.setState({userData: data}));
+    }
   }
 
+  /**
+  Called when selecting tags from select2. Saves tags to state.
+  */
   handleSelectTagChange(value) {
     const newState = {
       ...this.state
@@ -36,6 +42,9 @@ export class FilterRaw extends Component {
     this.setState(newState);
   }
 
+  /**
+  Loads tags from api and saves them to state.
+  */
   fetchTags() {
     api('tags')
       .then((response) => {
@@ -56,6 +65,9 @@ export class FilterRaw extends Component {
     this.fetchUser(this.props.currentUserId);
   }
 
+  /**
+  On filter submittion, calls api post to load events by filter params.
+  */
   handleFilterSubmit(e) {
     e.preventDefault();
 
@@ -77,12 +89,6 @@ export class FilterRaw extends Component {
     const authorId = this.props.isLoggedIn && formData.get('check-author') ? this.props.currentUserId : null;
     const checkboxPrefered = formData.get('check-prefered');
 
-    if (this.props.isLoggedIn && checkboxPrefered) {
-      var preferedTags = this.state.userData.prefered_tags;
-    } else {
-      var preferedTags = null;
-    }
-
     const filterData = {
       dateFrom,
       dateTo,
@@ -93,7 +99,7 @@ export class FilterRaw extends Component {
       signedUserId,
       authorId,
       showPast,
-      preferedTags
+      preferedTags: (this.props.isLoggedIn && checkboxPrefered) ? this.state.userData.prefered_tags : null
     };
 
     api.post('events/filter', filterData)
@@ -158,11 +164,11 @@ export class FilterRaw extends Component {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col-md-6">
               <div className="col-md-3">
                 <label className="filter-label">Do:</label>
               </div>
-              <div className="col-md-9">
+              <div className="col-md-4">
                 <CustomDatePicker
                   startDate={null}
                   id="date-to"
@@ -217,31 +223,22 @@ export class FilterRaw extends Component {
                 :
                 <div></div>
             }
-          </div>
 
-          <div className="row">
 
-            <div className="col-xs-4 col-md-2">
-              <div className="col-md-12">
-                <button type="submit" name="submit" className="btn btn-default top-filter-buffer"
+            <div className="col-xs-4 col-md-2 col-md-offset-10">
+
+                <button type="submit" name="submit" className="btn btn-default top-filter-buffer pull"
+                >Zrušit
+                </button>
+
+                <button type="submit" name="submit" className="btn btn-default top-filter-buffer pull-right"
                 >Filtrovat
                 </button>
-              </div>
+
 
             </div>
 
-            <div className="col-xs-4 col-md-1"></div>
 
-            <div className="col-xs-4 col-md-2">
-              <div className="col-md-12">
-                <button type="submit" name="submit" className="btn btn-default top-filter-buffer"
-                >Reset
-                </button>
-              </div>
-
-            </div>
-
-            <div className="col-xs-4 col-md-10"></div>
 
           </div>
 

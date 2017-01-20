@@ -12,7 +12,6 @@ export class EventAddCommentRaw extends Component {
 
   constructor(props) {
     super(props);
-    const {eventId} = this.props;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.commentSuccess = this.commentSuccess.bind(this);
     this.state = {
@@ -21,6 +20,9 @@ export class EventAddCommentRaw extends Component {
     }
   }
 
+  /**
+  Calls api post method to create new comment on Event.
+  */
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -32,29 +34,31 @@ export class EventAddCommentRaw extends Component {
     };
 
 
-    console.log('FORMDATA', eventCommentData);
     api.post('eventcomments', eventCommentData)
-      .then(({data}) => {this.commentSuccess();})
+      .then(this.commentSuccess)
       .catch(error => {
         this.commentError(error);
       });
   }
 
+  /**
+  Called when comment is added successfully
+  */
   commentSuccess() {
     const {fetchComments} = this.props;
     const {message} = this.refs;
     message.value = "";
     fetchComments();
-
-    console.log('com succ');
   }
 
+  /**
+  Called on event comment failure.
+  */
   commentError() {
     console.log('com err');
   }
 
   render() {
-    const {eventId, getUserId} = this.props;
     return (
       <div>
         <form id="main-contact-form" className="contact-form" name="contact-form" onSubmit={this.handleSubmit}

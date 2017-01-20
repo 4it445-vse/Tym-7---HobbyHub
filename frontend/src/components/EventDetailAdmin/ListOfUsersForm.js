@@ -14,8 +14,11 @@ export class ListOfUsersForm extends Component {
     }
   }
 
+  /**
+   Loads all users signed to currently viewed Event.
+   */
   fetchEventUsers() {
-    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user":"ratings"}]}}})
+    api('events/' + this.props.eventId + "/users", {"params": {"filter": {"include": [{"user": "ratings"}]}}})
       .then((response) => {
         this.setState({
           ...this.state,
@@ -36,10 +39,14 @@ export class ListOfUsersForm extends Component {
     this.fetchEventUsers();
   }
 
+  /**
+   Performs change of status of User on Event possibly accepting him, refusing him or
+   kicking previously accepted User from Event.
+   */
   onChangeEventUserState(data) {
-    var self = this;
+    const self = this;
     api.post('eventusers/changeStatus', data)
-      .then((response) => {
+      .then(() => {
         const listState = Immutable.fromJS(self.state.eventUsers)
         const updatedList = listState.update(
           listState.findIndex((item) => {

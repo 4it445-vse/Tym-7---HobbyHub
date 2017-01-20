@@ -3,9 +3,6 @@ import api from '../api.js';
 import {connect} from 'react-redux';
 import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
 import lodash from 'lodash';
-import { UserForm } from '../components/User/UserForm.js';
-import { UserProfile } from '../components/User/UserProfile.js';
-import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import moment from 'moment';
 
@@ -28,16 +25,24 @@ export class ProfilePageRaw extends Component {
         }
     }
 
+    /**
+    Loads user from api by id.
+    @requestedUserId int
+    */
     fetchUser(requestedUserId) {
         const { userId } = this.props;
         api.get('appusers/'+requestedUserId, {"params": {"filter": {"include": "ratings"}}})
             .then(({ data }) => this.setState({userData: data, loggedUserId: userId, fetched: true}))
-            .catch(error => {
+            .catch(() => {
                 this.setState({userData: {}, loggedUserId: userId, fetched: true});
                 console.log('there were some errors loading user profile');
             });
     }
 
+    /**
+    Returns css class to be set to element based on rating.
+    @rating int
+    */
     getRatingClass(rating) {
         if (rating === 1) {
             return 'profile-rating rating-red';
@@ -48,13 +53,16 @@ export class ProfilePageRaw extends Component {
         }
     }
 
+    /**
+    Calculates average rating of given user.
+    @rating int
+    */
     calculateRating(user) {
-        console.log('user data:', user);
         const {ratings} = user;
-        if (ratings === undefined || ratings.length == 0) {
+        if (ratings === undefined || ratings.length === 0) {
             return 3;
         }
-        var sum = 0;
+        let sum = 0;
 
         ratings.forEach(function (rating) {
             sum += rating.rating;
@@ -73,7 +81,7 @@ export class ProfilePageRaw extends Component {
         console.log(this.props)
 
         //reload data if user logged out or logged in
-        if (loggedIn && userId != loggedUserId) {
+        if (loggedIn && userId !== loggedUserId) {
             this.fetchUser(userId);
         }
         //only logged in user can see its or others profile

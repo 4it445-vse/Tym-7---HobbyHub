@@ -15,17 +15,24 @@ export class EventCommentItem extends Component {
     }
   }
 
-  handleRemove(event) {
+  /**
+  Function called when removing comment from event.
+  */
+  handleRemove() {
     const {eventComment, fetchComments, userId} = this.props;
     const {id} = eventComment;
     api.post('eventcomments/delete', {"user_id": userId, "comment_id": id})
-        .then((response)=> {
+        .then(()=> {
           fetchComments();
-        }).catch((e)=> {
+        }).catch(()=> {
           console.log('error occurred during comment removal');
         })
   }
 
+  /**
+  Returns css class to be set to element based on rating.
+  @rating int
+  */
   getRatingClass(rating) {
     if (rating === 1) {
       return 'inline-rating-comments rating-red';
@@ -36,12 +43,15 @@ export class EventCommentItem extends Component {
     }
   }
 
+  /**
+  Calculates average rating on given user.
+  */
   calculateRating(user) {
     const {ratings} = user;
-    if (ratings.length == 0) {
+    if (ratings.length === 0) {
       return 3;
     }
-    var sum = 0;
+    let sum = 0;
 
     ratings.forEach(function (rating) {
       sum += rating.rating;

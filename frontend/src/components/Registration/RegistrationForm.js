@@ -13,7 +13,9 @@ export class RegistrationFormRaw extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
+    /**
+    On registration form submittion, calls api post to create new user.
+    */
     handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
@@ -37,9 +39,9 @@ export class RegistrationFormRaw extends Component {
             <form onSubmit={this.handleSubmit}>
                 <div>
                     {[['username', 'Uživatelské jméno'], ['email', 'Email'], ['password', 'Heslo']].map(([key, label]) => {
-                        var errorMsg = false;
+                        let errorMsg = false;
                         if (hasRegistrationError) {
-                            for (var errorKey in registrationErrors) {
+                            for (let errorKey in registrationErrors) {
                                 if (!registrationErrors.hasOwnProperty(errorKey)) continue;
                                 if (errorKey === key) {
                                     errorMsg = registrationErrors[errorKey];
@@ -61,10 +63,12 @@ export class RegistrationFormRaw extends Component {
                         );
                     })}
                     <div className="row"></div>
-                      <div className="col-xs-6 col-md-6">
-                        <p>Registrací souhlasíte s <a href="">podmínkami služby</a>.</p>
-                      </div>
-                      <div className="col-xs-6 col-md-6">
+                      {/*
+                        <div className="col-xs-6 col-md-6">
+                          <p>Registrací souhlasíte s <a href="">podmínkami služby</a>.</p>
+                        </div>
+                        */}
+                      <div className="col-xs-6 col-md-6 col-xs-offset-6 col-md-offset-6">
                         <Button type="submit" className="btn btn-success btn-lg pull-right">Registrovat</Button>
                       </div>
                 </div>

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import moment from 'moment';
 import {EventCommentItem} from './EventCommentItem'
 
 export class EventCommentList extends Component {
@@ -10,9 +8,12 @@ export class EventCommentList extends Component {
     this.isRemovable = this.isRemovable.bind(this);
   }
 
+  /**
+  Returns true if EventComment is removable by current user.
+  */
   isRemovable(commentUserId) {
     const {authorId, userId} = this.props;
-    return (userId == commentUserId || userId == authorId);
+    return (userId === commentUserId || userId === authorId);
   }
 
   render() {

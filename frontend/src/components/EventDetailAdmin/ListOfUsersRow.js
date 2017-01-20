@@ -7,18 +7,18 @@ import { Link } from 'react-router';
 import api from '../../api.js';
 
 export class ListOfUsersRow extends Component {
-  constructor(props) {
-    super(props);
-  }
 
+  /**
+    Returns true if user of given id can rate another user, based on date of Event.
+  */
   canUserRate(userId, user, eventDate) {
-    var d1 = new Date();
-    var d2 = new Date(eventDate);
+    const d1 = new Date();
+    const d2 = new Date(eventDate);
     if (!userId || user.id === userId || d2 > d1) {
       return false;
     }
     const {ratings} = user;
-    var result = true;
+    let result = true;
     ratings.forEach(function (rating) {
       if (rating.author_id === userId) {
         result = false;
@@ -28,12 +28,15 @@ export class ListOfUsersRow extends Component {
     return result;
   }
 
+  /**
+    Calls api post method when user (authorId) rates another user (ownerId).
+  */
   sendRating(rating, ownerId, authorId) {
     api.post('ratings', {
       "rating": rating,
       "owner_id": ownerId,
       "author_id": authorId
-    }).then((response) => {
+    }).then(() => {
       const {fetchEventUsers} = this.props;
       fetchEventUsers();
     });
@@ -42,7 +45,6 @@ export class ListOfUsersRow extends Component {
   render() {
     const {status, created, user, onChangeEventUserState, userId, eventDate} = this.props;
     const profileLink = "/profile/"+user.id;
-    console.log(this.props)
     return (
       <tr>
         <td className="text-center">
@@ -80,11 +82,11 @@ export class ListOfUsersRow extends Component {
             <a onClick={(e)=>{
               e.preventDefault();
               this.sendRating(1, user.id, userId)
-            }} href=""><img className="thumbs" src="/images/dislike.png" /></a>
+            }} href=""><img className="thumbs" alt="dislike" src="/images/dislike.png" /></a>
             <a onClick={(e)=>{
               e.preventDefault();
               this.sendRating(5, user.id, userId)
-            }} href=""><img className="thumbs" src="/images/like.png" /></a>
+            }} href=""><img className="thumbs" alt="like" src="/images/like.png" /></a>
           </span>}
         </td>
         <td>
@@ -99,7 +101,7 @@ export class EventUserAvailableActions extends Component {
 
   render() {
     const {status, onChangeEventUserState} = this.props
-    console.log(status)
+
     if (status === "pending") {
       return (
         <div>

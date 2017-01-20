@@ -8,6 +8,7 @@ import {EventSignIn} from '../../components/EventList/EventSignIn'
 import {EventAddComment} from '../../components/EventList/EventAddComment'
 import {EventCommentList} from '../../components/EventList/EventCommentList'
 import {getUserId, isLoggedIn} from '../../components/Login/reducers.js';
+import {GoogleMap} from '../../components/GoogleMaps/GoogleMap';
 import {connect} from 'react-redux'
 import {browserHistory} from 'react-router';
 import deepEqual from 'deep-equal';
@@ -39,6 +40,9 @@ export class EventDetailPageRaw extends Component {
     };
   }
 
+  /**
+  Loads details of currently viewed Event from api. These details are saved in state.
+  */
   fetchEventDetailData() {
     const {eventId} = this.props.params;
     const self = this;
@@ -52,12 +56,15 @@ export class EventDetailPageRaw extends Component {
     })
   }
 
+  /**
+  Deletes currently viewed Event by api delete request.
+  */
   removeEvent(e) {
     e.preventDefault();
     const confirm = window.confirm('Opravdu chcete odstranit událost?');
     if (confirm === true) {
       api.delete(`events/${this.props.params.eventId}`)
-        .then((response) => {
+        .then(() => {
           browserHistory.push("/");
         })
         .catch((e) => {
@@ -76,6 +83,9 @@ export class EventDetailPageRaw extends Component {
     clearInterval(this.state.pollingId);
   }
 
+  /**
+  Returns array of latitude and longitude of currently viewed Event.
+  */
   getCoordinates() {
     if (this.state.event) {
       return {
@@ -85,6 +95,9 @@ export class EventDetailPageRaw extends Component {
     }
   }
 
+  /**
+  Returns count (int) of Users signed to currently viewed event, that are in "accepted" state.
+  */
   getSignedUsersCount(users) {
     if (!users || users === undefined) {
       return 0;
@@ -94,7 +107,9 @@ export class EventDetailPageRaw extends Component {
     }, 0)
   }
 
-
+  /**
+  This function launches modal window for event editation.
+  */
   showEdit(e) {
     e.preventDefault();
     this.setState({
@@ -103,13 +118,15 @@ export class EventDetailPageRaw extends Component {
     })
   }
 
+  /**
+  This function is called on event form submit. Calls api.put to update current event.
+  */
   onFormSubmit(event) {
     const eventPut = {...event};
     delete eventPut.id;
     delete eventPut.user;
     api.put(`events/${event.id}`, eventPut)
-      .then(response => {
-        console.log("response", response);
+      .then(() => {
         this.setState({
           ...this.state,
           openEditModal:false
@@ -117,13 +134,18 @@ export class EventDetailPageRaw extends Component {
       }).catch(error => {
       console.warn(error);
     });
-    console.log("onFormSubmit", event);
   }
 
+  /**
+  Returns true if given event was created by given user, false otherwise.
+  */
   isEventCreatedByMe(event, userId) {
     return (event && 'user' in event && 'id' in event.user && (event.user.id === userId))
   }
 
+  /**
+  Loads comments on current event and stores them in state.
+  */
   fetchComments() {
     const {eventId} = this.props.params;
     api('eventcomments', {
@@ -151,6 +173,9 @@ export class EventDetailPageRaw extends Component {
       })
   }
 
+  /**
+  Closes modal window for event editation.
+  */
   closeModal() {
     this.setState({
       ...this.state,
@@ -161,11 +186,9 @@ export class EventDetailPageRaw extends Component {
   render() {
     const {event, eventComments} = this.state;
     const {isLoggedIn, getUserId} = this.props;
-    const coordinates = this.getCoordinates();
     const authorId = event ? event.author_id : undefined;
     const userId = this.props.getUserId;
     const linkToProfile = (event && event.user) ? `/profile/${authorId}` : ``;
-    const linkToEditEvent = (event) ? `/events/edit/${event.id}` : '';
 
     return (
       <div className="container content-container">
@@ -217,7 +240,7 @@ export class EventDetailPageRaw extends Component {
               <div className="row top-buffer"></div>
               <div className="col-xs-12 col-md-3">
                 <div className="col-md-12">
-                  Pořádá <b><Link to={linkToProfile}>{event.user.username}</Link></b>
+                  Pořádá <b><Link to={linkToProfile}>{event.user ? event.user.username : 'Anonymous'}</Link></b>
                 </div>
                 <div className="col-md-12">
                   Datum <b>{moment(event.date).format("DD. MMMM YYYY")}</b>
@@ -225,14 +248,24 @@ export class EventDetailPageRaw extends Component {
                 <div className="col-md-12">
                   Počet míst <b>{this.getSignedUsersCount(this.state.event.users)} / {event.capacity}</b>
                 </div>
+                <div className="col-md-12">
+                  <GoogleMap
+                    coordinates={{
+                      latitude: event.latitude,
+                      longitude: event.longitude
+                    }}
+                    title={event.name}
+                    elementId='google-map-detail'
+                  />
+                </div>
                 {
                   this.isEventCreatedByMe(event, getUserId)
                     ?
-                    <div className="col-md-7">
+                    <div className="col-md-12">
 
                     </div>
                     :
-                    <div className="col-md-2">
+                    <div className="col-md-12 top-buffer">
                       {moment(event.date).add(1,'days').isAfter(moment())
                         ?
                         <EventSignIn eventId={event.id}
@@ -248,7 +281,7 @@ export class EventDetailPageRaw extends Component {
                 </div>
                 }
               </div>
-              
+
             <div className="col-xs-12 col-md-9">
               <div className="event-description">{event.description}</div>
                   {
@@ -258,9 +291,7 @@ export class EventDetailPageRaw extends Component {
                         <ListOfUsersForm eventId={event.id} userId={userId} eventDate={event.date}/>
                       </div>
                       :
-                      <div>
-
-                      </div>
+                      null
                   }
 
                 <div className="row"></div>
