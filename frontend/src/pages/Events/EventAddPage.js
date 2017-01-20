@@ -29,9 +29,21 @@ export class EventAddPageRaw extends Component {
     const userId = this.props.getUserId
     newState.eventState = EVENT_STATE.WAITING;
     this.setState(newState)
+
     api.post('appusers/'+userId+'/authorEvents', event)
       .then(response => {
-          browserHistory.push("/events/detail/"+response.data.id);
+        const newEventId = response.data.id;
+        let eventuser = {
+          "status": "accepted",
+          "created": "2017-01-20",
+          "resolved": "2017-01-20",
+          "user_id": userId,
+          "event_id": newEventId,
+        };
+
+        api.post('eventusers', eventuser).then(response => {
+          browserHistory.push("/events/detail/"+newEventId);
+        });
       })
       .catch(error=> {
         const { response } = error;
