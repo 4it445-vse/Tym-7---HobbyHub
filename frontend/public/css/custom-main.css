@@ -269,6 +269,10 @@ cursor: pointer;
     border-radius: 10px;
 }
 
+.reg-form{
+  min-width: 90%;
+}
+
 .profile-avatar{
   border-radius: 500px;
   margin: 15%;
