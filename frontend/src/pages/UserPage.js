@@ -2,6 +2,7 @@
  * Created by Honza on 22.10.2016.
  */
 import React, {Component} from 'react';
+import {ImageNotFound} from '../components/NotFound/ImageNotFound'
 import {Link} from 'react-router'
 import api from '../api.js';
 import {connect} from 'react-redux';
@@ -10,6 +11,8 @@ import lodash from 'lodash';
 import {UserForm} from '../components/User/UserForm.js';
 import {UserProfile} from '../components/User/UserProfile.js';
 import {browserHistory} from 'react-router';
+import Modal from 'react-modal'
+import {UserImagePicker} from '../components/User/UserImagePicker'
 
 /**
  This page displays other user profile
@@ -19,6 +22,8 @@ export class UserPageRaw extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.onImageSelected = this.onImageSelected.bind(this);
     const {userId} = this.props;
     this.state = {userData: {}, loggedUserId: userId, fetched: false, formErrors: {}};
   }
@@ -91,6 +96,35 @@ export class UserPageRaw extends Component {
       });
   }
 
+  getDefaultState() {
+    return {
+      userId: {
+        username: "",
+        email: "",
+        picture: ""
+      },
+      modal: {
+        isOpen: false
+      },
+    }
+  }
+
+  setDefaultState() {
+    if (typeof this.props.userId !== "undefined" && this.props.userId !== null) {
+      const defaultState = this.getDefaultState();
+      this.setState({
+        ...defaultState,
+        userId: this.props.userId
+      })
+    } else {
+      this.state = this.getDefaultState();
+    }
+  }
+
+  componentWillMount() {
+    this.setDefaultState();
+  }
+
   /**
    Called on handleSubmit() success. Informs user of succes.
    */
@@ -150,6 +184,47 @@ export class UserPageRaw extends Component {
     this.setState(newState);
   }
 
+  /**
+   Saves selected image to state.
+   */
+  onImageSelected(src) {
+    const newState = {
+      ...this.state
+    }
+    newState.modal.isOpen = false;
+    newState.user.picture = src;
+    this.setState(newState);
+  }
+
+  /**
+   Opens modal window for image selection.
+   */
+  openModal(userId) {
+    userId.stopPropagation();
+    userId.preventDefault();
+    const newState = {
+      ...this.state
+    }
+    newState.modal.isOpen = true;
+    this.setState(newState);
+  }
+
+  /**
+   Modal window factory.
+   */
+  createModal() {
+    return (
+      <div>
+        <Modal
+          isOpen={this.state.modal.isOpen}
+          contentLabel="Vyberte obrázek profilu"
+        >
+          <UserImagePicker onImageSelected={this.onImageSelected}/>
+        </Modal>
+      </div>
+    )
+  }
+
   render() {
     const {username, email, prefered_tags} = this.state.userData;
     const {loggedIn, userId} = this.props;
@@ -195,10 +270,22 @@ export class UserPageRaw extends Component {
 
     return (
       <div className="container content-container">
+      {this.createModal()}
         <div>
-
           <div className="col-xs-12 col-md-3">
-            <img className="profile-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
+
+            {userId.picture ?
+              <img className="profile-avatar" src={userId.picture} alt="avatar"/> :
+              <ImageNotFound width="100%" height="150" className="event-image"/>
+            }
+              <button
+                name="choose-image"
+                onClick={this.openModal}
+                className="btn btn-default btn-lg choose-image top-buffer"
+              >
+                <i className="fa fa-upload" aria-hidden="true"/>
+                Vybrat obrázek
+              </button>
           </div>
 
           <div className="col-md-9">
