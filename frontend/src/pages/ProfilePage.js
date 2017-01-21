@@ -5,6 +5,7 @@ import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
 import lodash from 'lodash';
 import { Link } from 'react-router';
 import moment from 'moment';
+import {LastActivity} from '../components/User/LastActivity';
 
 export class ProfilePageRaw extends Component {
     constructor(props) {
@@ -126,6 +127,7 @@ export class ProfilePageRaw extends Component {
               </div>
 
               <div className="col-md-9">
+
                 <div className="col-md-12">
                   <div className="col-md-12">
                     <h1 className="pull-left">{username}</h1>
@@ -135,31 +137,33 @@ export class ProfilePageRaw extends Component {
                     <span className={this.getRatingClass(rating)}>{rating}</span>
                   </div>
                 </div>
-            <div className="col-md-8">
-            <b>Poslední aktivita:</b>
-              <table className="text-center list-of-users-form table-striped table-bordered table-hover">
-                <thead>
-                <tr>
-                  <td>Událost</td>
-                  <td>Datum konání</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                <td>
-                <Link to={linkToEvent}>
-                Event
-                </Link>
-                </td>
-                <td>
-                <b>25.5.2017</b>
-                </td>
-                </tr>
-                </tbody>
-              </table>
+
+                <div className="col-md-8">
+                  <LastActivity userId={userId}/>
+                </div>
+
+                {/*
+                <div className="col-md-8">
+                  <b>Poslední aktivita:</b>
+                  <table className="text-center list-of-users-form table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <td>Událost</td>
+                        <td>Datum konání</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><Link to={linkToEvent}>Event</Link></td>
+                        <td><b>25.5.2017</b></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>*/}
+
+              </div>
+
             </div>
-            </div>
-          </div>
           </div>
         );
     }
