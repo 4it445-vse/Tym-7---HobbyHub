@@ -276,7 +276,7 @@ export class UserPageRaw extends Component {
           <div className="col-xs-12 col-md-3">
 
             {userData.picture ?
-              <img className="profile-avatar" src={userData.picture} alt="avatar"/> :
+              <img className="profile-avatar-image" src={userData.picture} alt="avatar"/> :
               <ImageNotFound width="100%" height="150" className="event-image"/>
             }
               <button
