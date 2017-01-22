@@ -56,7 +56,7 @@ export class UserPageRaw extends Component {
     }
     let userData = {};
 
-    for (let field of ['username', 'email', 'password', 'prefered_tags']) {
+    for (let field of ['username', 'email', 'password', 'prefered_tags','picture']) {
       if (formData.get(field)) {
         userData[field] = formData.get(field);
       }
@@ -192,7 +192,7 @@ export class UserPageRaw extends Component {
       ...this.state
     }
     newState.modal.isOpen = false;
-    newState.user.picture = src;
+    newState.userData.picture = src;
     this.setState(newState);
   }
 
@@ -226,10 +226,11 @@ export class UserPageRaw extends Component {
   }
 
   render() {
-    const {username, email, prefered_tags} = this.state.userData;
+    const {username, email, prefered_tags, picture} = this.state.userData;
     const {loggedIn, userId} = this.props;
     const {profileId} = this.props.params;
     const {loggedUserId, fetched} = this.state;
+    const {userData} = this.state;
     //reload data if user logged out or logged in
     if (loggedIn && userId !== loggedUserId) {
       this.fetchUser(userId);
@@ -274,8 +275,8 @@ export class UserPageRaw extends Component {
         <div>
           <div className="col-xs-12 col-md-3">
 
-            {userId.picture ?
-              <img className="profile-avatar" src={userId.picture} alt="avatar"/> :
+            {userData.picture ?
+              <img className="profile-avatar" src={userData.picture} alt="avatar"/> :
               <ImageNotFound width="100%" height="150" className="event-image"/>
             }
               <button
