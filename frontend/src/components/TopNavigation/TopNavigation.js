@@ -10,6 +10,26 @@ import { addLogin, logout } from '../Login/actions.js';
 import { isLoggedIn } from '../Login/reducers.js';
 
 export class TopNavigationRaw extends Component {
+  constructor(props) {
+    super(props);
+    this.toggleCollapsed = this.toggleCollapsed.bind(this);
+    this.state = {burgerButtonClassname: 'navbar-toggle'};
+  }
+
+  toggleCollapsed() {
+    if (this.state.burgerButtonClassname.indexOf('collapsed') == -1) {
+      this.setState({
+        ...this.state,
+        burgerButtonClassname: "navbar-toggle collapsed"
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        burgerButtonClassname: "navbar-toggle"
+      });
+    }
+  }
+
   render() {
     const { isLoggedIn, logout } = this.props;
     return (
@@ -17,7 +37,7 @@ export class TopNavigationRaw extends Component {
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" className={this.state.burgerButtonClassname} onClick={() => this.toggleCollapsed()} data-toggle="collapse" data-target=".navbar-collapse">
             <span className="sr-only">Toggle navigation</span>
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
