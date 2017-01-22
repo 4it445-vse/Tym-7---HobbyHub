@@ -62,7 +62,6 @@ module.exports = function (Eventuser) {
     }
   })
 
-
   Eventuser.changeStatus = (new_event_status, event_id, cb)=> {
     Eventuser.updateAll({id:event_id},{status:new_event_status},(err,info)=>{
       console.log(err,info)
@@ -96,12 +95,11 @@ module.exports = function (Eventuser) {
     var searchArray = {};
     searchArray['include'] = ['event'];
     searchArray['where'] = {and: [
-      {user: user_id},
+      {user_id: user_id},
       {status: "accepted"}
     ]};
 
     var now = moment();
-    console.log('now', now);
 
     Eventuser.find(
       searchArray,
@@ -109,13 +107,12 @@ module.exports = function (Eventuser) {
         if (error) cb('sorry');
         const EventusersFiltered = Eventusers
           .filter(eventuser => {
-            if (moment(eventuser.event.date).isBefore(now)) {
+            if (moment(eventuser.event().date).isBefore(now)) {
               return true;
             }
             return false;
           })
-
-        cb(null, EventsFiltered);
+        cb(null, EventusersFiltered);
       }
     );
   }
@@ -134,7 +131,7 @@ module.exports = function (Eventuser) {
         {arg: "user_id", type: "number"},
       ],
       returns: {
-        arg: 'events',
+        arg: 'eventusers',
         type: 'string'
       }
     }

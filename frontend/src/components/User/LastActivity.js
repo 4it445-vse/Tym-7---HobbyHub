@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
 import api from '../../api.js';
-import {ListOfUsersRowPublic} from './ListOfUsersRowPublic';
 import Immutable from 'immutable';
+import {LastActivityRow} from './LastActivityRow'
 
 export class LastActivity extends Component {
   constructor(props) {
     super(props);
     this.fetchEventsByEventUser = this.fetchEventsByEventUser.bind(this);
-    this.lastActivityEvents = this.lastActivityEvents.bind(this);
+    this.lastActivityEvents = this.lastActivityEventusers.bind(this);
     this.state = {
-      events: null
+      userId: props.userId,
+      eventusers: null
     }
   }
 
@@ -17,29 +18,17 @@ export class LastActivity extends Component {
   Loads all Events attended by currently viewed User.
   */
   fetchEventsByEventUser() {
-    filterData = {user_id: this.state.userId};
+    var filterData = {user_id: this.state.userId};
     api.post('eventusers/last-activity-events', filterData)
       .then((response) => {
-        this.props.lastActivityEvents(response.data.events);
+        this.lastActivityEventusers(response.data.eventusers);
       })
-
-    api('eventusers', {"params": {
-      "filter": {
-        "where": {
-          "status":"accepted",
-          date: {gt: new Date('2014-04-01T18:30:00.000Z')}
-        },
-        "include": [
-          {"user": "ratings"}
-        ]
-      }
-    }})
   }
 
-  lastActivityEvents(events) {
+  lastActivityEventusers(eventusers) {
     this.setState({
       ...this.state,
-      events: events
+      eventusers: eventusers
     });
   }
 
@@ -61,12 +50,14 @@ export class LastActivity extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.events.map(event =>
-              <tr>
-                <td><Link to={"/events/detail/" + event.id}>{event.name}</Link></td>
-                <td><b>{moment(event.date).format("DD. MMMM YYYY")}</b></td>
-              </tr>
-            )}
+            {this.state.eventusers
+              ?
+              this.state.eventusers.map(eventuser =>
+                <LastActivityRow event={eventuser.event} key={eventuser.event.id}/>
+              )
+              :
+              <div></div>
+          }
           </tbody>
         </table>
       </div>

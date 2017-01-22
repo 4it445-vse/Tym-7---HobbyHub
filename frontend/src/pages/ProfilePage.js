@@ -3,7 +3,6 @@ import api from '../api.js';
 import {connect} from 'react-redux';
 import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
 import lodash from 'lodash';
-import { Link } from 'react-router';
 import moment from 'moment';
 import {LastActivity} from '../components/User/LastActivity';
 
@@ -79,7 +78,6 @@ export class ProfilePageRaw extends Component {
         const rating = this.calculateRating(this.state.userData);
         const {eventDate} = this.props;
         const linkToEvent = (event) ? `/events/detail/${event.id}` : '';
-        console.log(this.props)
 
         //reload data if user logged out or logged in
         if (loggedIn && userId !== loggedUserId) {
@@ -141,25 +139,6 @@ export class ProfilePageRaw extends Component {
                 <div className="col-md-8">
                   <LastActivity userId={userId}/>
                 </div>
-
-                {/*
-                <div className="col-md-8">
-                  <b>Poslední aktivita:</b>
-                  <table className="text-center list-of-users-form table-striped table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <td>Událost</td>
-                        <td>Datum konání</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><Link to={linkToEvent}>Event</Link></td>
-                        <td><b>25.5.2017</b></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>*/}
 
               </div>
 
