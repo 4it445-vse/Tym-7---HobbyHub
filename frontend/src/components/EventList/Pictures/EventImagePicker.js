@@ -29,8 +29,8 @@ export class EventImagePicker extends Component {
       },
       {
         id: 2,
-        src: '/' + process.env.PUBLIC_URL + 'images/event/map.jpg',
-        name: 'map',
+        src: '/' + process.env.PUBLIC_URL + 'images/event/swim.jpg',
+        name: 'swim',
       },
       {
         id: 3,
@@ -51,6 +51,41 @@ export class EventImagePicker extends Component {
         id: 7,
         src: '/' + process.env.PUBLIC_URL + 'images/event/volleyball.jpg',
         name: 'volleyball',
+      },
+      {
+        id: 8,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/hokej.jpg',
+        name: 'hockey',
+      },
+      {
+        id: 9,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/florbal.jpg',
+        name: 'floorball',
+      },
+      {
+        id: 10,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/basketbal.jpg',
+        name: 'basketball',
+      },
+      {
+        id: 11,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/golf.jpg',
+        name: 'golf',
+      },
+      {
+        id: 12,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/sipky.jpg',
+        name: 'darts',
+      },
+      {
+        id: 13,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/stolnihry.jpg',
+        name: 'boardgames',
+      },
+      {
+        id: 14,
+        src: '/' + process.env.PUBLIC_URL + 'images/event/karty.jpg',
+        name: 'cards',
       }
     ]
   }
