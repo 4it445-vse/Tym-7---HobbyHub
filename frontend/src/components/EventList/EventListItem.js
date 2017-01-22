@@ -50,6 +50,9 @@ export class EventListItem extends Component {
               <img src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>
             }
             <div className="overlay">
+              <div className="alert-overlay">
+                <img src={'/' + process.env.PUBLIC_URL + 'images/vykricnik.png'} alt=""/>
+              </div>
               <div className="recent-work-inner">
                 <h3 className="eventListName">{name}</h3>
                 <p className="pull-left">{moment(event.date).format("DD MMMM YYYY")}</p><p

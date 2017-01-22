@@ -767,3 +767,11 @@ a.btn-warning:hover{
   font-size: 24px;
   color: #fff;
 }
+.alert-overlay {
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+.recent-work-wrap .overlay{
+  padding: 10px;
+}
