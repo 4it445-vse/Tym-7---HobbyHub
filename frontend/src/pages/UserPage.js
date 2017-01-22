@@ -56,13 +56,14 @@ export class UserPageRaw extends Component {
     }
     let userData = {};
 
-    for (let field of ['username', 'email', 'password', 'prefered_tags','picture']) {
+    for (let field of ['username', 'email', 'password', 'prefered_tags']) {
       if (formData.get(field)) {
         userData[field] = formData.get(field);
       }
     }
 
     userData.prefered_tags = this.state.userData.prefered_tags;
+    userData.picture = this.state.userData.picture;
 
     if (lodash.isEmpty(userData)) {
       this.setState({
