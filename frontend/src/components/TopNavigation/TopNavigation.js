@@ -13,19 +13,19 @@ export class TopNavigationRaw extends Component {
   constructor(props) {
     super(props);
     this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state = {burgerButtonClassname: 'navbar-toggle'};
+    this.state = {burgerMenuClassname: 'collapse navbar-collapse navbar-right'};
   }
 
   toggleCollapsed() {
-    if (this.state.burgerButtonClassname.indexOf('collapsed') == -1) {
+    if (this.state.burgerMenuClassname.indexOf('collapse') == -1) {
       this.setState({
         ...this.state,
-        burgerButtonClassname: "navbar-toggle collapsed"
+        burgerMenuClassname: "collapse navbar-collapse navbar-right"
       });
     } else {
       this.setState({
         ...this.state,
-        burgerButtonClassname: "navbar-toggle"
+        burgerMenuClassname: "navbar-collapse navbar-right"
       });
     }
   }
@@ -37,7 +37,7 @@ export class TopNavigationRaw extends Component {
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">
-            <button type="button" className={this.state.burgerButtonClassname} onClick={() => this.toggleCollapsed()} data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" className="navbar-toggle" onClick={() => this.toggleCollapsed()} data-toggle="collapse" data-target=".navbar-collapse">
             <span className="sr-only">Toggle navigation</span>
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
@@ -47,7 +47,7 @@ export class TopNavigationRaw extends Component {
                 <span className="navbar-logo">HobbyHub</span>
               </Link>
             </div>
-            <div className="collapse navbar-collapse navbar-right">
+            <div className={this.state.burgerMenuClassname}>
               {!isLoggedIn && <Login/>}
               {isLoggedIn && <Link className="navbar-brand" to="/profile">
                 <img className="navbar-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
