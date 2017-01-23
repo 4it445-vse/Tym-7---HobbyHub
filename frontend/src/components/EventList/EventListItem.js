@@ -40,17 +40,17 @@ export class EventListItem extends Component {
 
   getNotificationImage(event, signedEventIds, userId) {
     if (event.author_id === userId) {
-      return (<img src={'/' + process.env.PUBLIC_URL + 'images/vykricnik.png'} alt=""/>);
+      return (<img src={'/' + process.env.PUBLIC_URL + 'images/vykricnik.png'} alt="Mnou vytvořen" title="Mnou vytvořen"/>);
     } else {
       if (!signedEventIds) {
         return;
       }
       if (signedEventIds["accepted"].indexOf(event.id) !== -1) {
-        return(<img src={'/' + process.env.PUBLIC_URL + 'images/fajfka.png'} alt=""/>);
+        return(<img src={'/' + process.env.PUBLIC_URL + 'images/fajfka.png'} alt="Přihlášení schváleno" title="Přihlášení schváleno"/>);
       } else if (signedEventIds["pending"].indexOf(event.id) !== -1) {
-        console.log("pending");
+        return(<img src={'/' + process.env.PUBLIC_URL + 'images/hodiny.png'} alt="Čekám schválení" title="Čekám schválení"/>);
       } else if (signedEventIds["rejected"].indexOf(event.id) !== -1) {
-        console.log("rejected");
+        return(<img src={'/' + process.env.PUBLIC_URL + 'images/krizek.png'} alt="Zamítnut" title="Zamítnut"/>);
       }
     }
   }
