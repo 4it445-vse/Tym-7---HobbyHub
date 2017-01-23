@@ -71,7 +71,6 @@ export class HomePageRaw extends Component {
       };
       response.data.forEach(function (eventuser) {
         signedEventIds[eventuser.status].push(eventuser.event_id);
-    //      signedEventIds.push(eventuser.event_id);
       });
 
       const newState = {
@@ -79,8 +78,6 @@ export class HomePageRaw extends Component {
       }
       newState.signedEventIds = signedEventIds;
       this.setState(newState);
-
-    //  this.setState({signedEventIds: signedEventIds});
     });
   }
 

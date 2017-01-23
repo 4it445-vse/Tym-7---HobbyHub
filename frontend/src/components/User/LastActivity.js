@@ -36,8 +36,6 @@ export class LastActivity extends Component {
   }
 
   render() {
-    const {userId} = this.props;
-
     return (
       <div>
         <b>Poslední aktivita:</b>
