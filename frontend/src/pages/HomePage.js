@@ -25,7 +25,12 @@ export class HomePageRaw extends Component {
   fetchEvents() {
     api('events', {"params": {"filter": {"include": "users"}}})
       .then((response) => {
-        this.setState({events: response.data});
+        const newState = {
+          ...this.state
+        }
+        newState.events = response.data;
+        this.setState(newState);
+        //this.setState({events: response.data});
       });
   }
 
@@ -33,11 +38,56 @@ export class HomePageRaw extends Component {
    Sets given events to state. Used when events are loaded by filter.
    */
   filteredEvents(events) {
-    this.setState({events});
+    const newState = {
+      ...this.state
+    }
+    newState.events = events;
+    this.setState(newState);
+  }
+
+  getAcceptedUserEventIds(userId) {
+    api('eventusers', {
+      "params": {
+        "filter": {
+          "where": {
+            "and": [
+
+              {"user_id": userId},
+              {"or":[
+                {"status": "accepted"},
+                {"status": "pending"},
+                {"status": "rejected"}
+              ]}
+
+            ]
+          },
+        }
+      }
+    }).then((response) => {
+      console.log('responsedata',response.data);
+      var signedEventIds = {
+        "accepted": [],
+        "pending": [],
+        "rejected": []
+      };
+      response.data.forEach(function (eventuser) {
+        signedEventIds[eventuser.status].push(eventuser.event_id);
+    //      signedEventIds.push(eventuser.event_id);
+      });
+
+      const newState = {
+        ...this.state
+      }
+      newState.signedEventIds = signedEventIds;
+      this.setState(newState);
+
+    //  this.setState({signedEventIds: signedEventIds});
+    });
   }
 
   componentDidMount() {
     this.fetchEvents();
+    this.getAcceptedUserEventIds(this.props.userId);
   }
 
   render() {
@@ -72,7 +122,7 @@ export class HomePageRaw extends Component {
                   {events === null ?
                     <div>Načítání...</div> :
                     <div>
-                      <EventList events={events} userId={userId}/>
+                      <EventList events={events} userId={userId} signedEventIds={this.state.signedEventIds}/>
                     </div>
                   }
                 </div>
