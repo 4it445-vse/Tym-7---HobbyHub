@@ -8,7 +8,8 @@ import {EventImagePicker} from './Pictures/EventImagePicker'
 import Select2 from 'react-select';
 import 'react-select/dist/react-select.css';
 import api from '../../api.js';
-import {CustomDatePicker} from '../DatePicker/CustomDatePicker.js';
+import { Link } from 'react-router';
+import {CustomDatePickerFuture} from '../DatePicker/CustomDatePicker.js';
 
 export class EventForm extends Component {
 
@@ -191,7 +192,7 @@ export class EventForm extends Component {
           </div>
           {!actions.edit ?
             <div className="col-md-3 top-buffer">
-              <a className="btn btn-default pull-right" href="/">Zpět na výpis</a>
+              <Link className="btn btn-default pull-right" to="/">Zpět na výpis</Link>
             </div>
             :
             null
@@ -216,7 +217,7 @@ export class EventForm extends Component {
             </div>
             <div className="col-md-6">
               <label htmlFor="date">Datum</label>
-              <CustomDatePicker
+              <CustomDatePickerFuture
                 startDate={moment(event.date)}
                 id="date"
                 name="date"

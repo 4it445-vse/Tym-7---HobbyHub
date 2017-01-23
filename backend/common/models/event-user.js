@@ -41,7 +41,6 @@ module.exports = function (Eventuser) {
 
 
   Eventuser.beforeRemote("create", (context, remoteMethodOutput, next) => {
-    console.log("remoteMethodOutput -- ", context.req.body)
     if(context && context.req && context.req.body.user_id && context.req.body.event_id){
       Eventuser.findOne({
           where: {
@@ -62,7 +61,6 @@ module.exports = function (Eventuser) {
       next();
     }
   })
-
 
   Eventuser.changeStatus = (new_event_status, event_id, cb)=> {
     Eventuser.updateAll({id:event_id},{status:new_event_status},(err,info)=>{
@@ -88,6 +86,52 @@ module.exports = function (Eventuser) {
       ],
       returns: {
         arg: 'status',
+        type: 'string'
+      }
+    }
+  )
+
+  Eventuser.lastActivityEvents = (user_id, cb)=> {
+    var searchArray = {};
+    searchArray['include'] = ['event'];
+    searchArray['where'] = {and: [
+      {user_id: user_id},
+      {status: "accepted"}
+    ]};
+
+    var now = moment();
+
+    Eventuser.find(
+      searchArray,
+      (error, Eventusers) => {
+        if (error) cb('sorry');
+        const EventusersFiltered = Eventusers
+          .filter(eventuser => {
+            if (moment(eventuser.event().date).isBefore(now)) {
+              return true;
+            }
+            return false;
+          })
+        cb(null, EventusersFiltered);
+      }
+    );
+  }
+
+  /**
+    Adds remote methods for EventUser association entity.
+  */
+  Eventuser.remoteMethod(
+    'lastActivityEvents', {
+      http: {
+        path: "/last-activity-events",
+        verb: "post",
+        errorStatus: 400
+      },
+      accepts: [
+        {arg: "user_id", type: "number"},
+      ],
+      returns: {
+        arg: 'eventusers',
         type: 'string'
       }
     }

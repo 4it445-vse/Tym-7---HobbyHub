@@ -38,9 +38,27 @@ export class EventListItem extends Component {
     }, 0)
   }
 
+  getNotificationImage(event, signedEventIds, userId) {
+    if (event.author_id === userId) {
+      return (<img src={'/' + process.env.PUBLIC_URL + 'images/vykricnik.png'} alt="Mnou vytvořen" title="Mnou vytvořen"/>);
+    } else {
+      if (!signedEventIds) {
+        return;
+      }
+      if (signedEventIds["accepted"].indexOf(event.id) !== -1) {
+        return(<img src={'/' + process.env.PUBLIC_URL + 'images/fajfka.png'} alt="Přihlášení schváleno" title="Přihlášení schváleno"/>);
+      } else if (signedEventIds["pending"].indexOf(event.id) !== -1) {
+        return(<img src={'/' + process.env.PUBLIC_URL + 'images/hodiny.png'} alt="Čekám schválení" title="Čekám schválení"/>);
+      } else if (signedEventIds["rejected"].indexOf(event.id) !== -1) {
+        return(<img src={'/' + process.env.PUBLIC_URL + 'images/krizek.png'} alt="Zamítnut" title="Zamítnut"/>);
+      }
+    }
+  }
+
   render() {
-    const {event} = this.props;
+    const {event, signedEventIds, userId} = this.props;
     const {name, capacity, id} = event;
+
     return (
       <div className="col-xs-12 col-sm-6 col-md-3">
         <div className="portfolio-item apps col-md-12"><Link to={"/events/detail/" + id}>
@@ -50,6 +68,11 @@ export class EventListItem extends Component {
               <img src={'/' + process.env.PUBLIC_URL + 'images/tenis.jpg'} alt="{name}"/>
             }
             <div className="overlay">
+              <div className="alert-overlay">
+                {
+                  this.getNotificationImage(event, signedEventIds, userId)
+                }
+              </div>
               <div className="recent-work-inner">
                 <h3 className="eventListName">{name}</h3>
                 <p className="pull-left">{moment(event.date).format("DD MMMM YYYY")}</p><p

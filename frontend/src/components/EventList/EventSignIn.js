@@ -52,7 +52,7 @@ export class EventSignInRaw extends Component {
         {
           isFetching===true?
             isLoggedIn === false ?
-              <button className="btn btn-default" disabled="disabled">První se musíte přihlásit</button>
+              <button className="btn btn-default" disabled="disabled">Prvně se musíte přihlásit</button>
               :
               eventState === "accepted" ?
                 this.renderLogoutToEventButton()

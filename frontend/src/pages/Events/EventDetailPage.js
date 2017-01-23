@@ -205,7 +205,7 @@ export class EventDetailPageRaw extends Component {
                 }
                 <div className="event-name-overlay">
                   <div className="col-md-12 top-buffer">
-                    <a className="btn btn-default pull-right event-back" href="/">Zpět na výpis</a>
+                    <Link className="btn btn-default pull-right event-back" to="/">Zpět na výpis</Link>
                   </div>
                   <div className="event-name-inner">
                     <div className="col-xs-12 col-md-12">

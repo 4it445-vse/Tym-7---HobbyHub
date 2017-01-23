@@ -3,7 +3,8 @@ import api from '../api.js';
 import {connect} from 'react-redux';
 import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
 import lodash from 'lodash';
-import { Link } from 'react-router';
+import {LastActivity} from '../components/User/LastActivity';
+import {Link} from 'react-router';
 
 export class ProfilePageRaw extends Component {
     constructor(props) {
@@ -122,6 +123,7 @@ export class ProfilePageRaw extends Component {
               </div>
 
               <div className="col-md-9">
+
                 <div className="col-md-12">
                   <div className="col-md-12">
                     <h1 className="pull-left">{username}</h1>
@@ -131,7 +133,13 @@ export class ProfilePageRaw extends Component {
                     <span className={this.getRatingClass(rating)}>{rating}</span>
                   </div>
                 </div>
+
+                <div className="col-md-8">
+                  <LastActivity userId={userId}/>
+                </div>
+
               </div>
+
             </div>
           </div>
         );

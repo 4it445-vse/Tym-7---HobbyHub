@@ -5,11 +5,30 @@ import React, {Component} from 'react';
 import { Link } from 'react-router'
 import {connect} from 'react-redux'
 import {Login} from '../Login/Login.js';
-
 import { addLogin, logout } from '../Login/actions.js';
 import { isLoggedIn } from '../Login/reducers.js';
 
 export class TopNavigationRaw extends Component {
+  constructor(props) {
+    super(props);
+    this.toggleCollapsed = this.toggleCollapsed.bind(this);
+    this.state = {burgerMenuClassname: 'collapse navbar-collapse navbar-right'};
+  }
+
+  toggleCollapsed() {
+    if (this.state.burgerMenuClassname.indexOf('collapse') === -1) {
+      this.setState({
+        ...this.state,
+        burgerMenuClassname: "collapse navbar-collapse navbar-right"
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        burgerMenuClassname: "navbar-collapse navbar-right"
+      });
+    }
+  }
+
   render() {
     const { isLoggedIn, logout } = this.props;
     return (
@@ -17,7 +36,7 @@ export class TopNavigationRaw extends Component {
         <nav className="navbar navbar-inverse" role="banner">
           <div className="container">
             <div className="navbar-header">
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" className="navbar-toggle" onClick={() => this.toggleCollapsed()} data-toggle="collapse" data-target=".navbar-collapse">
             <span className="sr-only">Toggle navigation</span>
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
@@ -27,7 +46,7 @@ export class TopNavigationRaw extends Component {
                 <span className="navbar-logo">HobbyHub</span>
               </Link>
             </div>
-            <div className="collapse navbar-collapse navbar-right">
+            <div className={this.state.burgerMenuClassname}>
               {!isLoggedIn && <Login/>}
               {isLoggedIn && <Link className="navbar-brand" to="/profile">
                 <img className="navbar-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
