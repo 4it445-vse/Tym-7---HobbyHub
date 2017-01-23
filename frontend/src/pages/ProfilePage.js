@@ -75,6 +75,7 @@ export class ProfilePageRaw extends Component {
         const { username, picture } = this.state.userData;
         const { loggedIn, userId } = this.props;
         const { loggedUserId, fetched } = this.state;
+        const { profileId } = this.props.params;
         const rating = this.calculateRating(this.state.userData);
 
         //reload data if user logged out or logged in
@@ -140,7 +141,7 @@ export class ProfilePageRaw extends Component {
                 </div>
 
                 <div className="col-md-8">
-                  <LastActivity userId={userId}/>
+                  <LastActivity userId={profileId}/>
                 </div>
 
               </div>

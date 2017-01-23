@@ -55,7 +55,7 @@ export class TopNavigationRaw extends Component {
   }
 
   render() {
-    const { isLoggedIn, logout, userId } = this.props;
+    const { isLoggedIn, logout } = this.props;
     return (
       <header id="header">
         <nav className="navbar navbar-inverse" role="banner">

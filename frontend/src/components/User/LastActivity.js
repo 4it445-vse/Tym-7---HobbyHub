@@ -17,7 +17,7 @@ export class LastActivity extends Component {
   Loads all Events attended by currently viewed User.
   */
   fetchEventsByEventUser() {
-    var filterData = {user_id: this.state.userId};
+    var filterData = {user_id: parseInt(this.state.userId, 10)};
     api.post('eventusers/last-activity-events', filterData)
       .then((response) => {
         this.lastActivityEventusers(response.data.eventusers);
@@ -53,7 +53,7 @@ export class LastActivity extends Component {
                 <LastActivityRow event={eventuser.event} key={eventuser.event.id}/>
               )
               :
-              <div></div>
+              <tr></tr>
           }
           </tbody>
         </table>
