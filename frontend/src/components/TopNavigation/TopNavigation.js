@@ -6,13 +6,15 @@ import { Link } from 'react-router'
 import {connect} from 'react-redux'
 import {Login} from '../Login/Login.js';
 import { addLogin, logout } from '../Login/actions.js';
-import { isLoggedIn } from '../Login/reducers.js';
+import { isLoggedIn, getUserId } from '../Login/reducers.js';
+import api from '../../api.js';
 
 export class TopNavigationRaw extends Component {
   constructor(props) {
     super(props);
     this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state = {burgerMenuClassname: 'collapse navbar-collapse navbar-right'};
+    this.fetchUserData = this.fetchUserData.bind(this);
+    this.state = {burgerMenuClassname: 'collapse navbar-collapse navbar-right', userData: {}};
   }
 
   toggleCollapsed() {
@@ -30,8 +32,30 @@ export class TopNavigationRaw extends Component {
     }
   }
 
+  componentDidMount() {
+    this.fetchUserData()
+  }
+
+  /**
+  Fetches UserData from backend and adds it to state.
+  */
+  fetchUserData() {
+    const {userId} = this.props;
+    if (!userId) {
+      return;
+    }
+    api.get('appusers/'+userId)
+      .then(({ data }) =>
+        {this.setState({
+          ...this.state,
+          userData: data
+        })
+        }
+      );
+  }
+
   render() {
-    const { isLoggedIn, logout } = this.props;
+    const { isLoggedIn, logout, userId } = this.props;
     return (
       <header id="header">
         <nav className="navbar navbar-inverse" role="banner">
@@ -50,7 +74,11 @@ export class TopNavigationRaw extends Component {
             <div className={this.state.burgerMenuClassname}>
               {!isLoggedIn && <Login/>}
               {isLoggedIn && <Link className="navbar-brand" to="/profile">
-                <img className="navbar-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
+                <img className="navbar-avatar" src={
+                  this.state.userData.picture ?
+                  this.state.userData.picture
+                  :
+                  '/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
               </Link>}
               {isLoggedIn &&
                 <ul className="nav navbar-nav">
@@ -62,9 +90,6 @@ export class TopNavigationRaw extends Component {
                   <li className="dropdown">
                   <a href="#" className="dropdown-toggle" data-toggle="dropdown">Menu <i className="fa fa-angle-down"></i></a>
                     <ul className="dropdown-menu">
-                      {/*<li>*/}
-                        {/*<a href="blog-item.html">Nastavení</a>*/}
-                      {/*</li>*/}
                       <li>
                         <a onClick={logout} href="#">Odhlásit se</a>
                       </li>
@@ -84,6 +109,7 @@ function mapStateToProps(state) {
   const { login } = state;
   return {
     isLoggedIn: isLoggedIn(login),
+    userId: getUserId(login)
   };
 }
 
