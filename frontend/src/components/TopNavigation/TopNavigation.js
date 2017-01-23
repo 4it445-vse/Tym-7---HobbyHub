@@ -16,7 +16,8 @@ export class TopNavigationRaw extends Component {
   }
 
   toggleCollapsed() {
-    if (this.state.burgerMenuClassname.indexOf('collapse') === -1) {
+    var countOfOccurences = (this.state.burgerMenuClassname.match(/collapse/g) || []).length;
+    if (countOfOccurences === 1) {
       this.setState({
         ...this.state,
         burgerMenuClassname: "collapse navbar-collapse navbar-right"
