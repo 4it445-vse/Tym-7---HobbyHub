@@ -3,8 +3,8 @@ import api from '../api.js';
 import {connect} from 'react-redux';
 import { isLoggedIn, getUserId } from '../components/Login/reducers.js';
 import lodash from 'lodash';
-import moment from 'moment';
 import {LastActivity} from '../components/User/LastActivity';
+import {Link} from 'react-router';
 
 export class ProfilePageRaw extends Component {
     constructor(props) {
@@ -76,8 +76,6 @@ export class ProfilePageRaw extends Component {
         const { loggedIn, userId } = this.props;
         const { loggedUserId, fetched } = this.state;
         const rating = this.calculateRating(this.state.userData);
-        const {eventDate} = this.props;
-        const linkToEvent = (event) ? `/events/detail/${event.id}` : '';
 
         //reload data if user logged out or logged in
         if (loggedIn && userId !== loggedUserId) {

@@ -5,7 +5,6 @@ import React, {Component} from 'react';
 import { Link } from 'react-router'
 import {connect} from 'react-redux'
 import {Login} from '../Login/Login.js';
-
 import { addLogin, logout } from '../Login/actions.js';
 import { isLoggedIn } from '../Login/reducers.js';
 
@@ -17,7 +16,7 @@ export class TopNavigationRaw extends Component {
   }
 
   toggleCollapsed() {
-    if (this.state.burgerMenuClassname.indexOf('collapse') == -1) {
+    if (this.state.burgerMenuClassname.indexOf('collapse') === -1) {
       this.setState({
         ...this.state,
         burgerMenuClassname: "collapse navbar-collapse navbar-right"

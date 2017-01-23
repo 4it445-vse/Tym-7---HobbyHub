@@ -56,7 +56,7 @@ export class EventListItem extends Component {
   }
 
   render() {
-    const {event, notificationType, signedEventIds, userId} = this.props;
+    const {event, signedEventIds, userId} = this.props;
     const {name, capacity, id} = event;
 
     return (

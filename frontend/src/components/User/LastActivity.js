@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import api from '../../api.js';
-import Immutable from 'immutable';
 import {LastActivityRow} from './LastActivityRow'
 
 export class LastActivity extends Component {

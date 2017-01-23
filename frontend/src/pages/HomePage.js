@@ -64,7 +64,6 @@ export class HomePageRaw extends Component {
         }
       }
     }).then((response) => {
-      console.log('responsedata',response.data);
       var signedEventIds = {
         "accepted": [],
         "pending": [],
