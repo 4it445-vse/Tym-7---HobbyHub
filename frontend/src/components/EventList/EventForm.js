@@ -226,6 +226,7 @@ export class EventForm extends Component {
             <div className="col-md-6">
               <label htmlFor="capacity">Kapacita</label>
               <input
+                min="1"
                 required="required"
                 id="capacity"
                 name="capacity"

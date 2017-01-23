@@ -72,7 +72,7 @@ export class ProfilePageRaw extends Component {
     }
 
     render() {
-        const { username } = this.state.userData;
+        const { username, picture } = this.state.userData;
         const { loggedIn, userId } = this.props;
         const { loggedUserId, fetched } = this.state;
         const rating = this.calculateRating(this.state.userData);
@@ -119,7 +119,12 @@ export class ProfilePageRaw extends Component {
             <div>
 
               <div className="col-xs-12 col-md-3">
-                <img className="profile-avatar" src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} alt="avatar"/>
+                <img className="profile-avatar-image" src={
+                  picture ?
+                  picture
+                  :
+                  '/' + process.env.PUBLIC_URL + 'images/avatar.png'
+                } alt="avatar"/>
               </div>
 
               <div className="col-md-9">

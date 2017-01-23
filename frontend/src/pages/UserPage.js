@@ -227,7 +227,7 @@ export class UserPageRaw extends Component {
   }
 
   render() {
-    const {username, email, prefered_tags, picture} = this.state.userData;
+    const {username, email, prefered_tags} = this.state.userData;
     const {loggedIn, userId} = this.props;
     const {profileId} = this.props.params;
     const {loggedUserId, fetched} = this.state;

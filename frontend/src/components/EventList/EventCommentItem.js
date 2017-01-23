@@ -69,7 +69,12 @@ export class EventCommentItem extends Component {
     return (
       <div className="media comment_section">
         <div className="pull-left post_comments">
-          <Link to={linkToProfile}> <img src={'/' + process.env.PUBLIC_URL + 'images/avatar.png'} className="img-circle" alt=""/></Link>
+          <Link to={linkToProfile}> <img src={
+            user.picture ?
+            user.picture
+            :
+            '/' + process.env.PUBLIC_URL + 'images/avatar.png'
+          } className="img-circle" alt=""/></Link>
         </div>
         <div className="media-body post_reply_comments">
         <span className="comment-name">{user.username}<span className={this.getRatingClass(rating)}>{rating}</span></span>
