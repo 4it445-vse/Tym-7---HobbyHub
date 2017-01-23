@@ -15,9 +15,10 @@ export class FilterRaw extends Component {
     moment.locale('cs');
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     this.handleSelectTagChange = this.handleSelectTagChange.bind(this);
-
+    this.clickedButton = this.clickedButton.bind(this);
     this.state = {
-      event: {}
+      event: {},
+      datepickerRandomKey: 'abcd1234'
     }
   }
 
@@ -85,7 +86,7 @@ export class FilterRaw extends Component {
     const name = formData.get('name');
     const tags = formData.get('tags');
     const signedUserId = this.props.isLoggedIn && formData.get('check-signed') ? this.props.currentUserId : null;
-    const showPast = formData.get('check-past');
+    const showPast = formData.get('checkpast');
     const authorId = this.props.isLoggedIn && formData.get('check-author') ? this.props.currentUserId : null;
     const checkboxPrefered = formData.get('check-prefered');
 
@@ -108,9 +109,23 @@ export class FilterRaw extends Component {
       })
   }
 
+  clickedButton(button) {
+    if (button === "reset") {
+      var eventForm = document.getElementById("eventForm")
+      eventForm.reset();
+      eventForm.checkpast.click();
+      const newState = {
+        ...this.state
+      }
+      newState.event.tags = null;
+      newState.datepickerRandomKey = Math.random().toString(36).substring(10);
+      this.setState(newState);
+    }
+  }
+
   render() {
     return (
-      <form onSubmit={this.handleFilterSubmit}>
+      <form onSubmit={this.handleFilterSubmit} ref="form" id="eventForm">
         <div className="col-md-12">
 
           <div className="row">
@@ -157,6 +172,7 @@ export class FilterRaw extends Component {
               </div>
               <div className="col-md-9">
                 <CustomDatePicker
+                  key={this.state.datepickerRandomKey}
                   startDate={null}
                   id="date-from"
                   name="date-from"
@@ -170,6 +186,7 @@ export class FilterRaw extends Component {
               </div>
               <div className="col-md-4">
                 <CustomDatePicker
+                  key={this.state.datepickerRandomKey}
                   startDate={null}
                   id="date-to"
                   name="date-to"
@@ -191,7 +208,7 @@ export class FilterRaw extends Component {
             <div className="col-xs-4 col-md-3">
               <div className="col-md-12">
                 <label className="box filter-label">Zobrazovat proběhlé akce:</label>
-                <Checkbox name="check-past" defaultChecked={1}/>
+                <Checkbox name="checkpast" defaultChecked={1}/>
               </div>
             </div>
           </div>
@@ -227,11 +244,11 @@ export class FilterRaw extends Component {
 
             <div className="col-xs-4 col-md-2 col-md-offset-10">
 
-                <button type="submit" name="submit" className="btn btn-default top-filter-buffer pull"
+                <button name="resetButton" className="btn btn-default top-filter-buffer pull" onClick={() => this.clickedButton("reset")}
                 >Zrušit
                 </button>
 
-                <button type="submit" name="submit" className="btn btn-default top-filter-buffer pull-right"
+                <button type="submit" name="submit" className="btn btn-default top-filter-buffer pull-right" onClick={() => this.clickedButton("filter")}
                 >Filtrovat
                 </button>
 
